@@ -1,0 +1,6 @@
+[submodule "SOGEEngine/3rdparty/spdlog/spdlog"]
+	path = SOGEEngine/3rdparty/spdlog/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "SOGEEngine/3rdparty/DirectXTK/DirectXTK"]
+	path = SOGEEngine/3rdparty/DirectXTK/DirectXTK
+	url = https://github.com/microsoft/DirectXTK.git
