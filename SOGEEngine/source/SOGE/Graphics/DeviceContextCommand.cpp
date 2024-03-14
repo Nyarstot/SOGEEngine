@@ -34,7 +34,17 @@ namespace soge
 
         FLOAT clearColor[] = { r, g, b, a };
         mDeviceContext->ClearRenderTargetView(swapChain->GetRenderTargetView(), clearColor);
-        mDeviceContext->OMSetRenderTargets(1, swapChain->GetAddresOfRenderTargetView(), NULL);
+    }
+
+    void DeviceContextCommand::Draw(UINT aVertexCount, UINT aStartVertexLocation)
+    {
+        mDeviceContext->Draw(aVertexCount, aStartVertexLocation);
+    }
+
+    void DeviceContextCommand::BindRenderTargets()
+    {
+        SwapChain* swapChain = Renderer::GetInstance()->mSwapChain.get();
+        mDeviceContext->OMSetRenderTargets(1u, swapChain->GetAddresOfRenderTargetView(), nullptr);
     }
 
     std::unique_ptr<DeviceContextCommand> DeviceContextCommand::Create(ID3D11DeviceContext* aDeviceContext)

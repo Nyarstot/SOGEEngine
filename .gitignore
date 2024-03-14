@@ -4,6 +4,8 @@
 # User defined
 [Cc]ge/
 
+!./SOGEEngine/include/SOGE/Debug
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -20,7 +22,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-NotNauEditor/*.exe
+SOGEGame/*.exe
 
 # MSVS Files and dirs
 *.rsuser

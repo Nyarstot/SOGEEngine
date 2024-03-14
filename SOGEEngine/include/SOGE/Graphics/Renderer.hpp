@@ -21,6 +21,12 @@ namespace soge
     {
         friend class SwapChain;
         friend class DeviceContextCommand;
+        friend class VertexBuffer;
+        friend class Triangle;
+        friend class Shader;
+        friend class VertexShader;
+        friend class PixelShader;
+        friend class IndexBuffer;
 
     private:
         wrl::ComPtr<ID3D11Device> mDevice;
@@ -28,10 +34,18 @@ namespace soge
         wrl::ComPtr<IDXGIAdapter> mDXGIAdapter;
         wrl::ComPtr<IDXGIFactory> mDXGIFactory;
         wrl::ComPtr<ID3D11DeviceContext> mDeviceContext;
+        wrl::ComPtr<ID3D11RasterizerState> mRasterState;
+
         D3D_FEATURE_LEVEL mFeatureLevel;
 
         std::unique_ptr<SwapChain> mSwapChain;
         std::unique_ptr<DeviceContextCommand> mDeviceContextCommand;
+
+        // REMOVE ASAP
+        Triangle* test;
+        std::chrono::time_point<std::chrono::steady_clock> PrevTime = std::chrono::steady_clock::now();
+        float totalTime = 0;
+        unsigned int frameCount = 0;
 
     protected:
         Renderer() = default;

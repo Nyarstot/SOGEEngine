@@ -18,55 +18,33 @@
 *    along with The Chili Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.   *
 ******************************************************************************************/
 
-#ifndef SOGE_CHILI_WIN_HPP
-#define SOGE_CHILI_WIN_HPP
+#ifndef SOGE_EXCEPTION_HPP
+#define SOGE_EXCEPTION_HPP
 
-// target Windows 7 or later
-#define _WIN32_WINNT 0x0601
-#include <sdkddkver.h>
-// The following #defines disable a bunch of unused windows stuff. If you
-// get weird errors when trying to do some windows stuff, try removing some
-// (or all) of these defines (it will increase build time though).
-#ifndef FULL_WINTARD
-#define WIN32_LEAN_AND_MEAN
-#define NOGDICAPMASKS
-#define NOSYSMETRICS
-#define NOMENUS
-#define NOICONS
-#define NOSYSCOMMANDS
-#define NORASTEROPS
-#define OEMRESOURCE
-#define NOATOM
-#define NOCLIPBOARD
-#define NOCOLOR
-#define NOCTLMGR
-#define NODRAWTEXT
-#define NOKERNEL
-#define NONLS
-#define NOMEMMGR
-#define NOMETAFILE
-#define NOOPENFILE
-#define NOSCROLL
-#define NOSERVICE
-#define NOSOUND
-#define NOTEXTMETRIC
-#define NOWH
-#define NOCOMM
-#define NOKANJI
-#define NOHELP
-#define NOPROFILER
-#define NODEFERWINDOWPOS
-#define NOMCX
-#define NORPC
-#define NOPROXYSTUB
-#define NOIMAGE
-#define NOTAPE
-#endif
+#include <exception>
 
-#define NOMINMAX
+namespace soge
+{
+    class Exception : public std::exception
+    {
+    private:
+        int mLine;
+        std::string mFile;
 
-#define STRICT
+    protected:
+        mutable std::string mWhatBuffer;
 
-#include <Windows.h>
+    public:
+        Exception(int aLine, const char* aFile) noexcept;
 
-#endif // !SOGE_CHILI_WIN_HPP
+        virtual const char* GetType() const noexcept;
+        int GetLine() const noexcept;
+        const std::string& GetFile() const noexcept;
+        std::string GetOriginString() const noexcept;
+
+        const char* what() const noexcept override;
+
+    };
+}
+
+#endif // !SOGE_EXCEPTION_HPP

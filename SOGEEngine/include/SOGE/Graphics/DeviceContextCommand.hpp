@@ -5,6 +5,7 @@
 #include <d3d11.h>
 
 #include "SOGE/Engine/EngineSetup.hpp"
+#include "SOGE/Graphics/Shader.hpp"
 
 namespace soge
 {
@@ -21,6 +22,8 @@ namespace soge
         ~DeviceContextCommand();
 
         void ClearWithColor(float r, float g, float b, float a);
+        void Draw(UINT aVertexCount, UINT aStartVertexLocation);
+        void BindRenderTargets();
 
     public:
         static std::unique_ptr<DeviceContextCommand> Create(ID3D11DeviceContext* aDeviceContext);

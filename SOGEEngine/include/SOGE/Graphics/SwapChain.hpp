@@ -28,6 +28,7 @@ namespace soge
 
         ID3D11RenderTargetView* GetRenderTargetView() const { return mRenderTargetView.Get(); }
         ID3D11RenderTargetView* const* GetAddresOfRenderTargetView() { return mRenderTargetView.GetAddressOf(); }
+        IDXGISwapChain* Get() const { return mSwapChain.Get(); }
 
     public:
         static std::unique_ptr<SwapChain> Create(const std::unique_ptr<Window>& aSystemWindow);

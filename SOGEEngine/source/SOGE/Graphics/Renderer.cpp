@@ -2,6 +2,10 @@
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
 #include "SOGE/Graphics/DeviceContextCommand.hpp"
+#include "SOGE/Graphics/VertexBuffer.hpp"
+#include "SOGE/Graphics/IndexBuffer.hpp"
+#include "SOGE/Graphics/Primitives/Triangle.hpp"
+#include "SOGE/Graphics/Shader.hpp"
 
 namespace soge
 {
@@ -63,12 +67,16 @@ namespace soge
 
         mSwapChain = SwapChain::Create(aSystemWindow);
         mDeviceContextCommand = DeviceContextCommand::Create(context);
-        //mSwapChain->Init(aSystemWindow);
-        //mRenderContext->Init(context);
-        //mVertexBuffer = new VertexBuffer();
-        //mTestShader->Compile();
-        //this->InitScene();
 
+        CD3D11_RASTERIZER_DESC rastDesc = {};
+        ZeroMemory(&rastDesc, sizeof(rastDesc));
+
+        rastDesc.CullMode = D3D11_CULL_NONE;
+        rastDesc.FillMode = D3D11_FILL_SOLID;
+        mDevice->CreateRasterizerState(&rastDesc, &mRasterState);
+        context->RSSetState(mRasterState.Get());
+
+        test = new Triangle();
     }
 
     void Renderer::Release()
@@ -84,8 +92,41 @@ namespace soge
 
     void Renderer::Render()
     {
-        mDeviceContextCommand->ClearWithColor(1.0f, 0.0f, 0.0f, 1.0f);
-        mSwapChain->Present(false);
+        mDeviceContext->ClearState();
+        mDeviceContext->RSSetState(mRasterState.Get());
+
+        D3D11_VIEWPORT mMainViewport = {};
+        ZeroMemory(&mMainViewport, sizeof(mMainViewport));
+        mMainViewport.Width = 1280;
+        mMainViewport.Height = 720;
+        mMainViewport.MinDepth = 0;
+        mMainViewport.MaxDepth = 1;
+        mMainViewport.TopLeftX = 0;
+        mMainViewport.TopLeftY = 0;
+        mDeviceContext->RSSetViewports(1u, &mMainViewport);
+        test->OnUpdate();
+
+        auto	curTime = std::chrono::steady_clock::now();
+        float	deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(curTime - PrevTime).count() / 1000000.0f;
+        PrevTime = curTime;
+
+        totalTime += deltaTime;
+        frameCount++;
+
+        if (totalTime > 1.0f) {
+            float fps = frameCount / totalTime;
+
+            totalTime -= 1.0f;
+
+            WCHAR text[256];
+            SOGE_WARN_LOG("FPS: {0}: ", fps);
+
+            frameCount = 0;
+        }
+
+        mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), NULL);
+        mDeviceContextCommand->ClearWithColor(totalTime, 0.0f, 0.0f, 1.0f);
+        mSwapChain->Get()->Present(1, 0);
     }
 
 }

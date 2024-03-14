@@ -24,13 +24,15 @@ workspace "SOGEEngine"
         {
             "%{wks.location}/%{prj.name}/include/**.hpp",
             "%{wks.location}/%{prj.name}/source/**.cpp",
+            "%{wks.location}/%{prj.name}/source/**.inl"
         }
 
         includedirs
         {
             "%{wks.location}/%{prj.name}/include",
             "%{wks.location}/%{IncludeThirdpartyDirs.spdlog}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}"
+            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
+            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTKSrc}"
         }
 
         defines
@@ -40,7 +42,11 @@ workspace "SOGEEngine"
 
         links
         {
-
+            "d3d11.lib",
+            "dxgi.lib",
+            "d3dcompiler.lib",
+            "dxguid.lib",
+            "dxgidebug.dll",
         }
 
         filter "system:windows"
@@ -49,15 +55,6 @@ workspace "SOGEEngine"
             defines
             {
                 "SOGE_WINDOWS"
-            }
-
-            links
-            {
-                "d3d11.lib",
-                "dxgi.lib",
-                "d3dcompiler.lib",
-                "dxguid.lib",
-                "dxgidebug.dll"
             }
 
         filter "configurations:Debug"

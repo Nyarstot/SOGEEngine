@@ -30,8 +30,8 @@ namespace soge
         mWindow->Show();
 
         while (mIsRunning) {
-            mRenderer->Render();
             mWindow->OnUpdate();
+            mRenderer->Render();
         }
     }
 
