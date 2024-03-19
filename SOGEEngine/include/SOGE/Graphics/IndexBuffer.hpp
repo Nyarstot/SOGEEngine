@@ -6,7 +6,7 @@
 
 namespace soge
 {
-    class IndexBuffer
+    class IndexBuffer final
     {
     private:
         wrl::ComPtr<ID3D11Buffer> mIndexBuffer;

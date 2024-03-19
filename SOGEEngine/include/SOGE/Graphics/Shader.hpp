@@ -8,14 +8,28 @@
 
 namespace soge
 {
+    typedef struct SOGE_SHADER_DESC
+    {
+        LPCWSTR name;
+        LPCWSTR path;
+        LPCSTR entryPoint;
+        LPCSTR target;
+    };
+
+    enum ShaderTypes
+    {
+        SOGE_VERTEX_SHADER  = 0x00,
+        SOGE_PIXEL_SHADER   = 0x01
+    };
+
     class ShaderBase
     {
     protected:
-        std::wstring mName;
-        std::wstring mPath;
+        LPCWSTR mName;
+        LPCWSTR mPath;
 
     public:
-        ShaderBase(const std::wstring& aName, const std::wstring& aPath)
+        ShaderBase(const LPCWSTR& aName, const LPCWSTR& aPath)
             : mName(aName), mPath(aPath)
         {
 
@@ -27,8 +41,8 @@ namespace soge
         virtual HRESULT CompileAndCreate() = 0;
         virtual void Bind() = 0;
 
-        std::wstring GetName() const { return mName; }
-        std::wstring GetPath() const { return mPath; }
+        LPCWSTR GetName() const { return mName; }
+        LPCWSTR GetPath() const { return mPath; }
 
     };
 
@@ -38,9 +52,10 @@ namespace soge
         wrl::ComPtr<ID3DBlob> mVertexShaderByteCode;
         wrl::ComPtr<ID3D11VertexShader> mVertexShader;
         wrl::ComPtr<ID3D11InputLayout> mInputLayout;
+        SOGE_SHADER_DESC mShaderDesc;
 
     public:
-        VertexShader(const std::wstring& aName, const std::wstring& aPath);
+        VertexShader(SOGE_SHADER_DESC aShaderDesc);
         ~VertexShader();
 
         HRESULT Compile() override;
@@ -59,9 +74,10 @@ namespace soge
     private:
         wrl::ComPtr<ID3DBlob> mPixelShaderByteCode;
         wrl::ComPtr<ID3D11PixelShader> mPixelShader;
+        SOGE_SHADER_DESC mShaderDesc;
 
     public:
-        PixelShader(const std::wstring& aName, const std::wstring& aPath);
+        PixelShader(SOGE_SHADER_DESC aShaderDesc);
         ~PixelShader();
 
         HRESULT Compile() override;

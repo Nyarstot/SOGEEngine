@@ -9,7 +9,7 @@
 
 namespace soge
 {
-    class VertexBuffer
+    class VertexBuffer final
     {
     private:
         wrl::ComPtr<ID3D11Buffer> mVertexBuffer;

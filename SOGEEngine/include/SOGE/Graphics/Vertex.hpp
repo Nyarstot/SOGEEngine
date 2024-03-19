@@ -1,7 +1,7 @@
 #ifndef SOGE_VERTEX_HPP
 #define SOGE_VERTEX_HPP
 
-#include <DirectXMath.h>
+#include "SOGE/Engine/EngineSetup.hpp"
 
 namespace soge
 {

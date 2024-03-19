@@ -1,10 +1,8 @@
 #include "sogepch.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
-#include "SOGE/Graphics/DeviceContextCommand.hpp"
 #include "SOGE/Graphics/VertexBuffer.hpp"
 #include "SOGE/Graphics/IndexBuffer.hpp"
-#include "SOGE/Graphics/Primitives/Triangle.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 
 namespace soge
@@ -20,113 +18,142 @@ namespace soge
 
     void Renderer::Init(const std::unique_ptr<Window>& aSystemWindow)
     {
-        D3D_DRIVER_TYPE driverTypes[] = {
-            D3D_DRIVER_TYPE_HARDWARE,
-            D3D_DRIVER_TYPE_WARP,
-            D3D_DRIVER_TYPE_REFERENCE
-        };
+		D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_1 };
 
-        D3D_FEATURE_LEVEL featureLevels[] = {
-            D3D_FEATURE_LEVEL_11_1
-        };
+		D3D_DRIVER_TYPE driverTypes[] = {
+			D3D_DRIVER_TYPE_HARDWARE,
+			D3D_DRIVER_TYPE_WARP,
+			D3D_DRIVER_TYPE_REFERENCE
+		};
 
-        UINT numDriverTypes = ARRAYSIZE(driverTypes);
-        UINT numFeatureLevels = ARRAYSIZE(featureLevels);
-        HRESULT result;
+		UINT numDriverTypes = ARRAYSIZE(driverTypes);
+		UINT numFeatureLevels = ARRAYSIZE(featureLevel);
+		HRESULT result;
 
-        for (UINT iDriver = 0; iDriver < numDriverTypes;) {
-            result = D3D11CreateDevice(
-                NULL,
-                driverTypes[iDriver],
-                NULL,
-                NULL,
-                featureLevels,
-                numFeatureLevels,
-                D3D11_SDK_VERSION,
-                &mDevice,
-                &mFeatureLevel,
-                &mDeviceContext
-            );
+		for (UINT iDriver = 0; iDriver < numDriverTypes;) {
+			result = D3D11CreateDevice(
+				NULL,
+				driverTypes[iDriver],
+				NULL,
+				NULL,
+				featureLevel,
+				numFeatureLevels,
+				D3D11_SDK_VERSION,
+				&mDevice,
+				&mFeatureLevel,
+				&mDeviceContext
+			);
 
-            if (SUCCEEDED(result)) {
-                break;
-            }
+			if (SUCCEEDED(result)) {
+				break;
+			}
 
-            ++iDriver;
-        }
+			++iDriver;
+		}
 
-        if (FAILED(result)) {
-            SOGE_ERROR_LOG("Failed to create D3D11 Device");
-        }
+		if (FAILED(result)) {
+			SOGE_ERROR_LOG("Failed to create D3D11 Device");
+		}
 
-        mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&mDXGIDevice);
-        mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter);
-        mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
+		mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&mDXGIDevice);
+		mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter);
+		mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
-        ID3D11DeviceContext* context = mDeviceContext.Get();
+		this->CreateRasterizer();
 
-        mSwapChain = SwapChain::Create(aSystemWindow);
-        mDeviceContextCommand = DeviceContextCommand::Create(context);
+		mSwapChain = SwapChain::Create(aSystemWindow);
 
-        CD3D11_RASTERIZER_DESC rastDesc = {};
-        ZeroMemory(&rastDesc, sizeof(rastDesc));
-
-        rastDesc.CullMode = D3D11_CULL_NONE;
-        rastDesc.FillMode = D3D11_FILL_SOLID;
-        mDevice->CreateRasterizerState(&rastDesc, &mRasterState);
-        context->RSSetState(mRasterState.Get());
-
-        test = new Triangle();
+		this->InitScene();
     }
+
+	void Renderer::CreateRasterizer()
+	{
+		CD3D11_RASTERIZER_DESC rastDesc = {};
+		rastDesc.CullMode = D3D11_CULL_NONE;
+		rastDesc.FillMode = D3D11_FILL_SOLID;
+
+		HRESULT res = mDevice->CreateRasterizerState(&rastDesc, mRasterizerState.GetAddressOf());
+		if (FAILED(res)) {
+			SOGE_ERROR_LOG("FAILED TO CREATE RAST STATE");
+		}
+		mDeviceContext->RSSetState(mRasterizerState.Get());
+	}
+
+	void Renderer::InitScene()
+	{
+		Vertex points[] = {
+			DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f),	DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
+			DirectX::XMFLOAT4(-0.5f, -0.5f, 0.5f, 1.0f),DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
+			DirectX::XMFLOAT4(0.5f, -0.5f, 0.5f, 1.0f),	DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
+			DirectX::XMFLOAT4(-0.5f, 0.5f, 0.5f, 1.0f),	DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
+		};
+
+		int indeces[] = { 0,1,2, 1,0,3 };
+
+		mVertexBuffer = VertexBuffer::Create(points);
+		mIndexBuffer = IndexBuffer::Create(indeces);
+
+		SOGE_SHADER_DESC vShaderDesc;
+		vShaderDesc.name = L"TestVerexShader";
+		vShaderDesc.path = L"shaders/MyVeryFirstShader.hlsl";
+		vShaderDesc.entryPoint = "VSMain";
+		vShaderDesc.target = "vs_5_0";
+
+		SOGE_SHADER_DESC pShaderDesc;
+		pShaderDesc.name = L"TestPixelShader";
+		pShaderDesc.path = L"shaders/MyVeryFirstShader.hlsl";
+		pShaderDesc.entryPoint = "PSMain";
+		pShaderDesc.target = "ps_5_0";
+
+		mTestPShader = std::make_unique<PixelShader>(pShaderDesc);
+		mTestPShader->CompileAndCreate();
+
+		mTestVShader = std::make_unique<VertexShader>(vShaderDesc);
+		mTestVShader->CompileAndCreate();
+
+		this->CreateRasterizer();
+	}
 
     void Renderer::Release()
     {
-        mDevice->Release();
-        mDXGIDevice->Release();
-        mDXGIAdapter->Release();
-        mDXGIFactory->Release();
-        mDeviceContext->Release();
 
-        mSwapChain->Release();
     }
 
     void Renderer::Render()
     {
-        mDeviceContext->ClearState();
-        mDeviceContext->RSSetState(mRasterState.Get());
+		UINT strides[] = { 32 };
+		UINT offsets[] = { 0 };
 
-        D3D11_VIEWPORT mMainViewport = {};
-        ZeroMemory(&mMainViewport, sizeof(mMainViewport));
-        mMainViewport.Width = 1280;
-        mMainViewport.Height = 720;
-        mMainViewport.MinDepth = 0;
-        mMainViewport.MaxDepth = 1;
-        mMainViewport.TopLeftX = 0;
-        mMainViewport.TopLeftY = 0;
-        mDeviceContext->RSSetViewports(1u, &mMainViewport);
-        test->OnUpdate();
+		mDeviceContext->ClearState();
 
-        auto	curTime = std::chrono::steady_clock::now();
-        float	deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(curTime - PrevTime).count() / 1000000.0f;
-        PrevTime = curTime;
+		mDeviceContext->RSSetState(mRasterizerState.Get());
 
-        totalTime += deltaTime;
-        frameCount++;
+		D3D11_VIEWPORT viewport = {};
+		viewport.Width = static_cast<float>(1280);
+		viewport.Height = static_cast<float>(720);
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.MinDepth = 0;
+		viewport.MaxDepth = 1.0f;
 
-        if (totalTime > 1.0f) {
-            float fps = frameCount / totalTime;
+		mDeviceContext->RSSetViewports(1, &viewport);
 
-            totalTime -= 1.0f;
+		mDeviceContext->IASetInputLayout(mTestVShader->GetInputLayout());
+		mDeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		mDeviceContext->IASetIndexBuffer(mIndexBuffer->Get(), DXGI_FORMAT_R32_UINT, 0);
+		mDeviceContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddresOf(), strides, offsets);
+		mDeviceContext->VSSetShader(mTestVShader->GetShader(), nullptr, 0);
+		mDeviceContext->PSSetShader(mTestPShader->GetShader(), nullptr, 0);
 
-            WCHAR text[256];
-            SOGE_WARN_LOG("FPS: {0}: ", fps);
+		mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
 
-            frameCount = 0;
-        }
+		float color[] = { totalTime, 0.1f, 0.1f, 1.0f };
+		mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
 
-        mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), NULL);
-        mDeviceContextCommand->ClearWithColor(totalTime, 0.0f, 0.0f, 1.0f);
-        mSwapChain->Get()->Present(1, 0);
+		mDeviceContext->DrawIndexed(6, 0, 0);
+
+		//swapChain->Present(1, /*DXGI_PRESENT_DO_NOT_WAIT*/ 0);
+		mSwapChain->Present(1);
     }
 
 }

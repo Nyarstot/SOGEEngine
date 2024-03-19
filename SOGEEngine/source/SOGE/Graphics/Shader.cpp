@@ -4,10 +4,10 @@
 
 namespace soge
 {
-    VertexShader::VertexShader(const std::wstring& aName, const std::wstring& aPath)
-        : ShaderBase(aName, aPath)
+    VertexShader::VertexShader(SOGE_SHADER_DESC aShaderDesc)
+        : ShaderBase(aShaderDesc.name, aShaderDesc.path)
     {
-
+        mShaderDesc = aShaderDesc;
     }
 
     VertexShader::~VertexShader()
@@ -21,11 +21,11 @@ namespace soge
         ZeroMemory(&errorVertexCode, sizeof(errorVertexCode));
 
         HRESULT result = D3DCompileFromFile(
-            mPath.c_str(),
+            mPath,
             nullptr,
             nullptr,
-            "main",
-            "vs_5_0",
+            mShaderDesc.entryPoint,
+            mShaderDesc.target,
             D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,
             0,
             &mVertexShaderByteCode,
@@ -103,10 +103,10 @@ namespace soge
         context->VSSetShader(mVertexShader.Get(), nullptr, 0u);
     }
 
-    PixelShader::PixelShader(const std::wstring& aName, const std::wstring& aPath)
-        : ShaderBase(aName, aPath)
+    PixelShader::PixelShader(SOGE_SHADER_DESC aShaderDesc)
+        : ShaderBase(aShaderDesc.name, aShaderDesc.path)
     {
-
+        mShaderDesc = aShaderDesc;
     }
 
     PixelShader::~PixelShader()
@@ -119,11 +119,11 @@ namespace soge
         ID3DBlob* errorPixelCode = nullptr;
         HRESULT res = D3DCompileFromFile
         (
-            mPath.c_str(),
+            mPath,
             nullptr, // macro
             nullptr,
-            "main",
-            "ps_5_0",
+            mShaderDesc.entryPoint,
+            mShaderDesc.target,
             D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,
             0,
             &mPixelShaderByteCode,
@@ -180,6 +180,5 @@ namespace soge
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
         context->PSSetShader(mPixelShader.Get(), nullptr, 0u);
     }
-
 
 }

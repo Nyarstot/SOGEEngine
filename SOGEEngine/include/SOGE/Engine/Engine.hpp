@@ -5,9 +5,11 @@
 #include "SOGE/Containers/LayerStack.hpp"
 #include "SOGE/System/Window.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
+#include "SOGE/Engine/FPSCounter.hpp"
 
 namespace soge
 {
+
     class Engine
     {
     private:
@@ -15,6 +17,7 @@ namespace soge
         LayerStack mRenderLayerStack;
 
         std::unique_ptr<Window> mWindow;
+        std::unique_ptr<FPSCounter> mFPSCounter;
 
         // Singleton classes
 

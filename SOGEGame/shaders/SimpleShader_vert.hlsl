@@ -12,7 +12,7 @@ struct PS_IN
 
 PS_IN main(VS_IN input)
 {
-    PS_IN output = (PS_IN) 0;
+    PS_IN output = (PS_IN)0;
 
     output.pos = input.pos;
     output.col = input.col;

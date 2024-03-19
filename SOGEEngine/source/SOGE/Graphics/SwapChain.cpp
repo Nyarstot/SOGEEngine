@@ -1,7 +1,6 @@
 #include "sogepch.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
-#include "SOGE/Graphics/DebugSystem/GraphicsThrowMacroses.hpp"
 
 namespace soge
 {

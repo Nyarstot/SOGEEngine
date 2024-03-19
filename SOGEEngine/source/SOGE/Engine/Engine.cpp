@@ -14,6 +14,7 @@ namespace soge
         SOGE_INFO_LOG("Starting engine...");
 
         mWindow = Window::Create({ 1280, 720, L"CoolGame" });
+        mFPSCounter = FPSCounter::Create();
 
         // Init singleton classes
 
@@ -30,6 +31,9 @@ namespace soge
         mWindow->Show();
 
         while (mIsRunning) {
+            mFPSCounter->AddFrame();
+            SOGE_INFO_LOG("FPS: {0}", mFPSCounter->GetFPS());
+
             mWindow->OnUpdate();
             mRenderer->Render();
         }

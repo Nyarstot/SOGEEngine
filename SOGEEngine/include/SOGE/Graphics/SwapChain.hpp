@@ -9,7 +9,7 @@
 
 namespace soge
 {
-    class SwapChain
+    class SwapChain final
     {
     private:
         wrl::ComPtr<IDXGISwapChain> mSwapChain;
