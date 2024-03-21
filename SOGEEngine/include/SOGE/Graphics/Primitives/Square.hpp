@@ -1,7 +1,6 @@
 #ifndef SOGE_SQUARE_HPP
 #define SOGE_SQUARE_HPP
 
-#include "SOGE/ECS/RenderableComponent.hpp"
 #include "SOGE/Graphics/Vertex.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/VertexBuffer.hpp"
@@ -10,7 +9,7 @@
 
 namespace soge
 {
-    class Square : public RenderableComponent
+    class Square
     {
     private:
         std::shared_ptr<VertexShader> mVertexShader;
@@ -28,9 +27,6 @@ namespace soge
     public:
         Square(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize);
         ~Square();
-
-        void Render() override;
-        void Destroy() override;
 
     public:
         std::unique_ptr<Square> Create(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize);

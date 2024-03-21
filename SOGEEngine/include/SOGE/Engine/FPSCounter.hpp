@@ -21,7 +21,7 @@ namespace soge
 
         void AddFrame();
         float GetDeltaTime();
-        float GetFPS();
+        float GetFPS(bool aRound=true);
 
     public:
         static std::unique_ptr<FPSCounter> Create();

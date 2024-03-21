@@ -41,8 +41,9 @@ namespace soge
         return mDeltaTime;
     }
 
-    float FPSCounter::GetFPS()
+    float FPSCounter::GetFPS(bool aRound)
     {
+        if (aRound) return std::round(mFPS);
         return mFPS;
     }
 
