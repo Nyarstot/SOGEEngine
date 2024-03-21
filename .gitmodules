@@ -4,3 +4,6 @@
 [submodule "SOGEEngine/3rdparty/DirectXTK/DirectXTK"]
 	path = SOGEEngine/3rdparty/DirectXTK/DirectXTK
 	url = https://github.com/microsoft/DirectXTK.git
+[submodule "SOGEEngine/3rdparty/EntityX/EntityX"]
+	path = SOGEEngine/3rdparty/EntityX/EntityX
+	url = https://github.com/alecthomas/entityx.git

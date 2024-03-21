@@ -1,9 +1,10 @@
 
 -- Include directories
 IncludeThirdpartyDirs = {}
-IncludeThirdpartyDirs["spdlog"]     = "SOGEEngine/3rdparty/spdlog/spdlog/include"
-IncludeThirdpartyDirs["DirectXTK"]  = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Inc"
-IncludeThirdpartyDirs["DirectXTKSrc"]  = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Src"
+IncludeThirdpartyDirs["spdlog"]         = "SOGEEngine/3rdparty/spdlog/spdlog/include"
+IncludeThirdpartyDirs["DirectXTK"]      = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Inc"
+IncludeThirdpartyDirs["DirectXTKSrc"]   = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Src"
+IncludeThirdpartyDirs["EntityX"]        = "SOGEEngine/3rdparty/EntityX/entityx"
 
 -- Include libs
 Libraries = {}

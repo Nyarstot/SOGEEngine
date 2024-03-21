@@ -53,16 +53,6 @@ namespace soge
         mIndexBuffer.release();
     }
 
-    void Square::Render()
-    {
-
-    }
-
-    void Square::Destroy()
-    {
-
-    }
-
     std::unique_ptr<Square> Square::Create(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize)
     {
         return std::make_unique<Square>(aCenter, aSize);

@@ -5,6 +5,10 @@ workspace "SOGEEngine"
     startproject "SOGEGame"
     configurations {"Debug", "Release"}
 
+    group "Dependencies"
+        include "SOGEEngine/3rdparty/EntityX/premake5"
+    group ""
+
     project "SOGEENgine"
         location "SOGEENgine"
         kind "StaticLib"
@@ -32,7 +36,8 @@ workspace "SOGEEngine"
             "%{wks.location}/%{prj.name}/include",
             "%{wks.location}/%{IncludeThirdpartyDirs.spdlog}",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTKSrc}"
+            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTKSrc}",
+            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}"
         }
 
         defines
@@ -47,6 +52,7 @@ workspace "SOGEEngine"
             "d3dcompiler.lib",
             "dxguid.lib",
             "dxgidebug.dll",
+            "EntityX"
         }
 
         filter "system:windows"
@@ -111,7 +117,8 @@ workspace "SOGEEngine"
             "%{wks.location}/%{prj.name}/include",
             "%{wks.location}/SOGEEngine/include",
             "%{wks.location}/SOGEEngine/3rdparty/spdlog/spdlog/include",
-            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}"
+            "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
+            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}"
         }
 
         links
