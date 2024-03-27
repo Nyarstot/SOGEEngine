@@ -158,7 +158,7 @@ namespace soge
         );
 
         if (FAILED(result)) {
-            SOGE_ERROR_LOG("Failed to create vertex shader");
+            SOGE_ERROR_LOG("Failed to create pixel shader");
         }
 
         return result;

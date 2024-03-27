@@ -6,10 +6,11 @@
 #include "SOGE/Graphics/VertexBuffer.hpp"
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Engine/EngineSetup.hpp"
+#include "SOGE/ComponentSystem/GraphicsComponents/RenderableComponent.hpp"
 
 namespace soge
 {
-    class Square
+    class Square : public RenderableComponent
     {
     private:
         std::shared_ptr<VertexShader> mVertexShader;
@@ -22,14 +23,22 @@ namespace soge
         int* mIndices;
 
     protected:
-        void Init(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize);
+        void Init(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
+        void RSStage(ID3D11DeviceContext* aContext) override;
+        void IAStage(ID3D11DeviceContext* aContext) override;
+        void VSStage(ID3D11DeviceContext* aContext) override;
+        void PSStage(ID3D11DeviceContext* aContext) override;
 
     public:
-        Square(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize);
+        Square(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
         ~Square();
 
+        virtual HRESULT InitComponent() override;
+        void PreRenderStage(ID3D11DeviceContext* aContext) override;
+        void Draw(ID3D11DeviceContext* aContext) override;
+
     public:
-        std::unique_ptr<Square> Create(const dxsmath::Vector2& aCenter, dxsmath::Vector2& aSize);
+        static std::shared_ptr<Square> Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
 
     };
 }
