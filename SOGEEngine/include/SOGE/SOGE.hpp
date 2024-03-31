@@ -5,6 +5,10 @@
 
 #include "SOGE/Engine/Engine.hpp"
 
+#include "SOGE/Event/Event.hpp"
+
+#include "SOGE/Input/InputManager.hpp"
+
 #include "SOGE/Graphics/Renderer.hpp"
 
 #include "SOGE/Containers/Layer.hpp"

@@ -14,11 +14,13 @@ namespace soge
         SOGE_INFO_LOG("Starting engine...");
 
         mWindow = Window::Create({ 1280, 720, L"CoolGame" });
+        mWindow->SetEventCallback(std::bind(&Engine::OnEvent, this, std::placeholders::_1));
         mFPSCounter = FPSCounter::Create();
 
         // Init singleton classes
 
         mRenderer->Init(mWindow);
+        mInputManager->Init(mWindow);
     }
 
     Engine::~Engine()
@@ -32,7 +34,7 @@ namespace soge
 
         while (mIsRunning) {
             mFPSCounter->AddFrame();
-            SOGE_INFO_LOG("FPS: {0}", mFPSCounter->GetFPS());
+            //SOGE_INFO_LOG("FPS: {0}", mFPSCounter->GetFPS());
 
             mWindow->OnUpdate();
             mRenderer->Render();
@@ -53,5 +55,15 @@ namespace soge
     {
         mRenderLayerStack.PushOverlay(aRenderOverlay);
         aRenderOverlay->OnAttach();
+    }
+
+    void Engine::OnEvent(Event& aEvent)
+    {
+        for (auto it = mRenderLayerStack.end(); it != mRenderLayerStack.begin();) {
+            (*--it)->OnEvent(aEvent);
+            if (aEvent.IsHandled()) {
+                break;
+            }
+        }
     }
 }

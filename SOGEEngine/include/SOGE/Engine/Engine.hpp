@@ -6,12 +6,15 @@
 #include "SOGE/System/Window.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Engine/FPSCounter.hpp"
+#include "SOGE/Event/Event.hpp"
+#include "SOGE/Input/InputManager.hpp"
 
 namespace soge
 {
 
     class Engine
     {
+
     private:
         bool mIsRunning;
         LayerStack mRenderLayerStack;
@@ -22,6 +25,7 @@ namespace soge
         // Singleton classes
 
         Renderer* mRenderer = Renderer::GetInstance();
+        InputManager* mInputManager = InputManager::GetInstance();
 
     protected:
         static Engine& GetInstance();
@@ -35,6 +39,7 @@ namespace soge
 
         void PushRenderLayer(Layer* aRenderLayer);
         void PushRenderOverlay(Layer* aRenderOverlay);
+        void OnEvent(Event& aEvent);
 
     };
 

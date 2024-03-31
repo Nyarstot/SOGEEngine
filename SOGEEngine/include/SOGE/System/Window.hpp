@@ -1,6 +1,7 @@
 #ifndef SOGE_WINDOW_HPP
 #define SOGE_WINDOW_HPP
 
+#include "SOGE/Event/Event.hpp"
 #include <Windows.h>
 
 namespace soge
@@ -24,14 +25,16 @@ namespace soge
 
     class Window
     {
-    private:
-
+        friend class InputManager;
+        using fnEventCallback = std::function<void(Event&)>;
+        using fnEventCallbackPtr = fnEventCallback*;
 
     private:
         MSG mWindowMessage  = {};
         HINSTANCE mHInstance = nullptr;
         HWND mWindowHandle = nullptr;
         WindowDesc mWindowDescriptor;
+        fnEventCallback mEventCallbackFunction;
 
     private:
         void Init(const WindowDesc& aWindowDesc);
@@ -43,6 +46,7 @@ namespace soge
 
         void Show();
         void OnUpdate();
+        void SetEventCallback(const fnEventCallback& aCallbackFunction);
 
         virtual void* GetHandle() const { return mWindowHandle; }
         std::uint32_t GetHeight() const { return mWindowDescriptor.height; }

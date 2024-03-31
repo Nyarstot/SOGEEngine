@@ -1,6 +1,8 @@
 #include "sogepch.hpp"
 #include "SOGE/System/Window.hpp"
 #include "SOGE/Engine/EngineAssert.hpp"
+#include "SOGE/Input/InputManager.hpp"
+#include "SOGE/Event/InputEvents/KeyboardEvents.hpp"
 
 namespace soge
 {
@@ -9,11 +11,10 @@ namespace soge
         return std::make_unique<Window>(aWindowDescriptor);
     }
 
-    //Input* gInputManager = Input::GetInstance();
-    LRESULT CALLBACK WindowsWindowProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+    InputManager* gInputManager = InputManager::GetInstance();
+    LRESULT CALLBACK SOGEWinodowProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
     {
-        //return gInputManager->HandleInput(hwnd, umessage, wparam, lparam);
-        return DefWindowProcW(hwnd, umessage, wparam, lparam);
+        return gInputManager->HandleInput(hwnd, umessage, wparam, lparam);
     }
 
     void Window::Init(const WindowDesc& aWindowDesc)
@@ -36,7 +37,7 @@ namespace soge
         WNDCLASSEX wc;
 
         wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-        wc.lpfnWndProc = WindowsWindowProc;
+        wc.lpfnWndProc = SOGEWinodowProc;
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
         wc.hInstance = mHInstance;
@@ -113,15 +114,21 @@ namespace soge
             TranslateMessage(&mWindowMessage);
             DispatchMessage(&mWindowMessage);
 
-            //if (message.message == WM_KEYDOWN) {
-            //    KeyPressedEvent fnEvent(message.wParam, 1);
+            //if (mWindowMessage.message == WM_KEYDOWN) {
+            //    KeyPressedEvent fnEvent(mWindowMessage.wParam, 1);
             //    mEventCallbackFunction(fnEvent);
             //}
-            //if (message.message == WM_KEYUP) {
-            //    KeyReleasedEvent fnEvent(message.wParam);
+
+            //if (mWindowMessage.message == WM_KEYUP) {
+            //    KeyReleasedEvent fnEvent(mWindowMessage.wParam);
             //    mEventCallbackFunction(fnEvent);
             //}
         }
+    }
+
+    void Window::SetEventCallback(const fnEventCallback& aCallbackFunction)
+    {
+        mEventCallbackFunction = aCallbackFunction;
     }
 
 }
