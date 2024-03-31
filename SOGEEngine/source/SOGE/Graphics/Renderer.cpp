@@ -67,6 +67,19 @@ namespace soge
         this->InitScene();
     }
 
+    void Renderer::SetupViewport()
+    {
+        D3D11_VIEWPORT viewport = {};
+        viewport.Width = static_cast<float>(1280);
+        viewport.Height = static_cast<float>(720);
+        viewport.TopLeftX = 0;
+        viewport.TopLeftY = 0;
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1.0f;
+
+        mDeviceContext->RSSetViewports(1, &viewport);
+    }
+
     void Renderer::CreateRasterizer()
     {
         CD3D11_RASTERIZER_DESC rastDesc = {};
@@ -123,15 +136,7 @@ namespace soge
         mDeviceContext->ClearState();
         mDeviceContext->RSSetState(mRasterizerState.Get());
 
-        D3D11_VIEWPORT viewport = {};
-        viewport.Width = static_cast<float>(1280);
-        viewport.Height = static_cast<float>(720);
-        viewport.TopLeftX = 0;
-        viewport.TopLeftY = 0;
-        viewport.MinDepth = 0;
-        viewport.MaxDepth = 1.0f;
-
-        mDeviceContext->RSSetViewports(1, &viewport);
+        SetupViewport();
 
         mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
 

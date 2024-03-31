@@ -10,6 +10,7 @@
 #include <functional>
 #include <cstdint>
 #include <chrono>
+#include <tuple>
 
 #include <string>
 #include <sstream>
