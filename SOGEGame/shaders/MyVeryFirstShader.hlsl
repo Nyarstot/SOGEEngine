@@ -10,11 +10,16 @@ struct PS_IN
     float4 col : COLOR;
 };
 
+cbuffer ConstBuffer
+{
+    row_major matrix transform;
+};
+
 PS_IN VSMain( VS_IN input )
 {
     PS_IN output = (PS_IN)0;
 
-    output.pos = input.pos;
+    output.pos = mul(input.pos, transform);
     output.col = input.col;
 
     return output;

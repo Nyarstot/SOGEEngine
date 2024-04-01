@@ -21,6 +21,7 @@ namespace soge
 
         void AddFrame();
         float GetDeltaTime();
+        float GetTotalTime();
         float GetFPS(bool aRound=true);
 
     public:

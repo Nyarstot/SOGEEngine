@@ -34,10 +34,13 @@ namespace soge
 
         while (mIsRunning) {
             mFPSCounter->AddFrame();
-            //SOGE_INFO_LOG("FPS: {0}", mFPSCounter->GetFPS());
+
+            for (auto layer : mRenderLayerStack) {
+                layer->OnUpdate();
+            }
 
             mWindow->OnUpdate();
-            mRenderer->Render();
+            mRenderer->Render(mFPSCounter->GetTotalTime());
         }
     }
 

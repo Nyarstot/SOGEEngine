@@ -93,7 +93,7 @@ namespace soge
         aContext->IASetInputLayout(mVertexShader->GetInputLayout());
         aContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         aContext->IASetIndexBuffer(mIndexBuffer->Get(), DXGI_FORMAT_R32_UINT, 0);
-        aContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddresOf(), strides, offsets);
+        aContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddressOf(), strides, offsets);
     }
 
     void Square::VSStage(ID3D11DeviceContext* aContext)

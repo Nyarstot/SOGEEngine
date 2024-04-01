@@ -47,6 +47,11 @@ namespace soge
         return mFPS;
     }
 
+    float FPSCounter::GetTotalTime()
+    {
+        return mTotalTime;
+    }
+
     std::unique_ptr<FPSCounter> FPSCounter::Create()
     {
         return std::make_unique<FPSCounter>();

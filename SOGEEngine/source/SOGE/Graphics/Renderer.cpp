@@ -5,6 +5,7 @@
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/Primitives/Square.hpp"
+#include "SOGE/Graphics/ConstantBuffer.hpp"
 
 namespace soge
 {
@@ -61,10 +62,10 @@ namespace soge
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
         mSwapChain = SwapChain::Create(aSystemWindow);
+        mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
         square = Square::Create({ -0.9f, 0.0f }, { 0.01f, 0.2f });
         square1 = Square::Create({ 0.9f, 0.0f }, { 0.01f, 0.2f });
         this->CreateRasterizer();
-        this->InitScene();
     }
 
     void Renderer::SetupViewport()
@@ -93,45 +94,12 @@ namespace soge
         mDeviceContext->RSSetState(mRasterizerState.Get());
     }
 
-    void Renderer::InitScene()
-    {
-        Vertex points[] = {
-            DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f),      DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(-0.5f, -0.5f, 0.5f, 1.0f),    DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
-            DirectX::XMFLOAT4(0.5f, -0.5f, 0.5f, 1.0f),     DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(-0.5f, 0.5f, 0.5f, 1.0f),     DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
-        };
-
-        int indeces[] = { 0,1,2, 1,0,3 };
-
-        mVertexBuffer = VertexBuffer::Create(points);
-        mIndexBuffer = IndexBuffer::Create(indeces);
-
-        SOGE_SHADER_DESC vShaderDesc;
-        vShaderDesc.name = L"TestVerexShader";
-        vShaderDesc.path = L"shaders/MyVeryFirstShader.hlsl";
-        vShaderDesc.entryPoint = "VSMain";
-        vShaderDesc.target = "vs_5_0";
-
-        SOGE_SHADER_DESC pShaderDesc;
-        pShaderDesc.name = L"TestPixelShader";
-        pShaderDesc.path = L"shaders/MyVeryFirstShader.hlsl";
-        pShaderDesc.entryPoint = "PSMain";
-        pShaderDesc.target = "ps_5_0";
-
-        mTestPShader = std::make_unique<PixelShader>(pShaderDesc);
-        mTestPShader->CompileAndCreate();
-
-        mTestVShader = std::make_unique<VertexShader>(vShaderDesc);
-        mTestVShader->CompileAndCreate();
-    }
-
     void Renderer::Release()
     {
 
     }
 
-    void Renderer::Render()
+    void Renderer::Render(float aDeltaTime)
     {
         mDeviceContext->ClearState();
         mDeviceContext->RSSetState(mRasterizerState.Get());
@@ -139,6 +107,7 @@ namespace soge
         SetupViewport();
 
         mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
+        mConstantBuffer->Update(aDeltaTime);
 
         float color[] = { 0.1f, 0.1f, 0.1f, 1.0f };
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);

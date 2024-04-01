@@ -22,6 +22,7 @@ namespace soge
         friend class SwapChain;
         friend class VertexBuffer;
         friend class IndexBuffer;
+        friend class ConstantBuffer;
         friend class VertexShader;
         friend class PixelShader;
         friend class Square;
@@ -36,13 +37,13 @@ namespace soge
 
         D3D_FEATURE_LEVEL mFeatureLevel;
 
-        // TEST
         std::shared_ptr<Square> square;
         std::shared_ptr<Square> square1;
 
         std::unique_ptr<SwapChain> mSwapChain;
         std::unique_ptr<VertexBuffer> mVertexBuffer;
         std::unique_ptr<IndexBuffer> mIndexBuffer;
+        std::unique_ptr<ConstantBuffer> mConstantBuffer;
         std::unique_ptr<VertexShader> mTestVShader;
         std::unique_ptr<PixelShader> mTestPShader;
 
@@ -51,7 +52,6 @@ namespace soge
         static Renderer* sInstance;
 
         void CreateRasterizer();
-        void InitScene();
 
     public:
         Renderer(Renderer&)         = delete;
@@ -60,7 +60,7 @@ namespace soge
         void Init(const std::unique_ptr<Window>& aSystemWindow);
         void SetupViewport();
         void Release();
-        void Render();
+        void Render(float aDeltaTime);
 
     public:
         static Renderer* GetInstance();

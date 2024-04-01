@@ -24,7 +24,7 @@ namespace soge
         ~VertexBuffer();
 
         ID3D11Buffer* GetVertices() const { return mVertexBuffer.Get(); }
-        ID3D11Buffer* const* GetAddresOf() { return mVertexBuffer.GetAddressOf(); }
+        ID3D11Buffer* const* GetAddressOf() { return mVertexBuffer.GetAddressOf(); }
 
     public:
         static std::unique_ptr<VertexBuffer> Create(Vertex* aVertices);
