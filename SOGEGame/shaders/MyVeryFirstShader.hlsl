@@ -12,7 +12,7 @@ struct PS_IN
 
 cbuffer ConstBuffer
 {
-    row_major matrix transform;
+    matrix transform;
 };
 
 PS_IN VSMain( VS_IN input )

@@ -8,10 +8,7 @@ namespace soge
 {
     struct CBTransform
     {
-        struct
-        {
-            float element[4][4];
-        }transformation;
+        dx::XMMATRIX transform;
     };
 
     typedef struct SOGE_CONSTANT_BUFFER_DESC

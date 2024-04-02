@@ -8,10 +8,10 @@ namespace soge
     {
         const CBTransform cbt = {
             {
-                aAspectRatio * std::cos(0.0f), std::sin(0.0f), 0.0f, 0.0f,
-                aAspectRatio * -std::sin(0.0f), std::cos(0.0f), 0.0f, 0.0f,
-                 0.0f,            0.0f,            1.0f, 0.0f,
-                 0.0f,            0.0f,            0.0f, 1.0f
+                dx::XMMatrixTranspose(
+                    dx::XMMatrixRotationZ(0.0f) *
+                    dx::XMMatrixScaling(aAspectRatio, 1.0f, 1.0f)
+                )
             }
         };
 
@@ -68,10 +68,10 @@ namespace soge
     {
         const CBTransform cbt = {
             {
-                mAspectRatio * std::cos(aData), std::sin(aData), 0.0f, 0.0f,
-                mAspectRatio * -std::sin(aData), std::cos(aData), 0.0f, 0.0f,
-                 0.0f,            0.0f,            1.0f, 0.0f,
-                 0.0f,            0.0f,            0.0f, 1.0f
+                dx::XMMatrixTranspose(
+                    dx::XMMatrixRotationZ(aData) *
+                    dx::XMMatrixScaling(mAspectRatio, 1.0f, 1.0f)
+                )
             }
         };
 

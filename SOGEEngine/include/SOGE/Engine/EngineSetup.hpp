@@ -4,8 +4,9 @@
 #include <wrl.h>
 #include <SimpleMath.h>
 
-namespace wrl = Microsoft::WRL;
-namespace dxsmath = DirectX::SimpleMath;
+namespace wrl       = Microsoft::WRL;
+namespace dx        = DirectX;
+namespace dxsmath   = DirectX::SimpleMath;
 
 namespace soge
 {

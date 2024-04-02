@@ -62,7 +62,7 @@ namespace soge
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
         mSwapChain = SwapChain::Create(aSystemWindow);
-        mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
+        //mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
         square = Square::Create({ -0.9f, 0.0f }, { 0.01f, 0.2f });
         square1 = Square::Create({ 0.9f, 0.0f }, { 0.01f, 0.2f });
         this->CreateRasterizer();
@@ -89,7 +89,7 @@ namespace soge
 
         HRESULT res = mDevice->CreateRasterizerState(&rastDesc, mRasterizerState.GetAddressOf());
         if (FAILED(res)) {
-            SOGE_ERROR_LOG("FAILED TO CREATE RAST STATE");
+            SOGE_ERROR_LOG("Failed to craete rasterizer state...");
         }
         mDeviceContext->RSSetState(mRasterizerState.Get());
     }
@@ -107,10 +107,11 @@ namespace soge
         SetupViewport();
 
         mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
-        mConstantBuffer->Update(aDeltaTime);
+        //mConstantBuffer->Update(aDeltaTime);
 
         float color[] = { 0.1f, 0.1f, 0.1f, 1.0f };
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
+        square->test(aDeltaTime);
         square->Draw(mDeviceContext.Get());
         square1->Draw(mDeviceContext.Get());
 

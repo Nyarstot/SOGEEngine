@@ -5,6 +5,7 @@
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/VertexBuffer.hpp"
 #include "SOGE/Graphics/IndexBuffer.hpp"
+#include "SOGE/Graphics/ConstantBuffer.hpp"
 #include "SOGE/Engine/EngineSetup.hpp"
 #include "SOGE/ComponentSystem/GraphicsComponents/RenderableComponent.hpp"
 
@@ -18,9 +19,11 @@ namespace soge
 
         std::unique_ptr<VertexBuffer> mVertexBuffer;
         std::unique_ptr<IndexBuffer> mIndexBuffer;
+        std::unique_ptr<ConstantBuffer> mConstantBuffer;
 
         Vertex* mVertices;
         int* mIndices;
+        float a = 0.0f;
 
     protected:
         void Init(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
@@ -36,6 +39,7 @@ namespace soge
         virtual HRESULT InitComponent() override;
         void PreRenderStage(ID3D11DeviceContext* aContext) override;
         void Draw(ID3D11DeviceContext* aContext) override;
+        void test(float a);
 
     public:
         static std::shared_ptr<Square> Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);

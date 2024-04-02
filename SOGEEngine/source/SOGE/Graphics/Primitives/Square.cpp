@@ -16,12 +16,6 @@ namespace soge
             DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
             DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
         };
-        //Vertex points[] = {
-        //    DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f),      DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-        //    DirectX::XMFLOAT4(-0.5f, -0.5f, 0.5f, 1.0f),    DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
-        //    DirectX::XMFLOAT4(0.5f, -0.5f, 0.5f, 1.0f),     DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
-        //    DirectX::XMFLOAT4(-0.5f, 0.5f, 0.5f, 1.0f),     DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
-        //};
         mVertices = points;
 
         int indeces[] = { 0,1,2, 1,0,3 };
@@ -29,6 +23,7 @@ namespace soge
 
         mVertexBuffer   = VertexBuffer::Create(mVertices);
         mIndexBuffer    = IndexBuffer::Create(mIndices);
+        mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
 
         SOGE_SHADER_DESC vShaderDesc;
         vShaderDesc.name = L"TestVerexShader";
@@ -71,8 +66,14 @@ namespace soge
         RSStage(aContext);
         IAStage(aContext);
         VSStage(aContext);
+        mConstantBuffer->Update(a);
         PSStage(aContext);
         aContext->DrawIndexed(6, 0, 0);
+    }
+
+    void Square::test(float a)
+    {
+        this->a = a;
     }
 
     void Square::PreRenderStage(ID3D11DeviceContext* aContext)
