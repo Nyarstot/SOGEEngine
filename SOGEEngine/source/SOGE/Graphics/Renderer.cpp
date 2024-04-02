@@ -5,7 +5,6 @@
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/Primitives/Square.hpp"
-#include "SOGE/Graphics/ConstantBuffer.hpp"
 
 namespace soge
 {
@@ -62,7 +61,6 @@ namespace soge
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
         mSwapChain = SwapChain::Create(aSystemWindow);
-        //mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
         square = Square::Create({ -0.9f, 0.0f }, { 0.01f, 0.2f });
         square1 = Square::Create({ 0.9f, 0.0f }, { 0.01f, 0.2f });
         this->CreateRasterizer();

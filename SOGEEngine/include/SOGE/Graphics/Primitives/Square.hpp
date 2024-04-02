@@ -13,13 +13,24 @@ namespace soge
 {
     class Square : public RenderableComponent
     {
+        using CBT = ConstantBuffer<CBTransform>;
+
     private:
         std::shared_ptr<VertexShader> mVertexShader;
         std::shared_ptr<PixelShader> mPixelShader;
 
         std::unique_ptr<VertexBuffer> mVertexBuffer;
         std::unique_ptr<IndexBuffer> mIndexBuffer;
-        std::unique_ptr<ConstantBuffer> mConstantBuffer;
+        std::unique_ptr<CBT> mConstantBuffer;
+
+        CBTransform cbt = {
+            {
+                dx::XMMatrixTranspose(
+                    dx::XMMatrixRotationZ(0.0f) *
+                    dx::XMMatrixScaling(1.0f, 1.0f, 1.0f)
+                )
+            }
+        };
 
         Vertex* mVertices;
         int* mIndices;

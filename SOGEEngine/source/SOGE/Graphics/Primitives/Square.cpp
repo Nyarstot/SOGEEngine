@@ -23,7 +23,10 @@ namespace soge
 
         mVertexBuffer   = VertexBuffer::Create(mVertices);
         mIndexBuffer    = IndexBuffer::Create(mIndices);
-        mConstantBuffer = ConstantBuffer::Create(nullptr, 3.0f / 4.0f);
+
+        ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
+        ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
+        mConstantBuffer = CBT::Create(device, context, cbt);
 
         SOGE_SHADER_DESC vShaderDesc;
         vShaderDesc.name = L"TestVerexShader";
@@ -66,14 +69,24 @@ namespace soge
         RSStage(aContext);
         IAStage(aContext);
         VSStage(aContext);
-        mConstantBuffer->Update(a);
+        mConstantBuffer->UpdateBufferData();
         PSStage(aContext);
         aContext->DrawIndexed(6, 0, 0);
     }
 
     void Square::test(float a)
     {
-        this->a = a;
+        CBTransform foo = {
+            {
+                dx::XMMatrixTranspose(
+                    dx::XMMatrixRotationZ(a) *
+                    dx::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f)
+                )
+            }
+        };
+        cbt = std::move(foo);
+
+        mConstantBuffer->SetConstantData(cbt);
     }
 
     void Square::PreRenderStage(ID3D11DeviceContext* aContext)

@@ -10,7 +10,7 @@ struct PS_IN
     float4 col : COLOR;
 };
 
-cbuffer ConstBuffer
+cbuffer ConstBuffer : register(b0)
 {
     matrix transform;
 };

@@ -22,7 +22,6 @@ namespace soge
         friend class SwapChain;
         friend class VertexBuffer;
         friend class IndexBuffer;
-        friend class ConstantBuffer;
         friend class VertexShader;
         friend class PixelShader;
         friend class Square;
@@ -43,7 +42,6 @@ namespace soge
         std::unique_ptr<SwapChain> mSwapChain;
         std::unique_ptr<VertexBuffer> mVertexBuffer;
         std::unique_ptr<IndexBuffer> mIndexBuffer;
-        std::unique_ptr<ConstantBuffer> mConstantBuffer;
         std::unique_ptr<VertexShader> mTestVShader;
         std::unique_ptr<PixelShader> mTestPShader;
 
