@@ -20,6 +20,7 @@ PS_IN VSMain( VS_IN input )
     PS_IN output = (PS_IN)0;
 
     output.pos = mul(input.pos, transform);
+    //output.pos = input.pos;
     output.col = input.col;
 
     return output;

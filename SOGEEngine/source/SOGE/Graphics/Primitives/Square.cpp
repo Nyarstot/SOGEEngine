@@ -64,14 +64,16 @@ namespace soge
         return E_NOTIMPL;
     }
 
-    void Square::Draw(ID3D11DeviceContext* aContext)
+    void Square::Draw()
     {
-        RSStage(aContext);
-        IAStage(aContext);
-        VSStage(aContext);
+        ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
+
+        RSStage(context);
+        IAStage(context);
+        VSStage(context);
         mConstantBuffer->UpdateBufferData();
-        PSStage(aContext);
-        aContext->DrawIndexed(6, 0, 0);
+        PSStage(context);
+        context->DrawIndexed(6, 0, 0);
     }
 
     void Square::test(float a)

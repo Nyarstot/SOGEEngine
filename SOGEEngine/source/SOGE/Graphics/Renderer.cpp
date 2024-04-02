@@ -61,8 +61,6 @@ namespace soge
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
         mSwapChain = SwapChain::Create(aSystemWindow);
-        square = Square::Create({ -0.9f, 0.0f }, { 0.01f, 0.2f });
-        square1 = Square::Create({ 0.9f, 0.0f }, { 0.01f, 0.2f });
         this->CreateRasterizer();
     }
 
@@ -97,21 +95,20 @@ namespace soge
 
     }
 
-    void Renderer::Render(float aDeltaTime)
+    void Renderer::Render(LayerStack& aRenderLayers, float aDeltaTime)
     {
+
         mDeviceContext->ClearState();
         mDeviceContext->RSSetState(mRasterizerState.Get());
-
         SetupViewport();
-
-        mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
-        //mConstantBuffer->Update(aDeltaTime);
 
         float color[] = { 0.1f, 0.1f, 0.1f, 1.0f };
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
-        square->test(aDeltaTime);
-        square->Draw(mDeviceContext.Get());
-        square1->Draw(mDeviceContext.Get());
+        mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
+
+        for (auto layer : aRenderLayers) {
+            layer->OnUpdate(aDeltaTime);
+        }
 
         mSwapChain->Present(1);
     }

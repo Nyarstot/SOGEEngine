@@ -18,7 +18,7 @@ namespace soge
         virtual ~RenderableComponent() = default;
 
         virtual void PreRenderStage(ID3D11DeviceContext* aContext)  = 0;
-        virtual void Draw(ID3D11DeviceContext* aContext)            = 0;
+        virtual void Draw()                                         = 0;
 
     };
 }

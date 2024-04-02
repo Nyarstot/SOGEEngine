@@ -13,6 +13,7 @@
 
 #include <SOGE/System/Window.hpp>
 #include <SOGE/Engine/EngineSetup.hpp>
+#include "SOGE/Containers/LayerStack.hpp"
 
 namespace soge
 {
@@ -58,7 +59,7 @@ namespace soge
         void Init(const std::unique_ptr<Window>& aSystemWindow);
         void SetupViewport();
         void Release();
-        void Render(float aDeltaTime);
+        void Render(LayerStack& aRenderLayers, float aDeltaTime);
 
     public:
         static Renderer* GetInstance();

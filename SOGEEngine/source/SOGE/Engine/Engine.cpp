@@ -34,18 +34,14 @@ namespace soge
 
         while (mIsRunning) {
             mFPSCounter->AddFrame();
-
-            for (auto layer : mRenderLayerStack) {
-                layer->OnUpdate();
-            }
-
+            mRenderer->Render(mRenderLayerStack, mFPSCounter->GetDeltaTime());
             mWindow->OnUpdate();
-            mRenderer->Render(mFPSCounter->GetTotalTime());
         }
     }
 
     void Engine::Shutdown()
     {
+
     }
 
     void Engine::PushRenderLayer(Layer* aRenderLayer)

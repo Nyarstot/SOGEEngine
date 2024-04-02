@@ -17,7 +17,7 @@ namespace soge
 
         virtual void OnAttach() {};
         virtual void OnDetach() {};
-        virtual void OnUpdate() {};
+        virtual void OnUpdate(float aDeltaTime) {};
         virtual void OnEvent(Event& aEvent) {};
 
         const std::string& GetName() const { return mLayerName; }

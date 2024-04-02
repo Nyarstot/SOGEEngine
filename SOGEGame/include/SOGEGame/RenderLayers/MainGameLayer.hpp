@@ -6,7 +6,8 @@
 class MainGameLayer : public soge::Layer
 {
 private:
-
+    std::shared_ptr<soge::Square> mPlayer1Racket;
+    std::shared_ptr<soge::Square> mPlayer2Racket;
 
 public:
     MainGameLayer();
@@ -14,7 +15,7 @@ public:
 
     virtual void OnAttach() override;
     virtual void OnDetach() override;
-    virtual void OnUpdate() override;
+    virtual void OnUpdate(float aDeltaTime) override;
     virtual void OnEvent(soge::Event& aEvent) override;
 
 };

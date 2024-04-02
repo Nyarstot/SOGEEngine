@@ -49,7 +49,7 @@ namespace soge
 
         virtual HRESULT InitComponent() override;
         void PreRenderStage(ID3D11DeviceContext* aContext) override;
-        void Draw(ID3D11DeviceContext* aContext) override;
+        void Draw() override;
         void test(float a);
 
     public:
