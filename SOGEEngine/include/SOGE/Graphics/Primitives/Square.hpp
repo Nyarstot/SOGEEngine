@@ -47,7 +47,6 @@ namespace soge
         Square(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
         ~Square();
 
-        virtual HRESULT InitComponent() override;
         void PreRenderStage(ID3D11DeviceContext* aContext) override;
         void Draw() override;
         void test(float a);

@@ -50,18 +50,12 @@ namespace soge
     Square::Square(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
         this->Init(aCenter, aSize);
-        this->InitComponent();
     }
 
     Square::~Square()
     {
         mVertexBuffer.release();
         mIndexBuffer.release();
-    }
-
-    HRESULT Square::InitComponent()
-    {
-        return E_NOTIMPL;
     }
 
     void Square::Draw()

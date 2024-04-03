@@ -7,9 +7,13 @@ namespace soge
 {
     class CollideableComponent : public PhysicsComponent
     {
+        using CComponent = CollideableComponent;
+
     public:
         virtual ~CollideableComponent() = default;
 
+        virtual bool IsCollide(CComponent* aCollideable)    = 0;
+        virtual void OnCollide()                            = 0;
     };
 }
 

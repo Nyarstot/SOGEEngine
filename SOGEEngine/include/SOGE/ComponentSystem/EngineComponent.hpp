@@ -9,7 +9,6 @@ namespace soge
     {
     public:
         virtual ~EngineComponent() = default;
-        virtual HRESULT InitComponent() = 0;
 
     };
 }

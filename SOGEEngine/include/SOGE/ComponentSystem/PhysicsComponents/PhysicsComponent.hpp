@@ -9,6 +9,7 @@ namespace soge
     {
     public:
         virtual ~PhysicsComponent() = default;
+        virtual void Update()   = 0;
     };
 }
 
