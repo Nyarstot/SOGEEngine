@@ -12,7 +12,6 @@ namespace soge
     Engine::Engine()
     {
         SOGE_INFO_LOG("Starting engine...");
-
         mWindow = Window::Create({ 1280, 720, L"CoolGame" });
         mWindow->SetEventCallback(std::bind(&Engine::OnEvent, this, std::placeholders::_1));
         mFPSCounter = FPSCounter::Create();

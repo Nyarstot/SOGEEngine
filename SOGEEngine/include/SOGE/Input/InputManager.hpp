@@ -7,6 +7,11 @@
 #include "SOGE/Event/Event.hpp"
 #include "SOGE/Event/InputEvents/KeyboardEvents.hpp"
 
+// DirectX Input
+#include <Keyboard.h>
+#include <Mouse.h>
+#include <GamePad.h>
+
 namespace soge
 {
     class InputManager
@@ -18,12 +23,18 @@ namespace soge
         fnEventCallback mEventFunc;
         std::unordered_set<Keys> mPressedKeysSet;
 
+        std::unique_ptr<DirectX::Keyboard> mKeyboardDevice;
+        std::unique_ptr<DirectX::Mouse> mMouseDevice;
+        std::unique_ptr<DirectX::GamePad> mGamepadDevice;
+
+        int mKeyRepeatCounter = 0;
+        int mLastPressedKeyCode = 0;
+        bool mKeyHolding = false;
+
+
     protected:
         InputManager();
         static InputManager* sInstance;
-
-        void AddPressedKey(int aKeyCode);
-        void RemovePressedKey(int aKeyCode);
 
     public:
         InputManager(InputManager&)             = delete;
@@ -32,6 +43,7 @@ namespace soge
         void Init(const std::unique_ptr<Window>& aSystemWindow);
         LONG_PTR HandleInput(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
         bool IsKeyPressed(Keys aKey);
+        bool IsKeyReleased(Keys aKey);
         bool IsMouseButtonPressed(int aMButtonCode);
 
         float GetMouseX() const;

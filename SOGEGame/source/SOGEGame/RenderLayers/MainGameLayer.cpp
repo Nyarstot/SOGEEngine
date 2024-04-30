@@ -30,10 +30,16 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
 void MainGameLayer::OnEvent(soge::Event& aEvent)
 {
     auto input = soge::InputManager::GetInstance();
-    if (input->IsKeyPressed(soge::Keys::A)) {
-        SOGE_APP_INFO_LOG("{0}", aEvent.ToString());
+
+    // Press keys events
+    if (aEvent.GetEventType() == soge::EventTypes::InputEvents::eKeyPressed) {
+        if (input->IsKeyPressed(soge::Keys::W)) {
+            SOGE_APP_INFO_LOG("W PRES");
+        }
     }
-    else if (input->IsKeyPressed(soge::Keys::Z)) {
-        SOGE_APP_INFO_LOG("{0}", aEvent.ToString());
+
+    // Release keys events
+    if (aEvent.GetEventType() == soge::EventTypes::InputEvents::eKeyReleased) {
+
     }
 }

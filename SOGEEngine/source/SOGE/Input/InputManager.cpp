@@ -17,39 +17,59 @@ namespace soge
     {
     }
 
-    void InputManager::AddPressedKey(int aKeyCode)
-    {
-        mPressedKeysSet.insert(Keys(aKeyCode));
-    }
-
-    void InputManager::RemovePressedKey(int aKeyCode)
-    {
-        mPressedKeysSet.erase(Keys(aKeyCode));
-    }
-
     void InputManager::Init(const std::unique_ptr<Window>& aSystemWindow)
     {
+        mKeyboardDevice = std::make_unique<DirectX::Keyboard>();
+        mMouseDevice = std::make_unique<DirectX::Mouse>();
+        //mGamepadDevice = std::make_unique<DirectX::GamePad>();
+
         mEventFunc = aSystemWindow->mEventCallbackFunction;
+        mMouseDevice->SetWindow((HWND)aSystemWindow->GetHandle());
     }
 
     LONG_PTR InputManager::HandleInput(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
     {
         switch (umessage)
         {
+        case WM_ACTIVATE:
+        case WM_ACTIVATEAPP:
+        case WM_INPUT:
+            DirectX::Keyboard::ProcessMessage(umessage, wparam, lparam);
+            break;
+
         case WM_KEYDOWN:
         {
-            //mCurrentKeyCode = wparam;
-            KeyPressedEvent fnEvent(wparam, 1);
+            if (mLastPressedKeyCode == wparam) {
+                mKeyRepeatCounter++;
+            }
+            else {
+                mKeyRepeatCounter = 1;
+            }
+
+            DirectX::Keyboard::ProcessMessage(umessage, wparam, lparam);
+            KeyPressedEvent fnEvent(wparam, mKeyRepeatCounter);
             mEventFunc(fnEvent);
-            AddPressedKey(wparam);
+
+            mLastPressedKeyCode = wparam;
             break;
         }
+        case WM_SYSKEYDOWN:
+        {
+            if (wparam == VK_RETURN && (lparam & 0x60000000) == 0x20000000)
+            {
+                // This is where you'd implement the classic ALT+ENTER hotkey for fullscreen toggle
+            }
+            DirectX::Keyboard::ProcessMessage(umessage, wparam, lparam);
+            break;
+        }
+
+
+        case WM_SYSKEYUP:
         case WM_KEYUP:
         {
-            //mCurrentKeyCode = wparam;
             KeyReleasedEvent fnEvent(wparam);
             mEventFunc(fnEvent);
-            RemovePressedKey(wparam);
+            DirectX::Keyboard::ProcessMessage(umessage, wparam, lparam);
             break;
         }
         default:
@@ -62,7 +82,16 @@ namespace soge
 
     bool InputManager::IsKeyPressed(Keys aKey)
     {
-        return mPressedKeysSet.count(aKey) != 0;
+        //return mPressedKeysSet.count(aKey) != 0;
+        //return mKeyboardTracker.IsKeyPressed(DirectX::Keyboard::A);
+        auto keyboardState = mKeyboardDevice->GetState();
+        return keyboardState.IsKeyDown((DirectX::Keyboard::Keys)aKey);
+    }
+
+    bool InputManager::IsKeyReleased(Keys aKey)
+    {
+        auto keyboardState = mKeyboardDevice->GetState();
+        return keyboardState.IsKeyUp((DirectX::Keyboard::Keys)aKey);
     }
 
     bool InputManager::IsMouseButtonPressed(int aMButtonCode)
