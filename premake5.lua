@@ -37,7 +37,8 @@ workspace "SOGEEngine"
             "%{wks.location}/%{IncludeThirdpartyDirs.spdlog}",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTKSrc}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}"
+            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}",
+            "%{wks.location}/%{IncludeThirdpartyDirs.entt}"
         }
 
         defines
@@ -118,7 +119,8 @@ workspace "SOGEEngine"
             "%{wks.location}/SOGEEngine/include",
             "%{wks.location}/SOGEEngine/3rdparty/spdlog/spdlog/include",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}"
+            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}",
+            "%{wks.location}/%{IncludeThirdpartyDirs.entt}"
         }
 
         links

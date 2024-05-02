@@ -80,9 +80,8 @@ namespace soge
                 )
             }
         };
-        cbt = std::move(foo);
-
-        mConstantBuffer->SetConstantData(cbt);
+        //cbt = std::move(foo);
+        mConstantBuffer->SetConstantData(foo);
     }
 
     void Square::PreRenderStage(ID3D11DeviceContext* aContext)

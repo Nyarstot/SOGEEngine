@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <chrono>
 #include <tuple>
+#include <random>
 
 #include <string>
 #include <sstream>

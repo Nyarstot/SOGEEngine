@@ -26,6 +26,7 @@ namespace soge
         friend class VertexShader;
         friend class PixelShader;
         friend class Square;
+        friend class Sprite;
 
     private:
         wrl::ComPtr<ID3D11Device> mDevice;

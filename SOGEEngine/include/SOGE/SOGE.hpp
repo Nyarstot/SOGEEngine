@@ -11,8 +11,10 @@
 
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/Primitives/Square.hpp"
+#include "SOGE/Graphics/Sprite.hpp"
 
 #include "SOGE/Containers/Layer.hpp"
 #include "SOGE/Containers/LayerStack.hpp"
+#include "SOGE/Containers/Simple.hpp"
 
 #endif // !SOGE_SOGE_HPP

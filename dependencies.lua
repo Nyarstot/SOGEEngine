@@ -5,6 +5,7 @@ IncludeThirdpartyDirs["spdlog"]         = "SOGEEngine/3rdparty/spdlog/spdlog/inc
 IncludeThirdpartyDirs["DirectXTK"]      = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Inc"
 IncludeThirdpartyDirs["DirectXTKSrc"]   = "SOGEEngine/3rdparty/DirectXTK/DirectXTK/Src"
 IncludeThirdpartyDirs["EntityX"]        = "SOGEEngine/3rdparty/EntityX/entityx"
+IncludeThirdpartyDirs["entt"]           = "SOGEEngine/3rdparty/entt/entt/include"
 
 -- Include libs
 Libraries = {}

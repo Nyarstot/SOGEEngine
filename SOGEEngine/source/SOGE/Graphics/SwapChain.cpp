@@ -1,5 +1,6 @@
 #include "sogepch.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
+#include "SOGE/DebugSystem/Exception.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 
 namespace soge
@@ -29,24 +30,15 @@ namespace soge
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
 
         HRESULT hr = Renderer::GetInstance()->mDXGIFactory->CreateSwapChain(device, &swapChainDesc, &mSwapChain);
-        if (FAILED(hr)) {
-            SOGE_ERROR_LOG("Failed to create swap chain");
-        }
+        DXThrowIfFailed(hr, "Failed to create SwapChain");
+
 
         ID3D11Texture2D* backTexture = nullptr;
         hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backTexture);
-
-        if (FAILED(hr) || backTexture == nullptr) {
-            SOGE_ERROR_LOG("Failed to create back texture");
-            return E_FAIL;
-        }
+        DXThrowIfFailed(hr, "Failed to create back texture");
 
         hr = device->CreateRenderTargetView(backTexture, nullptr, &mRenderTargetView);
-        //backTexture->Release();
-
-        if (FAILED(hr)) {
-            SOGE_ERROR_LOG("Failed to create render target view");
-        }
+        DXThrowIfFailed(hr, "Failed to create render target view");
 
         return hr;
     }
