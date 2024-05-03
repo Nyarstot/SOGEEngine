@@ -1,11 +1,9 @@
 #ifndef SOGE_PHYSICS_ENGINE_HPP
 #define SOGE_PHYSICS_ENGINE_HPP
 
-#include "SOGE/ComponentSystem/PhysicsComponents/PhysicsComponent.hpp"
-
 namespace soge
 {
-    class PhysicsEngine final : public PhysicsComponent
+    class PhysicsEngine final
     {
     private:
 
@@ -18,7 +16,7 @@ namespace soge
         PhysicsEngine(PhysicsEngine&)       = delete;
         void operator = (PhysicsEngine&)    = delete;
 
-        void Update() override;
+        void Update();
 
     public:
         static PhysicsEngine* GetInstance();

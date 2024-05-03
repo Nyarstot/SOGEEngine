@@ -25,7 +25,6 @@ namespace soge
         friend class IndexBuffer;
         friend class VertexShader;
         friend class PixelShader;
-        friend class Square;
         friend class Sprite;
 
     private:
@@ -37,9 +36,6 @@ namespace soge
         wrl::ComPtr<ID3D11RasterizerState> mRasterizerState;
 
         D3D_FEATURE_LEVEL mFeatureLevel;
-
-        std::shared_ptr<Square> square;
-        std::shared_ptr<Square> square1;
 
         std::unique_ptr<SwapChain> mSwapChain;
         std::unique_ptr<VertexBuffer> mVertexBuffer;

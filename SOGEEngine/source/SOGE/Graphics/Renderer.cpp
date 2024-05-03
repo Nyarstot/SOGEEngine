@@ -4,7 +4,6 @@
 #include "SOGE/Graphics/VertexBuffer.hpp"
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
-#include "SOGE/Graphics/Primitives/Square.hpp"
 
 namespace soge
 {

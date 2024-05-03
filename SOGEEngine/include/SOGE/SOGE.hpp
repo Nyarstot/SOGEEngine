@@ -10,7 +10,6 @@
 #include "SOGE/Input/InputManager.hpp"
 
 #include "SOGE/Graphics/Renderer.hpp"
-#include "SOGE/Graphics/Primitives/Square.hpp"
 #include "SOGE/Graphics/Sprite.hpp"
 
 #include "SOGE/Containers/Layer.hpp"

@@ -102,6 +102,7 @@ namespace soge
         this->RSStage(context);
         this->IAStage(context);
         this->VSStage(context);
+        mConstantBuffer->UpdateBufferData();
         this->PSStage(context);
 
         context->DrawIndexed(6, 0, 0);
@@ -109,9 +110,7 @@ namespace soge
 
     void Sprite::Update(float aDeltaTime)
     {
-        mConstantBuffer->UpdateBufferData();
         mConstantBuffer->SetConstantData(mTransform);
-        SOGE_INFO_LOG("{0}.{1}.{2}", mTranslation.x, mTranslation.y, mTranslation.z);
     }
 
     void Sprite::Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale)

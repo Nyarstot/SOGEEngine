@@ -8,6 +8,11 @@ namespace soge
 {
     class Collider
     {
+    private:
+        std::unique_ptr<DirectX::BoundingBox> mBoundingBox;
+
+    public:
+
 
     };
 }

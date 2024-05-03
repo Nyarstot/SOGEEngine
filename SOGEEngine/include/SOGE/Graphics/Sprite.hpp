@@ -58,6 +58,13 @@ namespace soge
         void Rotate(Point3D aRotate);
         void Scale(Point3D aScale);
 
+        inline const Point3D GetTranslation() const { return mTranslation; }
+        inline const Point3D& GetTranslation() { return mTranslation; }
+        inline const Point3D GetRotation() const { return mRotation; }
+        inline const Point3D& GetRotation() { return mRotation; }
+        inline const Point3D GetScaling() const { return mScaling; }
+        inline const Point3D& GetScaling() { return mScaling; }
+
     public:
         static std::shared_ptr<Sprite> Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
 

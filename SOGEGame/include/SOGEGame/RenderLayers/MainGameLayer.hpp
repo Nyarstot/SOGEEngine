@@ -1,6 +1,7 @@
 #ifndef PONG_MAIN_GAME_LAYER_HPP
 #define PONG_MAIN_GAME_LAYER_HPP
 
+#include "SOGEGame/General/Player.hpp"
 #include <SOGE/SOGE.hpp>
 
 class MainGameLayer : public soge::Layer
@@ -8,10 +9,8 @@ class MainGameLayer : public soge::Layer
 private:
     //std::shared_ptr<soge::Square> mPlayer1Racket;
     //std::shared_ptr<soge::Square> mPlayer2Racket;
-    std::shared_ptr<soge::Sprite> mPlayer1Racket;
+    std::unique_ptr<Player> mPlayer;
     std::shared_ptr<soge::Sprite> mPlayer2Racket;
-
-    float speed = 0.000f;
 
 public:
     MainGameLayer();
