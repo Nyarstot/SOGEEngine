@@ -15,6 +15,10 @@ public:
     void Update(float aDeltaTime);
     void OnEvent(soge::Event& aEvent);
 
+public:
+    static std::shared_ptr<Ball> CreateShared();
+    static std::unique_ptr<Ball> CreateUnique();
+
 };
 
 #endif // !PONG_BALL_HPP
