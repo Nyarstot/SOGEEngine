@@ -16,4 +16,6 @@
 #include "SOGE/Containers/LayerStack.hpp"
 #include "SOGE/Containers/Simple.hpp"
 
+#include "SOGE/Utils/Random.hpp"
+
 #endif // !SOGE_SOGE_HPP
