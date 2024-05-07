@@ -8,6 +8,7 @@
 #include "SOGE/Engine/FPSCounter.hpp"
 #include "SOGE/Event/Event.hpp"
 #include "SOGE/Input/InputManager.hpp"
+#include "SOGE/Utils/Random.hpp"
 
 namespace soge
 {
@@ -26,6 +27,7 @@ namespace soge
 
         Renderer* mRenderer = Renderer::GetInstance();
         InputManager* mInputManager = InputManager::GetInstance();
+        RandomSeedDistributor* mRandSeedDist = RandomSeedDistributor::GetInstance();
 
     protected:
         static Engine& GetInstance();

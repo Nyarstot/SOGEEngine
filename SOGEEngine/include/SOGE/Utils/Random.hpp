@@ -5,10 +5,37 @@
 
 namespace soge
 {
+    class RandomSeedDistributor
+    {
+    private:
+        std::uint64_t mSeed;
+        float mTotalTime;
+
+    protected:
+        RandomSeedDistributor() {
+            std::stringstream ss;
+            ss << std::this_thread::get_id();
+            mSeed = std::stoull(ss.str());
+            mTotalTime = 0.0f;
+        }
+        static RandomSeedDistributor* sInstance;
+
+    public:
+        RandomSeedDistributor(RandomSeedDistributor&) = delete;
+        void operator= (RandomSeedDistributor&) = delete;
+
+        void UpdateSeed(float aTotalTime);
+        const std::uint64_t const GetSeed() { return mSeed; }
+
+    public:
+        static RandomSeedDistributor* GetInstance();
+
+    };
+
     class Random
     {
     private:
-        std::uint64_t mSeed = 12345;
+        RandomSeedDistributor* mSeedDist = nullptr;
         XoshiroCpp::Xoroshiro128PlusPlus mRandomEngine128;
         XoshiroCpp::Xoshiro256PlusPlus mRandomEngine256;
 
@@ -16,22 +43,17 @@ namespace soge
         void UpdateRandomEngineSeeds(std::uint64_t aSeed);
 
     public:
-        Random(std::uint64_t aSeed = 12345);
+        Random();
         ~Random();
 
         int RandInt(unsigned int aLeftLim, unsigned int aRightLim);
         double RandDouble(unsigned int aLeftLim, unsigned int aRightLim);
         bool RandBool();
-
         double RandDoubleNorm();
-        double RandDoubleNorm(int aAfterDecimalCount);
-
-        void SetSeed(std::uint64_t aSeed) { mSeed = aSeed; this->UpdateRandomEngineSeeds(aSeed); }
-        const std::uint64_t GetSeed() const { return mSeed; }
 
     public:
-        static std::shared_ptr<Random> CreateShared(std::uint64_t aSeed = 12345);
-        static std::unique_ptr<Random> CreateUnique(std::uint64_t aSeed = 12345);
+        static std::shared_ptr<Random> CreateShared();
+        static std::unique_ptr<Random> CreateUnique();
 
     };
 

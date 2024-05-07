@@ -24,13 +24,13 @@ namespace soge
         mDeltaTime      = std::chrono::duration_cast<std::chrono::microseconds>(curTime - mPrevTime).count() / 1000000.0f;
         mPrevTime       = curTime;
 
-        mTotalTime += mDeltaTime;
+        mFrameTime += mDeltaTime;
         mFrameCount++;
 
-        if (mTotalTime > 1.0f) {
-            float fps = mFrameCount / mTotalTime;
+        if (mFrameTime > 1.0f) {
+            float fps = mFrameCount / mFrameTime;
 
-            mTotalTime -= 1.0f;
+            mFrameTime -= 1.0f;
             mFrameCount = 0;
             mFPS        = fps;
         }
@@ -47,9 +47,9 @@ namespace soge
         return mFPS;
     }
 
-    float FPSCounter::GetTotalTime()
+    float FPSCounter::GetFrameTime()
     {
-        return mTotalTime;
+        return mFrameTime;
     }
 
     std::unique_ptr<FPSCounter> FPSCounter::Create()

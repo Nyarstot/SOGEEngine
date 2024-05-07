@@ -2,7 +2,11 @@
 
 Ball::Ball()
 {
-    mBallSprite = soge::Sprite::Create({0.0f, 0.0f}, {0.01f, 0.01f});
+    SOGE_APP_INFO_LOG("app");
+    soge::Random randomizer;
+    double randomPosY = randomizer.RandDoubleNorm();
+
+    mBallSprite = soge::Sprite::Create({0.0f, (float)randomPosY}, {0.01f, 0.01f});
 }
 
 Ball::~Ball()

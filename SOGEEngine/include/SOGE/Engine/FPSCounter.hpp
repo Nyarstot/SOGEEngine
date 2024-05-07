@@ -8,6 +8,7 @@ namespace soge
     private:
         std::chrono::time_point<std::chrono::steady_clock> mPrevTime;
         float mTotalTime            = 0;
+        float mFrameTime            = 0;
         float mDeltaTime            = 0;
         float mFPS                  = 0;
         unsigned int mFrameCount    = 0;
@@ -21,7 +22,7 @@ namespace soge
 
         void AddFrame();
         float GetDeltaTime();
-        float GetTotalTime();
+        float GetFrameTime();
         float GetFPS(bool aRound=true);
 
     public:

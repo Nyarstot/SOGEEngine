@@ -33,6 +33,7 @@ namespace soge
 
         while (mIsRunning) {
             mFPSCounter->AddFrame();
+            mRandSeedDist->UpdateSeed(mFPSCounter->GetFrameTime());
             mRenderer->Render(mRenderLayerStack, mFPSCounter->GetDeltaTime());
             mWindow->OnUpdate();
         }

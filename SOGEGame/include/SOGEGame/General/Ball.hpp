@@ -7,6 +7,9 @@ class Ball
 {
 private:
     std::shared_ptr<soge::Sprite> mBallSprite;
+    float dx;
+    float dy;
+
 
 public:
     Ball();
