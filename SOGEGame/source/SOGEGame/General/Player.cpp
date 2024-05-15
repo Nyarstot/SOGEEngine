@@ -15,8 +15,10 @@ void Player::Update(float aDeltaTime)
     mRacket->Update(aDeltaTime);
 
     if (mSpeed != 0) {
-        mRacket->TranslateTo(mSpeed * aDeltaTime);
+        mRacket->TranslateTo(mVelocity.y * aDeltaTime);
     }
+    SOGE_APP_INFO_LOG("Speed {0}", mSpeed);
+    SOGE_APP_WARN_LOG("Velocity: {0}", mVelocity.y);
 }
 
 void Player::OnEvent(soge::Event& aEvent)
@@ -26,11 +28,11 @@ void Player::OnEvent(soge::Event& aEvent)
     // Press keys events
     if (aEvent.GetEventType() == soge::EventTypes::InputEvents::eKeyPressed) {
         if (input->IsKeyPressed(soge::Keys::W)) {
-            mSpeed += 0.05f;
+            mVelocity.y += mSpeed * 0.04;
         }
 
         if (input->IsKeyPressed(soge::Keys::S)) {
-            mSpeed -= 0.05f;
+            mVelocity.y -= mSpeed * 0.04;
         }
     }
 

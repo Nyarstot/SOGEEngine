@@ -19,6 +19,7 @@ void MainGameLayer::OnAttach()
 
 void MainGameLayer::OnDetach()
 {
+
 }
 
 void MainGameLayer::OnUpdate(float aDeltaTime)

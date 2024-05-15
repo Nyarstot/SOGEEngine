@@ -46,6 +46,7 @@ namespace soge
         bool IsKeyReleased(Keys aKey);
         bool IsMouseButtonPressed(int aMButtonCode);
 
+
         float GetMouseX() const;
         float GetMouseY() const;
 

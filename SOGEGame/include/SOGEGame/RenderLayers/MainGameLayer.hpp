@@ -8,8 +8,6 @@
 class MainGameLayer : public soge::Layer
 {
 private:
-    //std::shared_ptr<soge::Square> mPlayer1Racket;
-    //std::shared_ptr<soge::Square> mPlayer2Racket;
     std::unique_ptr<Player> mPlayer;
     std::unique_ptr<Ball> mBall;
     std::shared_ptr<soge::Sprite> mPlayer2Racket;

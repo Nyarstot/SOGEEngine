@@ -5,11 +5,22 @@
 
 class Ball
 {
+    enum class BallState
+    {
+        READY = 0x00,
+        LAUNCHED = 0x01,
+        OUTOFBOUND = 0x02
+    };
+
 private:
     std::shared_ptr<soge::Sprite> mBallSprite;
-    float dx;
-    float dy;
+    BallState mBallState;
+    soge::Point2D mVelocity;
+    float mInitialSpeed;
+    float mSpeedIncrese;
 
+private:
+    void Launch(bool aLaunchSide);
 
 public:
     Ball();

@@ -8,9 +8,9 @@ class Player
 {
 private:
     std::unique_ptr<Racket> mRacket;
+    soge::Point2D mVelocity = { 0.0f, 0.0f };
     unsigned int mScore = 0;
-    float mSpeed = 0.0f;
-    float mVelocity = 0.0f;
+    float mSpeed = 1.0f;
 
 public:
     Player();
