@@ -9,6 +9,11 @@ namespace soge
         mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y));
     }
 
+    void GameObject::MoveTo(Point3D aMoveCoord)
+    {
+        mObjectSprite->Move(aMoveCoord);
+    }
+
     std::shared_ptr<GameObject> GameObject::CreateShared(const Point3D& aCenter, const Point3D& aSize)
     {
         return std::make_shared<GameObject>(aCenter, aSize);

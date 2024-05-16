@@ -16,4 +16,9 @@ namespace soge
     {
 
     }
+
+    void PhysicsEngine::CollisionTest(Collider* aCollider1, Collider* aCollider2)
+    {
+        if (!aCollider1->Intersects(aCollider2)) return;
+    }
 }

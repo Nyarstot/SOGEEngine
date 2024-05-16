@@ -6,17 +6,20 @@ namespace soge
 {
     Collider::Collider(const Point2D& aCenter, const Point2D& aSize)
     {
-        mBoundingBox = std::make_unique<DirectX::BoundingBox>(dxsmath::Vector3(aCenter), dxsmath::Vector3(aSize));
+        //mBoundingBox = std::make_unique<DirectX::BoundingBox>(dxsmath::Vector3(aCenter), dxsmath::Vector3(aSize));
+        mBoundingBox = std::make_shared<DirectX::BoundingBox>(dxsmath::Vector3(aCenter), dxsmath::Vector3(aSize));
+            //DirectX::FXMVECTOR aPlane
     }
 
     Collider::~Collider()
     {
-        mBoundingBox.release();
+        //mBoundingBox.release();
+        mBoundingBox.reset();
     }
 
-    bool Collider::Intersects(DirectX::FXMVECTOR aPlane)
+    bool Collider::Intersects(Collider* aOtherCollider)
     {
-        return mBoundingBox->Intersects(aPlane);
+        return mBoundingBox->Intersects(*aOtherCollider->GetBoundingBox());
     }
 
     std::shared_ptr<Collider> Collider::CreateShared(const Point2D& aCenter, const Point2D& aSize)

@@ -24,6 +24,7 @@ private:
 
 private:
     void Launch(bool aLaunchSide, float aDeltaTime);
+    void Reset();
 
 public:
     Ball();

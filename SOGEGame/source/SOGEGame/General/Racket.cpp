@@ -17,6 +17,11 @@ void Racket::Update(float aDeltaTime)
     mObjectSprite->Draw();
 }
 
+void Racket::Collide(soge::Collider* aCollider)
+{
+    SOGE_APP_INFO_LOG("Collided");
+}
+
 void Racket::TranslateTo(float aYPos)
 {
     mObjectSprite->Translate({ 0, aYPos, 0 });

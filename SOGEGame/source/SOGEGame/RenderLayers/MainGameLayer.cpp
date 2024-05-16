@@ -10,6 +10,7 @@ MainGameLayer::MainGameLayer()
 
 MainGameLayer::~MainGameLayer()
 {
+
 }
 
 void MainGameLayer::OnAttach()

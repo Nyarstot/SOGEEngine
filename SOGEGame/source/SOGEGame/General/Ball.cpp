@@ -31,8 +31,15 @@ void Ball::Update(float aDeltaTime)
         break;
     case Ball::BallState::LAUNCHED:
         mObjectSprite->Translate({ mVelocity.x, mVelocity.y, 0.0f});
+        if (mObjectSprite->GetTranslation().x > 1.1f || mObjectSprite->GetTranslation().x < -1.1f
+            || mObjectSprite->GetTranslation().y > 1.f || mObjectSprite->GetTranslation().y < -1.1f) {
+            mBallState = BallState::OUTOFBOUND;
+        }
         break;
     case Ball::BallState::OUTOFBOUND:
+        SOGE_APP_INFO_LOG("Out of bound");
+        this->Reset();
+        mBallState = BallState::READY();
         break;
     case Ball::BallState::BOUNCED:
         break;
@@ -57,6 +64,11 @@ void Ball::Launch(bool aLaunchSide, float aDeltaTime)
 
     mVelocity.y -= mRandomizer.RandDoubleNorm() * mSpeedIncrease * aDeltaTime;
     mBallState = BallState::LAUNCHED;
+}
+
+void Ball::Reset()
+{
+    this->MoveTo({ 0.0f, 0.0f, 0.0f });
 }
 
 void Ball::OnEvent(soge::Event& aEvent)

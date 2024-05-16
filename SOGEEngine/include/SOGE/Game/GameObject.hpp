@@ -20,8 +20,10 @@ namespace soge
 
         Sprite* GetSprite() const { return mObjectSprite.get(); }
         Collider* GetCollision() const { return mObjectCollider.get(); }
+        void MoveTo(Point3D aMoveCoord);
 
         virtual void Update(float aDeltaTime) {};
+        virtual void Collide(Collider* aCollider) {};
 
     public:
         static std::shared_ptr<GameObject> CreateShared(const Point3D& aCenter, const Point3D& aSize);
