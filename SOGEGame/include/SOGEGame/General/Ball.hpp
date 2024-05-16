@@ -3,30 +3,33 @@
 
 #include <SOGE/SOGE.hpp>
 
-class Ball
+class Ball : public soge::GameObject
 {
     enum class BallState
     {
         READY = 0x00,
         LAUNCHED = 0x01,
-        OUTOFBOUND = 0x02
+        OUTOFBOUND = 0x02,
+        BOUNCED = 0x03
     };
 
 private:
-    std::shared_ptr<soge::Sprite> mBallSprite;
     BallState mBallState;
+    soge::Random mRandomizer;
+    bool launchedSide;
+
     soge::Point2D mVelocity;
     float mInitialSpeed;
-    float mSpeedIncrese;
+    float mSpeedIncrease;
 
 private:
-    void Launch(bool aLaunchSide);
+    void Launch(bool aLaunchSide, float aDeltaTime);
 
 public:
     Ball();
     ~Ball();
 
-    void Update(float aDeltaTime);
+    void Update(float aDeltaTime) override;
     void OnEvent(soge::Event& aEvent);
 
 public:

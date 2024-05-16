@@ -1,38 +1,38 @@
 #include "SOGEGame/General/Racket.hpp"
 
-Racket::Racket(RacketSide aRacketSide)
+Racket::Racket(soge::Point3D aPosition)
+    : GameObject(aPosition, { 0.01f, 0.2f, 0.0f })
 {
-    mSide = aRacketSide;
-    if (mSide == RacketSide::LEFT) {
-        mRacketSprite = soge::Sprite::Create({ -0.9f, 0.0f }, { 0.01f, 0.2f });
-    }
-    else {
-        mRacketSprite = soge::Sprite::Create({ 0.9f, 0.0f }, { 0.01f, 0.2f });
-    }
+
 }
 
 Racket::~Racket()
 {
-    mRacketSprite.reset();
+
 }
 
 void Racket::Update(float aDeltaTime)
 {
-    mRacketSprite->Update(aDeltaTime);
-    mRacketSprite->Draw();
+    mObjectSprite->Update(aDeltaTime);
+    mObjectSprite->Draw();
 }
 
 void Racket::TranslateTo(float aYPos)
 {
-    mRacketSprite->Translate({ 0, aYPos, 0 });
+    mObjectSprite->Translate({ 0, aYPos, 0 });
 }
 
-std::shared_ptr<Racket> Racket::CreateShared(RacketSide aRacketSide)
+void Racket::Move(float aYPos)
 {
-    return std::make_shared<Racket>(aRacketSide);
+    mObjectSprite->Move({ 0.0f, aYPos, 0.0f });
 }
 
-std::unique_ptr<Racket> Racket::CreateUnique(RacketSide aRacketSide)
+std::shared_ptr<Racket> Racket::CreateShared(soge::Point3D aPosition)
 {
-    return std::make_unique<Racket>(aRacketSide);
+    return std::make_shared<Racket>(aPosition);
+}
+
+std::unique_ptr<Racket> Racket::CreateUnique(soge::Point3D aPosition)
+{
+    return std::make_unique<Racket>(aPosition);
 }

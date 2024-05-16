@@ -2,50 +2,61 @@
 
 
 Ball::Ball()
+    : GameObject({ 0.0f, 0.0f, 0.0f }, { 0.01f, 0.01f, 0.0f })
 {
     SOGE_APP_INFO_LOG("app");
-    soge::Random randomizer;
-    double randomPosY = randomizer.RandDoubleNorm();
+    mRandomizer = soge::Random();
 
-    mBallSprite = soge::Sprite::Create({0.0f, (float)randomPosY}, {0.01f, 0.01f});
     mBallState = BallState::READY;
-    mSpeedIncrese = 0.0f;
-    mInitialSpeed = 0.0f;
+    mSpeedIncrease = 0.01f;
+    mInitialSpeed = 0.01f;
     mVelocity = {0.f, 0.f};
 
 }
 
 Ball::~Ball()
 {
-    mBallSprite.reset();
+
 }
 
 void Ball::Update(float aDeltaTime)
 {
-    mBallSprite->Update(aDeltaTime);
-    mBallSprite->Draw();
+    mObjectSprite->Update(aDeltaTime);
+    mObjectSprite->Draw();
 
     switch (mBallState)
     {
     case Ball::BallState::READY:
+        this->Launch(mRandomizer.RandBool(), aDeltaTime);
         break;
     case Ball::BallState::LAUNCHED:
+        mObjectSprite->Translate({ mVelocity.x, mVelocity.y, 0.0f});
         break;
     case Ball::BallState::OUTOFBOUND:
+        break;
+    case Ball::BallState::BOUNCED:
         break;
     default:
         break;
     }
 }
 
-void Ball::Launch(bool aLaunchSide)
+void Ball::Launch(bool aLaunchSide, float aDeltaTime)
 {
     // true - launch ball to the left side
     // false - launch ball to the right side
 
     if (aLaunchSide == true) {
-
+        mVelocity.x -= mSpeedIncrease * aDeltaTime;
+        launchedSide = true;
     }
+    else {
+        mVelocity.x += mSpeedIncrease * aDeltaTime;
+        launchedSide = false;
+    }
+
+    mVelocity.y -= mRandomizer.RandDoubleNorm() * mSpeedIncrease * aDeltaTime;
+    mBallState = BallState::LAUNCHED;
 }
 
 void Ball::OnEvent(soge::Event& aEvent)

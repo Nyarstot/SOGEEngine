@@ -113,12 +113,8 @@ namespace soge
         mConstantBuffer->SetConstantData(mTransform);
     }
 
-    void Sprite::Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale)
+    void Sprite::UpdateConstantBuffer()
     {
-        mTranslation += aTranslate;
-        mRotation += aRotate;
-        mScaling += aScale;
-
         CBTransform newTransform = {
             {
                 dx::XMMatrixTranspose(
@@ -130,6 +126,14 @@ namespace soge
         };
 
         mTransform = std::move(newTransform);
+    }
+
+    void Sprite::Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale)
+    {
+        mTranslation += aTranslate;
+        mRotation += aRotate;
+        mScaling += aScale;
+        this->UpdateConstantBuffer();
     }
 
     void Sprite::Translate(Point3D aTranslate)
@@ -147,8 +151,23 @@ namespace soge
         this->Transform(Point3D(), Point3D(), aScale);
     }
 
+    void Sprite::Move(Point3D aMoveTo)
+    {
+        mTranslation = aMoveTo;
+    }
+
     std::shared_ptr<Sprite> Sprite::Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
         return std::make_shared<Sprite>(aCenter, aSize);
+    }
+
+    std::shared_ptr<Sprite> Sprite::CreateShared(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    {
+        return std::make_shared<Sprite>(aCenter, aSize);
+    }
+
+    std::unique_ptr<Sprite> Sprite::CreateUnique(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    {
+        return std::make_unique<Sprite>(aCenter, aSize);
     }
 }

@@ -10,6 +10,9 @@ namespace soge
         float x = 0.0f;
         float y = 0.0f;
 
+        Point2D() = default;
+        Point2D(float aX, float aY) : x(aX), y(aY) {};
+
         Point2D operator+ (Point2D const& other) {
             Point2D result;
             result.x = other.x + x;
@@ -36,6 +39,10 @@ namespace soge
 
         operator DirectX::SimpleMath::Vector2() const {
             return DirectX::SimpleMath::Vector2(x, y);
+        }
+
+        operator DirectX::SimpleMath::Vector3() const {
+            return DirectX::SimpleMath::Vector3(x, y, 0.0f);
         }
     };
 

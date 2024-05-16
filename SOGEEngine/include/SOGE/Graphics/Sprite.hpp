@@ -40,6 +40,8 @@ namespace soge
             }
         };
 
+        void UpdateConstantBuffer();
+
     protected:
         HRESULT Init(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
         void RSStage(ID3D11DeviceContext* aContext) override;
@@ -58,6 +60,8 @@ namespace soge
         void Rotate(Point3D aRotate);
         void Scale(Point3D aScale);
 
+        void Move(Point3D aMoveTo);
+
         inline const Point3D GetTranslation() const { return mTranslation; }
         inline const Point3D& GetTranslation() { return mTranslation; }
         inline const Point3D GetRotation() const { return mRotation; }
@@ -67,6 +71,8 @@ namespace soge
 
     public:
         static std::shared_ptr<Sprite> Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
+        static std::shared_ptr<Sprite> CreateShared(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
+        static std::unique_ptr<Sprite> CreateUnique(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);
 
     };
 }

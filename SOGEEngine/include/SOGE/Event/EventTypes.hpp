@@ -17,7 +17,8 @@ namespace soge
         KeyboardEvent       = BIT(2),
         MouseEvent          = BIT(3),
         FloatingMouseEvent  = BIT(4),
-        GamepadEvent        = BIT(5)
+        GamepadEvent        = BIT(5),
+        GameplayEvents      = BIT(6)
     };
 
     class EventTypeID final
@@ -77,6 +78,11 @@ namespace soge
         {
             static const EventType eKeyPressed("KeyPressed", EventCategory::InputEvent);
             static const EventType eKeyReleased("KeyReleased", EventCategory::InputEvent);
+        }
+
+        namespace GameplayEvents
+        {
+            static const EventType eObjectCollided("ObjectCollided", EventCategory::GameplayEvents);
         }
     }
 }

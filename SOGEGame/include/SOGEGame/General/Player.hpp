@@ -10,6 +10,7 @@ private:
     std::unique_ptr<Racket> mRacket;
     soge::Point2D mVelocity = { 0.0f, 0.0f };
     unsigned int mScore = 0;
+    bool mIsMoving = false;
     float mSpeed = 1.0f;
 
 public:
@@ -21,6 +22,7 @@ public:
 
     unsigned int GetScore() const { return mScore; }
     void SetScore(unsigned int aNewScore) { mScore = aNewScore; }
+    soge::Point3D GetTranslation() const { return mRacket->GetTranslation(); }
 
 public:
     static std::shared_ptr<Player> CreateShared();

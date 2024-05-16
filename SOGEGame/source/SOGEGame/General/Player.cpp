@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-    mRacket = Racket::CreateUnique(RacketSide::LEFT);
+    mRacket = Racket::CreateUnique({ -0.9f, 0.0f, 0.0f });
 }
 
 Player::~Player()
@@ -14,11 +14,10 @@ void Player::Update(float aDeltaTime)
 {
     mRacket->Update(aDeltaTime);
 
-    if (mSpeed != 0) {
-        mRacket->TranslateTo(mVelocity.y * aDeltaTime);
+    if (mIsMoving) {
+        mRacket->TranslateTo(mVelocity.y);
     }
-    SOGE_APP_INFO_LOG("Speed {0}", mSpeed);
-    SOGE_APP_WARN_LOG("Velocity: {0}", mVelocity.y);
+    //SOGE_APP_INFO_LOG("Position: {0}", mRacket->GetTranslation().y);
 }
 
 void Player::OnEvent(soge::Event& aEvent)
@@ -28,17 +27,22 @@ void Player::OnEvent(soge::Event& aEvent)
     // Press keys events
     if (aEvent.GetEventType() == soge::EventTypes::InputEvents::eKeyPressed) {
         if (input->IsKeyPressed(soge::Keys::W)) {
-            mVelocity.y += mSpeed * 0.04;
+            mVelocity.y += 0.1f;
+            mIsMoving = true;
         }
 
         if (input->IsKeyPressed(soge::Keys::S)) {
-            mVelocity.y -= mSpeed * 0.04;
+            mVelocity.y -= 0.1;
+            mIsMoving = true;
         }
     }
 
     // Release keys events
     if (aEvent.GetEventType() == soge::EventTypes::InputEvents::eKeyReleased) {
-
+        if (input->IsKeyReleased(soge::Keys::W) || input->IsKeyReleased(soge::Keys::S)) {
+            mIsMoving = false;
+            mVelocity.y = 0;
+        }
     }
 }
 

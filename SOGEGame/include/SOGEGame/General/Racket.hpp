@@ -9,22 +9,23 @@ enum class RacketSide
     RIGHT = 0x00
 };
 
-class Racket
+class Racket : public soge::GameObject
 {
 private:
-    std::shared_ptr<soge::Sprite> mRacketSprite;
     RacketSide mSide = RacketSide::LEFT;
 
 public:
-    Racket(RacketSide aRacketSide);
+    Racket(soge::Point3D aPosition);
     ~Racket();
 
-    void Update(float aDeltaTime);
+    void Update(float aDeltaTime) override;
     void TranslateTo(float aYPos);
+    void Move(float aYPos);
+    soge::Point3D GetTranslation() const { return mObjectSprite->GetTranslation(); }
 
 public:
-    static std::shared_ptr<Racket> CreateShared(RacketSide aRacketSide);
-    static std::unique_ptr<Racket> CreateUnique(RacketSide aRacketSide);
+    static std::shared_ptr<Racket> CreateShared(soge::Point3D aPosition);
+    static std::unique_ptr<Racket> CreateUnique(soge::Point3D aPosition);
 
 };
 
