@@ -12,6 +12,7 @@ namespace soge
     protected:
         std::unique_ptr<Sprite> mObjectSprite;
         std::unique_ptr<Collider> mObjectCollider;
+        std::string mObjectName;
 
     public:
         GameObject() = default;
@@ -20,8 +21,9 @@ namespace soge
 
         Sprite* GetSprite() const { return mObjectSprite.get(); }
         Collider* GetCollision() const { return mObjectCollider.get(); }
+        std::string GetName() const { return mObjectName; }
 
-        virtual void Update(float aDeltaTime) {};
+        virtual void Update(float aDeltaTime);
 
     public:
         static std::shared_ptr<GameObject> CreateShared(const Point3D& aCenter, const Point3D& aSize);

@@ -9,6 +9,7 @@
 #include "SOGE/Event/Event.hpp"
 #include "SOGE/Input/InputManager.hpp"
 #include "SOGE/Utils/Random.hpp"
+#include "SOGE/Physics/PhysicsEngine.hpp"
 
 namespace soge
 {
@@ -28,6 +29,7 @@ namespace soge
         Renderer* mRenderer = Renderer::GetInstance();
         InputManager* mInputManager = InputManager::GetInstance();
         RandomSeedDistributor* mRandSeedDist = RandomSeedDistributor::GetInstance();
+        PhysicsEngine* mPhysicsEngine = PhysicsEngine::GetInstance();
 
     protected:
         static Engine& GetInstance();

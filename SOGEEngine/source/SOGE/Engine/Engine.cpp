@@ -11,15 +11,18 @@ namespace soge
 
     Engine::Engine()
     {
+        auto eventCallbackFunc = std::bind(&Engine::OnEvent, this, std::placeholders::_1);
+
         SOGE_INFO_LOG("Starting engine...");
         mWindow = Window::Create({ 1280, 720, L"CoolGame" });
-        mWindow->SetEventCallback(std::bind(&Engine::OnEvent, this, std::placeholders::_1));
+        mWindow->SetEventCallback(eventCallbackFunc);
         mFPSCounter = FPSCounter::Create();
 
         // Init singleton classes
 
         mRenderer->Init(mWindow);
         mInputManager->Init(mWindow);
+        mPhysicsEngine->SetEventCallback(eventCallbackFunc);
     }
 
     Engine::~Engine()

@@ -12,18 +12,22 @@ namespace soge
     class Collider
     {
     private:
-        std::unique_ptr<DirectX::BoundingBox> mBoundingBox;
+        std::shared_ptr<DirectX::BoundingBox> mBoundingBox;
+        std::string mColliderName;
 
     public:
-        Collider(const Point2D& aCenter, const Point2D& aSize);
+        Collider(const Point2D& aCenter, const Point2D& aSize, std::string aName);
         ~Collider();
 
-        bool Intersects(DirectX::FXMVECTOR aPlane);
-        DirectX::BoundingBox* GetBoundingBox() { return mBoundingBox.get(); }
+        bool Intersects(Collider* aCollider);
+        void Collided(Collider* aCollidedWith);
+        DirectX::BoundingBox& GetBoundingBox() { return *mBoundingBox.get(); }
+
+        std::string GetName() const { return mColliderName; }
 
     public:
-        static std::shared_ptr<Collider> CreateShared(const Point2D& aCenter, const Point2D& aSize);
-        static std::unique_ptr<Collider> CreateUnique(const Point2D& aCenter, const Point2D& aSize);
+        static std::shared_ptr<Collider> CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName);
+        static std::unique_ptr<Collider> CreateUnique(const Point2D& aCenter, const Point2D& aSize, std::string aName);
 
     };
 }

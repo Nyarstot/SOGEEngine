@@ -21,8 +21,10 @@ public:
     void OnEvent(soge::Event& aEvent);
 
     unsigned int GetScore() const { return mScore; }
-    void SetScore(unsigned int aNewScore) { mScore = aNewScore; }
     soge::Point3D GetTranslation() const { return mRacket->GetTranslation(); }
+    Racket* GetRacket() const { return mRacket.get(); }
+
+    void SetScore(unsigned int aNewScore) { mScore = aNewScore; }
 
 public:
     static std::shared_ptr<Player> CreateShared();

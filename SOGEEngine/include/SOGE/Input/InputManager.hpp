@@ -21,7 +21,6 @@ namespace soge
     private:
         //fnEventCallback& mEventFunc;
         fnEventCallback mEventFunc;
-        std::unordered_set<Keys> mPressedKeysSet;
 
         std::unique_ptr<DirectX::Keyboard> mKeyboardDevice;
         std::unique_ptr<DirectX::Mouse> mMouseDevice;

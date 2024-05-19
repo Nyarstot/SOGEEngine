@@ -5,8 +5,17 @@ namespace soge
 {
     GameObject::GameObject(const Point3D& aCenter, const Point3D& aSize)
     {
+        mObjectName = "gameObject";
+        std::string colliderName = mObjectName + " _collider";
+
         mObjectSprite = Sprite::CreateUnique(dxsmath::Vector2(aCenter.x, aCenter.y), dxsmath::Vector2(aSize.x, aSize.y));
-        mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y));
+        mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y), colliderName);
+    }
+
+    void GameObject::Update(float aDeltaTime)
+    {
+        Point3D translation = mObjectSprite->GetTranslation();
+        mObjectCollider->GetBoundingBox().Center = { translation.x, translation.y, 0.0f };
     }
 
     std::shared_ptr<GameObject> GameObject::CreateShared(const Point3D& aCenter, const Point3D& aSize)

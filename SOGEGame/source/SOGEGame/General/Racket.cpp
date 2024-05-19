@@ -13,6 +13,7 @@ Racket::~Racket()
 
 void Racket::Update(float aDeltaTime)
 {
+    GameObject::Update(aDeltaTime);
     mObjectSprite->Update(aDeltaTime);
     mObjectSprite->Draw();
 }

@@ -31,9 +31,15 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
     mPlayer2Racket->Update(aDeltaTime);
     mPlayer2Racket->Draw();
 
+    auto* physEngine = soge::PhysicsEngine::GetInstance();
+    physEngine->CollisionTest(mPlayer->GetRacket()->GetCollision(), mBall->GetCollision());
 }
 
 void MainGameLayer::OnEvent(soge::Event& aEvent)
 {
+    if (aEvent.GetEventType() == soge::EventTypes::GameplayEvents::eObjectCollided) {
+        SOGE_APP_INFO_LOG("{0}", aEvent.ToString());
+    }
+
     mPlayer->OnEvent(aEvent);
 }

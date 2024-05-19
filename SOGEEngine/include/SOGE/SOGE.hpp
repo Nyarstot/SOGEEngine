@@ -13,6 +13,7 @@
 #include "SOGE/Graphics/Sprite.hpp"
 
 #include "SOGE/Physics/Collider.hpp"
+#include "SOGE/Physics/PhysicsEngine.hpp"
 
 #include "SOGE/Game/GameObject.hpp"
 

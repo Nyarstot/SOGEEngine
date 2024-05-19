@@ -25,11 +25,11 @@ namespace soge
 
     };
 
-    class Collided final : public CollideEventBase<Collided>
+    class CollidedEvent final : public CollideEventBase<CollidedEvent>
     {
     public:
-        Collided(Collider* aCollidedObject) : CollideEventBase(aCollidedObject) {};
-        ~Collided() override = default;
+        CollidedEvent(Collider* aCollidedObject) : CollideEventBase(aCollidedObject) {};
+        ~CollidedEvent() override = default;
 
         Collider* GetCollidedObject() const { return mCollidedObject; }
         std::string ToString() const override;
