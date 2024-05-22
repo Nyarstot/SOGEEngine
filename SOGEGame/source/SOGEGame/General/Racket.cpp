@@ -18,16 +18,6 @@ void Racket::Update(float aDeltaTime)
     mObjectSprite->Draw();
 }
 
-void Racket::TranslateTo(float aYPos)
-{
-    mObjectSprite->Translate({ 0, aYPos, 0 });
-}
-
-void Racket::Move(float aYPos)
-{
-    mObjectSprite->Move({ 0.0f, aYPos, 0.0f });
-}
-
 std::shared_ptr<Racket> Racket::CreateShared(soge::Point3D aPosition)
 {
     return std::make_shared<Racket>(aPosition);

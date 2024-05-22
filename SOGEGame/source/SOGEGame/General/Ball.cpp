@@ -30,7 +30,7 @@ void Ball::Update(float aDeltaTime)
         this->Launch(mRandomizer.RandBool(), aDeltaTime);
         break;
     case Ball::BallState::LAUNCHED:
-        mObjectSprite->Translate({ mVelocity.x, mVelocity.y, 0.0f});
+        this->Translate({ mVelocity.x, mVelocity.y, 0.0f });
         break;
     case Ball::BallState::OUTOFBOUND:
         break;

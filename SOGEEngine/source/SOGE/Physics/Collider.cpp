@@ -30,6 +30,15 @@ namespace soge
         //}
     }
 
+    void Collider::Translate(Point3D aTranslate)
+    {
+        mBoundingBox->Center.x += aTranslate.x;
+        mBoundingBox->Center.y += aTranslate.y;
+        mBoundingBox->Center.z += aTranslate.z;
+
+        /*SOGE_APP_INFO_LOG("Bounding box: {0}, {1}, {2}", mBoundingBox->Center.x, mBoundingBox->Center.y, mBoundingBox->Center.z);*/
+    }
+
     std::shared_ptr<Collider> Collider::CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName)
     {
         return std::make_shared<Collider>(aCenter, aSize, aName);

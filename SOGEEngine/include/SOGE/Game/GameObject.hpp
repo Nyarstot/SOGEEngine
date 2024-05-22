@@ -23,6 +23,7 @@ namespace soge
         Collider* GetCollision() const { return mObjectCollider.get(); }
         std::string GetName() const { return mObjectName; }
 
+        virtual void Translate(Point3D aTranslate);
         virtual void Update(float aDeltaTime);
 
     public:

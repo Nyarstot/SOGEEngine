@@ -19,8 +19,6 @@ public:
     ~Racket();
 
     void Update(float aDeltaTime) override;
-    void TranslateTo(float aYPos);
-    void Move(float aYPos);
     soge::Point3D GetTranslation() const { return mObjectSprite->GetTranslation(); }
 
 public:

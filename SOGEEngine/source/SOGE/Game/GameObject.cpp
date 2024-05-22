@@ -12,10 +12,15 @@ namespace soge
         mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y), colliderName);
     }
 
+    void GameObject::Translate(Point3D aTranslate)
+    {
+        mObjectSprite->Translate(aTranslate);
+        mObjectCollider->Translate(aTranslate);
+    }
+
     void GameObject::Update(float aDeltaTime)
     {
-        Point3D translation = mObjectSprite->GetTranslation();
-        mObjectCollider->GetBoundingBox().Center = { translation.x, translation.y, 0.0f };
+
     }
 
     std::shared_ptr<GameObject> GameObject::CreateShared(const Point3D& aCenter, const Point3D& aSize)

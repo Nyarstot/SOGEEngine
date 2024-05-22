@@ -16,9 +16,8 @@ void Player::Update(float aDeltaTime)
     mRacket->Update(aDeltaTime);
 
     if (mIsMoving) {
-        mRacket->TranslateTo(mVelocity.y);
+        mRacket->Translate({ 0.0f, mVelocity.y, 0.0f });
     }
-    //SOGE_APP_INFO_LOG("Position: {0}", mRacket->GetTranslation().y);
 }
 
 void Player::OnEvent(soge::Event& aEvent)

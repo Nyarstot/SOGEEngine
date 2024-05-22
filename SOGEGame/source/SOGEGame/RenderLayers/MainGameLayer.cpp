@@ -46,4 +46,5 @@ void MainGameLayer::OnEvent(soge::Event& aEvent)
     }
 
     mPlayer->OnEvent(aEvent);
+    mBall->OnEvent(aEvent);
 }
