@@ -28,9 +28,6 @@ namespace soge
         //    KeyPressedEvent fnEvent(mWindowMessage.wParam, 1);
         //    mEventCallbackFunction(fnEvent);
         //}
-
-        CollidedEvent fnCollidedEvent(aCollidedWith);
-        PhysicsEngine::GetInstance()->mEventFunc(fnCollidedEvent);
     }
 
     std::shared_ptr<Collider> Collider::CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName)

@@ -38,5 +38,8 @@ namespace soge
         if (!aCollider1->Intersects(aCollider2)) return;
         aCollider1->Collided(aCollider2);
         aCollider2->Collided(aCollider1);
+
+        CollidedEvent fnCollidedEvent(aCollider1, aCollider2);
+        this->mEventFunc(fnCollidedEvent);
     }
 }

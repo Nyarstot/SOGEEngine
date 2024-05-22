@@ -11,14 +11,17 @@ namespace soge
     class CollideEventBase : public CompileTimeEvent<_Drvd>
     {
     protected:
-        Collider* mCollidedObject;
+        Collider* mCollidedObject1;
+        Collider* mCollidedObject2;
 
     protected:
-        CollideEventBase(Collider* aCollidedObject) : mCollidedObject(aCollidedObject) {};
+        CollideEventBase(Collider* aCollidedObject1, Collider* aCollidedObject2) 
+            : mCollidedObject1(aCollidedObject1), mCollidedObject2(aCollidedObject2) {};
 
     public:
         ~CollideEventBase() override = default;
-        Collider* GetColliderObject() const { return mCollidedObject; }
+        Collider* GetColliderObject1() const { return mCollidedObject1; }
+        Collider* GetColliderObject2() const { return mCollidedObject2; }
 
     public:
         static int GetStaticCategoryFlag() { return EventCategory::GameplayEvents; }
@@ -28,10 +31,10 @@ namespace soge
     class CollidedEvent final : public CollideEventBase<CollidedEvent>
     {
     public:
-        CollidedEvent(Collider* aCollidedObject) : CollideEventBase(aCollidedObject) {};
+        CollidedEvent(Collider* aCollidedObject1, Collider* aCollidedObject2) 
+            : CollideEventBase(aCollidedObject1, aCollidedObject2) {};
         ~CollidedEvent() override = default;
 
-        Collider* GetCollidedObject() const { return mCollidedObject; }
         std::string ToString() const override;
         const char* ToCString() const override;
 
