@@ -13,7 +13,7 @@ namespace soge
     {
     private:
         std::shared_ptr<DirectX::BoundingBox> mBoundingBox;
-        std::string mColliderName;
+        std::string mColliderName = "default";
 
     public:
         Collider(const Point2D& aCenter, const Point2D& aSize, std::string aName);
@@ -24,6 +24,7 @@ namespace soge
         DirectX::BoundingBox& GetBoundingBox() { return *mBoundingBox.get(); }
 
         std::string GetName() const { return mColliderName; }
+        void SetName(std::string aName) { mColliderName = aName; }
 
     public:
         static std::shared_ptr<Collider> CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName);

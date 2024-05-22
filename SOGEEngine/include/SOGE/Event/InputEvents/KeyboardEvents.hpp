@@ -40,6 +40,7 @@ namespace soge
         std::string ToString() const override;
         const char* ToCString() const override;
 
+
     public:
         static EventType GetStaticEventType() { return EventTypes::InputEvents::eKeyPressed; }
         static const char* GetStaticEventTypeName() { return EventTypes::InputEvents::eKeyPressed.GetCStringTypeName(); }

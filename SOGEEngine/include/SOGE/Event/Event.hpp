@@ -62,7 +62,24 @@ namespace soge
             }
             return false;
         }
+
     };
+
+    class EventCaster
+    {
+    private:
+
+
+    public:
+
+
+
+    };
+
+    template<typename _Ty>
+    static inline constexpr _Ty& StaticEventCast(Event& aEvent) {
+        return static_cast<_Ty&>(aEvent);
+    }
 }
 
 #endif // !SOGE_EVENT_HPP
