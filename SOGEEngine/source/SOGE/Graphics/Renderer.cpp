@@ -62,9 +62,6 @@ namespace soge
 
         mSwapChain = SwapChain::Create(aSystemWindow);
         this->CreateRasterizer();
-
-        mSpriteBatch = SpriteBatch::CreateUnique(mDeviceContext.Get());
-        mBatchDesc.rasterizerState = mRasterizerState.Get();
     }
 
     void Renderer::SetupViewport()
@@ -110,14 +107,11 @@ namespace soge
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
         mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
 
-        mSpriteBatch->Begin(mBatchDesc);
         for (auto layer : aRenderLayers) {
             layer->OnUpdate(aDeltaTime);
         }
-        mSpriteBatch->End();
+
         mSwapChain->Present(1);
-
-
     }
 
 }

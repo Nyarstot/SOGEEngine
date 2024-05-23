@@ -24,7 +24,7 @@ namespace soge
         SpriteFont(wchar_t const* aFontFilePath, bool aForceSRGB = false);
         ~SpriteFont();
 
-        void DrawString(wchar_t const* aText, BaseFontDesc aFontDesc);
+        void DrawString(SpriteBatch* aSpriteBatch, wchar_t const* aText, BaseFontDesc aFontDesc);
 
     public:
         static std::shared_ptr<SpriteFont> CreateShared(wchar_t const* aFontFilePath, bool aForceSRGB = false);

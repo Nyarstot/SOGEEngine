@@ -15,10 +15,9 @@ namespace soge
         mDTKSpriteFont.release();
     }
 
-    void SpriteFont::DrawString(wchar_t const* aText, BaseFontDesc aFontDesc)
+    void SpriteFont::DrawString(SpriteBatch* aSpriteBatch, wchar_t const* aText, BaseFontDesc aFontDesc)
     {
-        dx::SpriteBatch* dtkSpritebatch = Renderer::GetInstance()->mSpriteBatch->GetNative();
-        mDTKSpriteFont->DrawString(dtkSpritebatch, aText, aFontDesc.position, aFontDesc.color, aFontDesc.rotation);
+        mDTKSpriteFont->DrawString(aSpriteBatch->GetNative(), aText, aFontDesc.position, aFontDesc.color, aFontDesc.rotation);
     }
 
     std::shared_ptr<SpriteFont> SpriteFont::CreateShared(wchar_t const* aFontFilePath, bool aForceSRGB)
