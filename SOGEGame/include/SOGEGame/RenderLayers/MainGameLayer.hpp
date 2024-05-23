@@ -13,6 +13,18 @@ private:
     std::unique_ptr<Enemy> mEnemy;
     std::unique_ptr<Ball> mBall;
 
+    std::unique_ptr<soge::SpriteFont> mPlayerCounter;
+    std::unique_ptr<soge::SpriteFont> mEnemyCounter;
+
+    soge::BaseFontDesc mEnemyFontDescriptor;
+    soge::BaseFontDesc mPlayerFontDescriptor;
+
+    std::wstring mGraphicsPlayerScore = L"0";
+    std::wstring mGraphucsEnemyScore = L"0";
+
+protected:
+    void UpdateScore(bool aSide);
+
 public:
     MainGameLayer();
     ~MainGameLayer();

@@ -37,12 +37,21 @@ void Ball::Update(float aDeltaTime)
         this->Translate({ mVelocity.x, mVelocity.y, 0.0f });
         if (mObjectSprite->GetTranslation().x > 1.1f || mObjectSprite->GetTranslation().x < -1.1f
             || mObjectSprite->GetTranslation().y > 1.f || mObjectSprite->GetTranslation().y < -1.1f) {
+            mOutOfBound = true;
             mBallState = BallState::OUTOFBOUND;
         }
         break;
     case Ball::BallState::OUTOFBOUND:
         this->Reset();
+
+        if (mObjectSprite->GetTranslation().x > 0) {
+            mOutOfBoundSide = false; // Bound to enemy
+        }
+        else if (mObjectSprite->GetTranslation().x < 0) {
+            mOutOfBoundSide = true; // Bount to player
+        }
         mBallState = BallState::READY();
+        mOutOfBound = false;
         break;
     case Ball::BallState::BOUNCED:
         break;

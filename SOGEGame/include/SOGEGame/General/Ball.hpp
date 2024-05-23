@@ -17,6 +17,8 @@ private:
     BallState mBallState;
     soge::Random mRandomizer;
     bool launchedSide;
+    bool mOutOfBoundSide;
+    bool mOutOfBound = false;
 
     soge::Point2D mVelocity;
     float mInitialSpeed;
@@ -32,6 +34,8 @@ public:
     Ball();
     ~Ball();
 
+    bool IsOutOfBound() const { return mOutOfBound; }
+    bool GetLastBound() const { return mOutOfBoundSide; }
     void Update(float aDeltaTime) override;
     void OnEvent(soge::Event& aEvent);
 

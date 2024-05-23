@@ -10,7 +10,7 @@ class Enemy
 private:
     std::unique_ptr<Racket> mRacket;
     soge::Point2D mVelocity = { 0.0f, 0.0f };
-    //bool mIsMoving = false;
+    int mScore = 0;
     float mSpeed = 1.0f;
 
 public:
@@ -22,6 +22,9 @@ public:
 
     soge::Point3D GetTranslation() const { return mRacket->GetTranslation(); }
     Racket* GetRacket() const { return mRacket.get(); }
+
+    void EncreaseScore() { mScore++; }
+    int GetScore() const { return mScore; }
 
 public:
     static std::shared_ptr<Enemy> CreateShared();

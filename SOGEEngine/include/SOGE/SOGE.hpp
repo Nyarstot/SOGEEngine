@@ -11,6 +11,8 @@
 
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/Sprite.hpp"
+#include "SOGE/Graphics/SpriteBatch.hpp"
+#include "SOGE/Graphics/SpriteFont.hpp"
 
 #include "SOGE/Physics/Collider.hpp"
 #include "SOGE/Physics/PhysicsEngine.hpp"

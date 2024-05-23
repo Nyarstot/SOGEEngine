@@ -60,3 +60,5 @@ SOGEGame/*.exe
 *.la
 *.a
 *.lib
+
+!Scripts/MakeSpriteFont.exe

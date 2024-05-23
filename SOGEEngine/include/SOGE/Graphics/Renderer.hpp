@@ -14,6 +14,7 @@
 #include <SOGE/System/Window.hpp>
 #include <SOGE/Engine/EngineSetup.hpp>
 #include "SOGE/Containers/LayerStack.hpp"
+#include "SOGE/Graphics/SpriteBatch.hpp"
 
 namespace soge
 {
@@ -26,6 +27,7 @@ namespace soge
         friend class VertexShader;
         friend class PixelShader;
         friend class Sprite;
+        friend class SpriteFont;
 
     private:
         wrl::ComPtr<ID3D11Device> mDevice;
@@ -36,12 +38,14 @@ namespace soge
         wrl::ComPtr<ID3D11RasterizerState> mRasterizerState;
 
         D3D_FEATURE_LEVEL mFeatureLevel;
+        BatchDesc mBatchDesc;
 
         std::unique_ptr<SwapChain> mSwapChain;
         std::unique_ptr<VertexBuffer> mVertexBuffer;
         std::unique_ptr<IndexBuffer> mIndexBuffer;
         std::unique_ptr<VertexShader> mTestVShader;
         std::unique_ptr<PixelShader> mTestPShader;
+        std::unique_ptr<SpriteBatch> mSpriteBatch;
 
     protected:
         Renderer() = default;

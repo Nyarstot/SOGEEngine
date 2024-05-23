@@ -4,7 +4,7 @@ Enemy::Enemy()
 {
     mRacket = Racket::CreateUnique({ 0.9f, 0.1f, 0.0f });
     mRacket->SetObjectName("enemyRacket");
-    mSpeed = 0.07;
+    mSpeed = 0.05;
 }
 
 Enemy::~Enemy()

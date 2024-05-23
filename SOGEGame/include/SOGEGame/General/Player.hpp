@@ -11,6 +11,7 @@ private:
     soge::Point2D mVelocity = { 0.0f, 0.0f };
     bool mIsMoving = false;
     float mSpeed = 1.0f;
+    int mScore = 0;
 
 public:
     Player();
@@ -21,6 +22,9 @@ public:
 
     soge::Point3D GetTranslation() const { return mRacket->GetTranslation(); }
     Racket* GetRacket() const { return mRacket.get(); }
+
+    void EncreaseScore() { mScore++; }
+    int GetScore() const { return mScore; }
 
 public:
     static std::shared_ptr<Player> CreateShared();
