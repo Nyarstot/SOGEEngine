@@ -2,6 +2,7 @@
 #define PONG_MAIN_GAME_LAYER_HPP
 
 #include "SOGEGame/General/Player.hpp"
+#include "SOGEGame/General/Enemy.hpp"
 #include "SOGEGame/General/Ball.hpp"
 #include <SOGE/SOGE.hpp>
 
@@ -9,8 +10,8 @@ class MainGameLayer : public soge::Layer
 {
 private:
     std::unique_ptr<Player> mPlayer;
+    std::unique_ptr<Enemy> mEnemy;
     std::unique_ptr<Ball> mBall;
-    std::shared_ptr<soge::Sprite> mPlayer2Racket;
 
 public:
     MainGameLayer();

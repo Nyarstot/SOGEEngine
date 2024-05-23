@@ -26,6 +26,8 @@ private:
     void Launch(bool aLaunchSide, float aDeltaTime);
     void Reset();
 
+    float Clamp(float aX, float aUpper, float aBottom);
+
 public:
     Ball();
     ~Ball();

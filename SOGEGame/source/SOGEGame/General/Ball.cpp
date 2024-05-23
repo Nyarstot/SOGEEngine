@@ -1,6 +1,5 @@
 #include "SOGEGame/General/Ball.hpp"
 
-
 Ball::Ball()
     : GameObject({ 0.0f, 0.0f, 0.0f }, { 0.01f, 0.01f, 0.0f })
 {
@@ -24,6 +23,10 @@ void Ball::Update(float aDeltaTime)
     mObjectSprite->Update(aDeltaTime);
     mObjectSprite->Draw();
 
+    //SOGE_APP_INFO_LOG("{0}, {1}, {2}",
+    //    mObjectSprite->GetTranslation().x,
+    //    mObjectSprite->GetTranslation().y,
+    //    mObjectSprite->GetTranslation().z);
 
     switch (mBallState)
     {
@@ -74,19 +77,45 @@ void Ball::Reset()
     mVelocity = { 0.0f, 0.0f };
 }
 
+float Ball::Clamp(float aX, float aUpper, float aBottom)
+{
+    return std::min(aUpper, std::max(aX, aBottom));
+}
+
 void Ball::OnEvent(soge::Event& aEvent)
 {
     if (aEvent.GetEventType() == soge::EventTypes::GameplayEvents::eObjectCollided) {
         auto collisionEvent = soge::StaticEventCast<soge::CollidedEvent>(aEvent);
 
-        if (collisionEvent.GetColliderObject1()->GetColliderName() == "playerRacket_collider") {
-            mVelocity.y = -mVelocity.y;
-            mVelocity.x = -mVelocity.x;
-        }
+        //if (collisionEvent.GetColliderObject1()->GetColliderName() == "playerRacket_collider") {
+        //    mVelocity.y = -mVelocity.y;
+        //    mVelocity.x = -mVelocity.x;
+        //}
 
-        if (collisionEvent.GetColliderObject1()->GetColliderName() == "enemyRacket_collider") {
+        //if (collisionEvent.GetColliderObject1()->GetColliderName() == "enemyRacket_collider") {
+        //    mVelocity.y = abs(mVelocity.y);
+        //    mVelocity.x = abs(mVelocity.x);
+        //    SOGE_APP_INFO_LOG("COLLIDE");
+        //}
 
+        auto stickBoundBox = collisionEvent.GetColliderObject1()->GetBoundingBox();
+        auto ballBoundBox = collisionEvent.GetColliderObject2()->GetBoundingBox();
+
+        mVelocity.y = -mVelocity.y;
+        mVelocity.x = -mVelocity.x;
+
+        //mVelocity.x = mVelocity.x > 0 ? mSpeedIncrease : -mSpeedIncrease;
+        mVelocity.x = -this->Clamp(-mVelocity.x, 3, -3);
+        //SOGE_APP_INFO_LOG("TEST: {0}", mVelocity.x);
+        if (std::abs(ballBoundBox.Center.x) + ballBoundBox.Extents.x >
+            std::abs(stickBoundBox.Center.x) + stickBoundBox.Extents.x)
+        {
+            ballBoundBox.Center.x = (abs(stickBoundBox.Center.x) -
+                stickBoundBox.Extents.x - stickBoundBox.Extents.y) *
+                (ballBoundBox.Center.x > 0 ? 1 : -1);
         }
+        //const auto ratio = (ballBoundBox.Center.y - stickBoundBox.Center.y) / abs(stickBoundBox.Extents.y);
+        //mVelocity.y = -std::min(std::floor(ratio * 0.01f), 9.0f) / 100;
     }
 }
 

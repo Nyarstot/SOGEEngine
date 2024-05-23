@@ -12,6 +12,7 @@
 #include <chrono>
 #include <tuple>
 #include <random>
+#include <cmath>
 
 #include <string>
 #include <sstream>
