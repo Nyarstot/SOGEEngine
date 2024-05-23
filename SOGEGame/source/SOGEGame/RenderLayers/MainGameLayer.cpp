@@ -26,7 +26,7 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
 {
     //mPlayer1Racket->test(aDeltaTime);
     mPlayer->Update(aDeltaTime);
-    mEnemy->Update(aDeltaTime);
+    mEnemy->Update(aDeltaTime, mBall.get());
     mBall->Update(aDeltaTime);
 
     auto* physEngine = soge::PhysicsEngine::GetInstance();

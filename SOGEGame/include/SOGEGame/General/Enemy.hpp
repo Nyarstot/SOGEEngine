@@ -2,6 +2,7 @@
 #define PONG_ENEMY_HPP
 
 #include "SOGEGame/General/Racket.hpp"
+#include "SOGEGame/General/Ball.hpp"
 #include <SOGE/SOGE.hpp>
 
 class Enemy
@@ -9,14 +10,14 @@ class Enemy
 private:
     std::unique_ptr<Racket> mRacket;
     soge::Point2D mVelocity = { 0.0f, 0.0f };
-    bool mIsMoving = false;
+    //bool mIsMoving = false;
     float mSpeed = 1.0f;
 
 public:
     Enemy();
     ~Enemy();
 
-    void Update(float aDeltaTime);
+    void Update(float aDeltaTime, Ball* aBall);
     void OnEvent(soge::Event& aEvent);
 
     soge::Point3D GetTranslation() const { return mRacket->GetTranslation(); }

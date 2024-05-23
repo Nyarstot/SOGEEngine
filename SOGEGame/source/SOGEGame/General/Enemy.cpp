@@ -4,6 +4,7 @@ Enemy::Enemy()
 {
     mRacket = Racket::CreateUnique({ 0.9f, 0.1f, 0.0f });
     mRacket->SetObjectName("enemyRacket");
+    mSpeed = 0.07;
 }
 
 Enemy::~Enemy()
@@ -11,13 +12,23 @@ Enemy::~Enemy()
     mRacket.release();
 }
 
-void Enemy::Update(float aDeltaTime)
+void Enemy::Update(float aDeltaTime, Ball* aBall)
 {
     mRacket->Update(aDeltaTime);
+    mVelocity.y = 0.0f;
 
-    if (mIsMoving) {
-        mRacket->Translate({ 0.0f, mVelocity.y, 0.0f });
+    auto selfBoundBox = mRacket->GetCollision()->GetBoundingBox();
+    auto ballBoundBox = aBall->GetCollision()->GetBoundingBox();
+    const auto difference = ballBoundBox.Center.y - selfBoundBox.Center.y;
+
+    if (difference > selfBoundBox.Extents.y / 3) {
+        mVelocity.y += mSpeed;
     }
+    else if (difference < -selfBoundBox.Extents.y / 3) {
+        mVelocity.y -= mSpeed;
+    }
+
+    mRacket->Translate({ 0.0f, mVelocity.y, 0.0f });
 }
 
 void Enemy::OnEvent(soge::Event& aEvent)
