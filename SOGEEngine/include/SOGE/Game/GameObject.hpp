@@ -21,8 +21,10 @@ namespace soge
 
         Sprite* GetSprite() const { return mObjectSprite.get(); }
         Collider* GetCollision() const { return mObjectCollider.get(); }
-        std::string GetName() const { return mObjectName; }
+        void SetObjectName(std::string aObjectName);
+        std::string GetObjectName() const { return mObjectName; }
 
+        virtual void Move(Point3D aMoveTo);
         virtual void Translate(Point3D aTranslate);
         virtual void Update(float aDeltaTime);
 

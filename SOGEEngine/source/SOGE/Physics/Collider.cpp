@@ -6,10 +6,9 @@
 
 namespace soge
 {
-    Collider::Collider(const Point2D& aCenter, const Point2D& aSize, std::string aName)
+    Collider::Collider(const Point2D& aCenter, const Point2D& aSize)
     {
         mBoundingBox = std::make_shared<DirectX::BoundingBox>(dxsmath::Vector3(aCenter), dxsmath::Vector3(aSize));
-        mColliderName = aName;
     }
 
     Collider::~Collider()
@@ -24,10 +23,7 @@ namespace soge
 
     void Collider::Collided(Collider* aCollidedWith)
     {
-        //if (mWindowMessage.message == WM_KEYDOWN) {
-        //    KeyPressedEvent fnEvent(mWindowMessage.wParam, 1);
-        //    mEventCallbackFunction(fnEvent);
-        //}
+
     }
 
     void Collider::Translate(Point3D aTranslate)
@@ -35,17 +31,22 @@ namespace soge
         mBoundingBox->Center.x += aTranslate.x;
         mBoundingBox->Center.y += aTranslate.y;
         mBoundingBox->Center.z += aTranslate.z;
-
-        /*SOGE_APP_INFO_LOG("Bounding box: {0}, {1}, {2}", mBoundingBox->Center.x, mBoundingBox->Center.y, mBoundingBox->Center.z);*/
     }
 
-    std::shared_ptr<Collider> Collider::CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName)
+    void Collider::Move(Point3D aMoveTo)
     {
-        return std::make_shared<Collider>(aCenter, aSize, aName);
+        mBoundingBox->Center.x = aMoveTo.x;
+        mBoundingBox->Center.y = aMoveTo.y;
+        mBoundingBox->Center.z = aMoveTo.z;
     }
 
-    std::unique_ptr<Collider> Collider::CreateUnique(const Point2D& aCenter, const Point2D& aSize, std::string aName)
+    std::shared_ptr<Collider> Collider::CreateShared(const Point2D& aCenter, const Point2D& aSize)
     {
-        return std::make_unique<Collider>(aCenter, aSize, aName);
+        return std::make_shared<Collider>(aCenter, aSize);
+    }
+
+    std::unique_ptr<Collider> Collider::CreateUnique(const Point2D& aCenter, const Point2D& aSize)
+    {
+        return std::make_unique<Collider>(aCenter, aSize);
     }
 }

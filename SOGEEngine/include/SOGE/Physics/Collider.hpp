@@ -9,14 +9,18 @@
 
 namespace soge
 {
+    class GameObject;
+
     class Collider
     {
+
     private:
         std::shared_ptr<DirectX::BoundingBox> mBoundingBox;
         std::string mColliderName = "default";
+        GameObject* mOwner;
 
     public:
-        Collider(const Point2D& aCenter, const Point2D& aSize, std::string aName);
+        Collider(const Point2D& aCenter, const Point2D& aSize);
         ~Collider();
 
         bool Intersects(Collider* aCollider);
@@ -24,13 +28,16 @@ namespace soge
         DirectX::BoundingBox& GetBoundingBox() { return *mBoundingBox.get(); }
 
         void Translate(Point3D aTranslate);
+        void Move(Point3D aMoveTo);
 
-        std::string GetName() const { return mColliderName; }
-        void SetName(std::string aName) { mColliderName = aName; }
+        std::string GetColliderName() const { return mColliderName; }
+        void SetColliderName(std::string aName) { mColliderName = aName; }
+        GameObject* GetOwner() const { return mOwner; }
+        void SetOwner(GameObject* aOwner) { mOwner = aOwner; }
 
     public:
-        static std::shared_ptr<Collider> CreateShared(const Point2D& aCenter, const Point2D& aSize, std::string aName);
-        static std::unique_ptr<Collider> CreateUnique(const Point2D& aCenter, const Point2D& aSize, std::string aName);
+        static std::shared_ptr<Collider> CreateShared(const Point2D& aCenter, const Point2D& aSize);
+        static std::unique_ptr<Collider> CreateUnique(const Point2D& aCenter, const Point2D& aSize);
 
     };
 }

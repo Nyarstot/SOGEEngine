@@ -3,7 +3,7 @@
 Player::Player()
 {
     mRacket = Racket::CreateUnique({ -0.9f, 0.0f, 0.0f });
-    mRacket->GetCollision()->SetName("PlayerCollision");
+    mRacket->SetObjectName("playerRacket");
 }
 
 Player::~Player()

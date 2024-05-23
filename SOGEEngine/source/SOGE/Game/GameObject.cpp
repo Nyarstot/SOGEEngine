@@ -5,11 +5,23 @@ namespace soge
 {
     GameObject::GameObject(const Point3D& aCenter, const Point3D& aSize)
     {
-        mObjectName = "gameObject";
-        std::string colliderName = mObjectName + " _collider";
-
         mObjectSprite = Sprite::CreateUnique(dxsmath::Vector2(aCenter.x, aCenter.y), dxsmath::Vector2(aSize.x, aSize.y));
-        mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y), colliderName);
+        mObjectCollider = Collider::CreateUnique(Point2D(aCenter.x, aCenter.y), Point2D(aSize.x, aSize.y));
+
+        this->SetObjectName("defaultObjectName");
+        mObjectCollider->SetOwner(this);
+    }
+
+    void GameObject::SetObjectName(std::string aObjectName)
+    {
+        mObjectName = aObjectName;
+        mObjectCollider->SetColliderName(mObjectName + "_collider");
+    }
+
+    void GameObject::Move(Point3D aMoveTo)
+    {
+        mObjectSprite->Move(aMoveTo);
+        mObjectCollider->Move(aMoveTo);
     }
 
     void GameObject::Translate(Point3D aTranslate)

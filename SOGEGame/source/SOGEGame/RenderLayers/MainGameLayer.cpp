@@ -37,14 +37,6 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
 
 void MainGameLayer::OnEvent(soge::Event& aEvent)
 {
-    if (aEvent.GetEventType() == soge::EventTypes::GameplayEvents::eObjectCollided) {
-        auto event = soge::StaticEventCast<soge::CollidedEvent>(aEvent);
-        SOGE_APP_INFO_LOG("{0} collided with {1}",
-            event.GetColliderObject1()->GetName(),
-            event.GetColliderObject2()->GetName());
-
-    }
-
     mPlayer->OnEvent(aEvent);
     mBall->OnEvent(aEvent);
 }
