@@ -5,10 +5,6 @@ workspace "SOGEEngine"
     startproject "SOGEGame"
     configurations {"Debug", "Release"}
 
-    group "Dependencies"
-        include "SOGEEngine/3rdparty/EntityX/premake5"
-    group ""
-
     project "SOGEENgine"
         location "SOGEENgine"
         kind "StaticLib"
@@ -37,7 +33,6 @@ workspace "SOGEEngine"
             "%{wks.location}/%{IncludeThirdpartyDirs.spdlog}",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTKSrc}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}",
             "%{wks.location}/%{IncludeThirdpartyDirs.entt}",
             "%{wks.location}/%{IncludeThirdpartyDirs.XoshiroCpp}"
         }
@@ -53,8 +48,7 @@ workspace "SOGEEngine"
             "dxgi.lib",
             "d3dcompiler.lib",
             "dxguid.lib",
-            "dxgidebug.dll",
-            "EntityX"
+            "dxgidebug.dll"
         }
 
         filter "system:windows"
@@ -120,7 +114,6 @@ workspace "SOGEEngine"
             "%{wks.location}/SOGEEngine/include",
             "%{wks.location}/SOGEEngine/3rdparty/spdlog/spdlog/include",
             "%{wks.location}/%{IncludeThirdpartyDirs.DirectXTK}",
-            "%{wks.location}/%{IncludeThirdpartyDirs.EntityX}",
             "%{wks.location}/%{IncludeThirdpartyDirs.entt}",
             "%{wks.location}/%{IncludeThirdpartyDirs.XoshiroCpp}"
         }
