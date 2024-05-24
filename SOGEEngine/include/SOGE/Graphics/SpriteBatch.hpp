@@ -17,7 +17,7 @@ namespace soge
         SpriteSortMode_FrontToBack
     };
 
-    struct BatchDesc
+    struct SpriteBatchDescriptor
     {
         SpriteSortMode sortMode = SpriteSortMode::SpriteSortMode_Deferred;
         ID3D11BlendState* blendState                            = nullptr;
@@ -37,7 +37,7 @@ namespace soge
         ~SpriteBatch();
 
         dx::SpriteBatch* GetNative() const { return mDTKSpriteBatch.get(); }
-        void Begin(BatchDesc aBatchDescriptor);
+        void Begin(SpriteBatchDescriptor& aBatchDescriptor);
         void End();
 
     public:

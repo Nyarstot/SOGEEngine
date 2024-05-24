@@ -16,11 +16,14 @@ private:
     std::unique_ptr<soge::SpriteFont> mPlayerCounter;
     std::unique_ptr<soge::SpriteFont> mEnemyCounter;
 
-    soge::BaseFontDesc mEnemyFontDescriptor;
-    soge::BaseFontDesc mPlayerFontDescriptor;
+    soge::SpriteFontDescription mEnemyFontDescriptor;
+    soge::SpriteFontDescription mPlayerFontDescriptor;
 
     std::wstring mGraphicsPlayerScore = L"0";
-    std::wstring mGraphucsEnemyScore = L"0";
+    std::wstring mGraphicsEnemyScore = L"0";
+
+    std::unique_ptr<soge::SpriteBatch> mFontBatcher;
+    soge::SpriteBatchDescriptor mFontBatcherDescriptor;
 
 protected:
     void UpdateScore(bool aSide);

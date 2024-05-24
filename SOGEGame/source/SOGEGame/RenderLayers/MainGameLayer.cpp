@@ -12,18 +12,18 @@ void MainGameLayer::UpdateScore(bool aSide)
     int enemyScore = mEnemy->GetScore();
 
     mGraphicsPlayerScore = std::to_wstring(playerScore);
-    mGraphucsEnemyScore = std::to_wstring(enemyScore);
+    mGraphicsEnemyScore = std::to_wstring(enemyScore);
 
-    mPlayerFontDescriptor.color = dx::Colors::White;
-    mEnemyFontDescriptor.color = dx::Colors::White;
+    mPlayerCounter->SetFontColor(dx::Colors::White);
+    mEnemyCounter->SetFontColor(dx::Colors::White);
 
     if (playerScore > enemyScore) {
-        mPlayerFontDescriptor.color = dx::Colors::Green;
-        mEnemyFontDescriptor.color = dx::Colors::Red;
+        mPlayerCounter->SetFontColor(dx::Colors::Green);
+        mEnemyCounter->SetFontColor(dx::Colors::Red);
     }
     else if (playerScore < enemyScore) {
-        mPlayerFontDescriptor.color = dx::Colors::Red;
-        mEnemyFontDescriptor.color = dx::Colors::Green;
+        mPlayerCounter->SetFontColor(dx::Colors::Red);
+        mEnemyCounter->SetFontColor(dx::Colors::Green);
     }
 }
 
@@ -34,11 +34,20 @@ MainGameLayer::MainGameLayer()
     mEnemy = Enemy::CreateUnique();
     mBall = Ball::CreateUnique();
 
-    mEnemyCounter = soge::SpriteFont::CreateUnique(L"fonts/sample.spritefont");
-    mPlayerCounter = soge::SpriteFont::CreateUnique(L"fonts/sample.spritefont");
-
+    mPlayerFontDescriptor.fontFilePath = L"fonts/sample.spritefont";
     mPlayerFontDescriptor.position = { 550.0f, 0.0f };
+
+    mEnemyFontDescriptor.fontFilePath = L"fonts/sample.spritefont";
     mEnemyFontDescriptor.position = { 650.0f, 0.0f };
+
+    mEnemyCounter = soge::SpriteFont::CreateUnique(mEnemyFontDescriptor);
+    mPlayerCounter = soge::SpriteFont::CreateUnique(mPlayerFontDescriptor);
+
+    auto deviceContext = soge::Renderer::GetInstance()->GetDeviceContext();
+    auto rasterizer = soge::Renderer::GetInstance()->GetRasterizerState();
+
+    mFontBatcher = soge::SpriteBatch::CreateUnique(deviceContext);
+    mFontBatcherDescriptor.rasterizerState = rasterizer;
 }
 
 MainGameLayer::~MainGameLayer()
@@ -66,9 +75,12 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
     mEnemy->Update(aDeltaTime, mBall.get());
     mBall->Update(aDeltaTime);
 
-    //mFont->DrawString(L"SAMPLE TEXT", mFontDescriptor1);
-    mPlayerCounter->DrawString(mGraphicsPlayerScore.c_str(), mPlayerFontDescriptor);
-    mEnemyCounter->DrawString(mGraphucsEnemyScore.c_str(), mEnemyFontDescriptor);
+    mFontBatcher->Begin(mFontBatcherDescriptor);
+    mPlayerCounter->DrawString(mFontBatcher.get(), mGraphicsPlayerScore.c_str());
+    mEnemyCounter->DrawString(mFontBatcher.get(), mGraphicsEnemyScore.c_str());
+    mFontBatcher->End();
+
+    SOGE_APP_ERROR_LOG("{0}:{1}", mPlayer->GetScore(), mEnemy->GetScore());
 
     auto* physEngine = soge::PhysicsEngine::GetInstance();
     physEngine->CollisionTest(mPlayer->GetRacket()->GetCollision(), mBall->GetCollision());
