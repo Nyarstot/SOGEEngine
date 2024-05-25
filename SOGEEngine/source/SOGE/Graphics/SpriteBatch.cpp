@@ -14,7 +14,7 @@ namespace soge
         mDTKSpriteBatch.release();
     }
 
-    void SpriteBatch::Begin(BatchDesc aBatchDescriptor)
+    void SpriteBatch::Begin(SpriteBatchDescriptor& aBatchDescriptor)
     {
         auto sortMode = static_cast<dtkBatch::SpriteSortMode>((int)aBatchDescriptor.sortMode);
 

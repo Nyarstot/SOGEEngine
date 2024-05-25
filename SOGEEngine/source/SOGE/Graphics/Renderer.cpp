@@ -110,7 +110,6 @@ namespace soge
         for (auto layer : aRenderLayers) {
             layer->OnUpdate(aDeltaTime);
         }
-
         mSwapChain->Present(1);
     }
 
