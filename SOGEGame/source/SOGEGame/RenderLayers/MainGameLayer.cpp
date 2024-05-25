@@ -80,8 +80,6 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
     mEnemyCounter->DrawString(mFontBatcher.get(), mGraphicsEnemyScore.c_str());
     mFontBatcher->End();
 
-    SOGE_APP_ERROR_LOG("{0}:{1}", mPlayer->GetScore(), mEnemy->GetScore());
-
     auto* physEngine = soge::PhysicsEngine::GetInstance();
     physEngine->CollisionTest(mPlayer->GetRacket()->GetCollision(), mBall->GetCollision());
     physEngine->CollisionTest(mEnemy->GetRacket()->GetCollision(), mBall->GetCollision());
