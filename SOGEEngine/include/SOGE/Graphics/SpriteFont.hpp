@@ -8,27 +8,53 @@
 
 namespace soge
 {
-    struct BaseFontDesc
+    struct SpriteFontDescription
     {
-        dx::XMVECTOR position = { 0.0f, 0.0f };
-        dx::XMVECTORF32 color = dx::Colors::White;
-        float rotation = 0.0f;
+        std::wstring fontFilePath   = L"";
+        dx::XMVECTOR position       = { 0.0f, 0.0f };
+        dx::XMVECTORF32 color       = dx::Colors::White;
+        float rotation              = 0.0f;
+        bool forceSRGB              = false;
+
+        void ReplaceWith(SpriteFontDescription& aOther) {
+            this->fontFilePath  = std::move(aOther.fontFilePath);
+            this->position      = std::move(aOther.position);
+            this->color         = std::move(aOther.color);
+            this->rotation      = std::move(aOther.rotation);
+            this->forceSRGB     = std::move(aOther.forceSRGB);
+        }
+
+        void operator= (SpriteFontDescription& aOther) {
+            this->fontFilePath  = aOther.fontFilePath;
+            this->position      = aOther.position;
+            this->color         = aOther.color;
+            this->rotation      = aOther.rotation;
+            this->forceSRGB     = aOther.forceSRGB;
+        }
     };
 
     class SpriteFont
     {
     private:
         std::unique_ptr<dx::SpriteFont> mDTKSpriteFont;
+        SpriteFontDescription mFontDescriptor;
 
     public:
         SpriteFont(wchar_t const* aFontFilePath, bool aForceSRGB = false);
+        SpriteFont(SpriteFontDescription& aSpriteFontDesc);
         ~SpriteFont();
 
-        void DrawString(SpriteBatch* aSpriteBatch, wchar_t const* aText, BaseFontDesc aFontDesc);
+        void DrawString(SpriteBatch* aSpriteBatcher,wchar_t const* aText);
+
+        void SetFontColor(const dx::XMVECTORF32& aColor) { mFontDescriptor.color = aColor; }
+        dx::XMVECTORF32 GetColor() const { return mFontDescriptor.color; }
 
     public:
         static std::shared_ptr<SpriteFont> CreateShared(wchar_t const* aFontFilePath, bool aForceSRGB = false);
         static std::unique_ptr<SpriteFont> CreateUnique(wchar_t const* aFontFilePath, bool aForceSRGB = false);
+
+        static std::shared_ptr<SpriteFont> CreateShared(SpriteFontDescription& aSpriteFontDesc);
+        static std::unique_ptr<SpriteFont> CreateUnique(SpriteFontDescription& aSpriteFontDesc);
 
     };
 }

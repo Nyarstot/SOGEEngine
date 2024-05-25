@@ -59,6 +59,10 @@ namespace soge
         void Release();
         void Render(LayerStack& aRenderLayers, float aDeltaTime);
 
+        ID3D11RasterizerState* GetRasterizerState() const { return mRasterizerState.Get(); }
+        ID3D11Device* GetDevice() const { return mDevice.Get(); }
+        ID3D11DeviceContext* GetDeviceContext() const { return mDeviceContext.Get(); }
+
     public:
         static Renderer* GetInstance();
 

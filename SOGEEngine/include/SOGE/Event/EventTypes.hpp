@@ -76,13 +76,13 @@ namespace soge
     {
         namespace InputEvents
         {
-            static inline const EventType eKeyPressed("KeyPressed", EventCategory::InputEvent);
-            static inline const EventType eKeyReleased("KeyReleased", EventCategory::InputEvent);
+            inline const EventType eKeyPressed("KeyPressed", EventCategory::InputEvent);
+            inline const EventType eKeyReleased("KeyReleased", EventCategory::InputEvent);
         }
 
         namespace GameplayEvents
         {
-            static inline const EventType eObjectCollided("ObjectCollided", EventCategory::GameplayEvents);
+            inline const EventType eObjectCollided("ObjectCollided", EventCategory::GameplayEvents);
         }
     }
 }
