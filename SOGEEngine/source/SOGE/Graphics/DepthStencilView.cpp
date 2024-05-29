@@ -1,5 +1,6 @@
 #include "sogepch.hpp"
 #include "SOGE/Graphics/DepthStencilView.hpp"
+#include "SOGE/DebugSystem/Exception.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
 
@@ -29,12 +30,16 @@ namespace soge
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
         SwapChain* swapChain = Renderer::GetInstance()->mSwapChain.get();
 
-        D3D11_DEPTH_STENCIL_VIEW_DESC stencilViewDesc;
-        ZeroMemory(&stencilViewDesc, sizeof(stencilViewDesc));
-        stencilViewDesc.Format = stencilBufferDesc.Format;
+        //D3D11_DEPTH_STENCIL_VIEW_DESC stencilViewDesc;
+        //ZeroMemory(&stencilViewDesc, sizeof(stencilViewDesc));
+        //stencilViewDesc.Format = stencilBufferDesc.Format;
 
-        device->CreateTexture2D(&stencilBufferDesc, nullptr, mStencilBuffer.GetAddressOf());
-        device->CreateDepthStencilView(mStencilBuffer.Get(), &stencilViewDesc, mDepthStencilView.GetAddressOf());
+        HRESULT result = device->CreateTexture2D(&stencilBufferDesc, nullptr, mStencilBuffer.GetAddressOf());
+        DXThrowIfFailed(result, "Failed to create stencil buffer");
+
+        result = device->CreateDepthStencilView(mStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf());
+        DXThrowIfFailed(result, "Failed to create depth stencil view");
+
         context->OMSetRenderTargets(1, swapChain->GetAddresOfRenderTargetView(), mDepthStencilView.Get());
 
     }

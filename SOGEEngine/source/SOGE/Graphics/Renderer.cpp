@@ -18,9 +18,10 @@ namespace soge
         return sInstance;
     }
 
-    void Renderer::Init(Window* aSystemWindow)
+    void Renderer::Init(const std::unique_ptr<Window>& aWindow)
     {
-        mAppWindow = aSystemWindow;
+        SOGE_INFO_LOG("Initialize renderer...");
+        mAppWindow = aWindow.get();
         D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_1 };
 
         D3D_DRIVER_TYPE driverTypes[] = {
@@ -30,6 +31,7 @@ namespace soge
         };
 
         UINT numDriverTypes = ARRAYSIZE(driverTypes);
+        SOGE_INFO_LOG("Number of graphics drivers {0}", numDriverTypes);
         UINT numFeatureLevels = ARRAYSIZE(featureLevel);
         HRESULT result;
 
@@ -91,7 +93,7 @@ namespace soge
 
         HRESULT res = mDevice->CreateRasterizerState(&rastDesc, mRasterizerState.GetAddressOf());
         if (FAILED(res)) {
-            SOGE_ERROR_LOG("Failed to craete rasterizer state...");
+            SOGE_ERROR_LOG("Failed to create rasterizer state...");
         }
         mDeviceContext->RSSetState(mRasterizerState.Get());
     }
@@ -120,6 +122,7 @@ namespace soge
         mDeviceContext->OMSetRenderTargets(
             1, mSwapChain->GetAddresOfRenderTargetView(),
             mDepthStencilView->GetDepthStencilView()
+            //nullptr
         );
 
         for (auto layer : aRenderLayers) {

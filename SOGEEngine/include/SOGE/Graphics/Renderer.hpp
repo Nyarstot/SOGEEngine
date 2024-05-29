@@ -58,7 +58,7 @@ namespace soge
         Renderer(Renderer&)         = delete;
         void operator = (Renderer&) = delete;
 
-        void Init(Window* aSystemWindow);
+        void Init(const std::unique_ptr<Window>& aWindow);
         void SetupViewport();
         void Release();
         void Render(LayerStack& aRenderLayers, float aDeltaTime);
