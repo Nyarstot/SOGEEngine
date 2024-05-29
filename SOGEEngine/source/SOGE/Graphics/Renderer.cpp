@@ -5,7 +5,7 @@
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/SpriteFont.hpp"
-#include "SOGE/Graphics/DepthStencilView.hpp"
+#include "SOGE/Graphics/ZBuffer.hpp"
 
 namespace soge
 {
@@ -65,7 +65,7 @@ namespace soge
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
         mSwapChain = SwapChain::CreateUnique(mAppWindow);
-        mDepthStencilView = DepthStencilView::CreateUnique({
+        mZBuffer = ZBuffer::CreateUnique({
                 static_cast<float>(mAppWindow->GetWidth()),
                 static_cast<float>(mAppWindow->GetHeight())
             });
@@ -115,14 +115,8 @@ namespace soge
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
 
         mDeviceContext->ClearDepthStencilView(
-            mDepthStencilView->GetDepthStencilView(),
-            D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0
-        );
-
-        mDeviceContext->OMSetRenderTargets(
-            1, mSwapChain->GetAddresOfRenderTargetView(),
-            mDepthStencilView->GetDepthStencilView()
-            //nullptr
+            mZBuffer->GetDepthStencilView(),
+            D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u
         );
 
         for (auto layer : aRenderLayers) {

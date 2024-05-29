@@ -1,7 +1,7 @@
 #ifndef SOGE_SCENE_HPP
 #define SOGE_SCENE_HPP
 
-#include "SOGE/Game/GameComponents.hpp"
+#include "SOGE/Game/Components.hpp"
 #include <entt/entt.hpp>
 
 namespace soge

@@ -7,16 +7,17 @@
 
 namespace soge
 {
-    class DepthStencilView
+    class ZBuffer
     {
     private:
+        wrl::ComPtr<ID3D11DepthStencilState> mDepthStencilState;
         wrl::ComPtr<ID3D11DepthStencilView> mDepthStencilView;
         wrl::ComPtr<ID3D11Texture2D> mStencilBuffer;
         Point2D mStencilSize;
 
     public:
-        DepthStencilView(const Point2D& aSize);
-        ~DepthStencilView();
+        ZBuffer(const Point2D& aSize);
+        ~ZBuffer();
 
         ID3D11Texture2D* GetStencilBuffer() const { return mStencilBuffer.Get(); }
         ID3D11Texture2D* const* GetStencilBufferAddress() { return mStencilBuffer.GetAddressOf(); }
@@ -25,8 +26,8 @@ namespace soge
         Point2D& const GetStencilBufferSize() { return mStencilSize; }
 
     public:
-        static std::shared_ptr<DepthStencilView> CreateShared(const Point2D& aSize);
-        static std::unique_ptr<DepthStencilView> CreateUnique(const Point2D& aSize);
+        static std::shared_ptr<ZBuffer> CreateShared(const Point2D& aSize);
+        static std::unique_ptr<ZBuffer> CreateUnique(const Point2D& aSize);
 
     };
 }

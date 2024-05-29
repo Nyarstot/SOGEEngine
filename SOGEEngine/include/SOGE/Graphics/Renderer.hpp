@@ -27,7 +27,7 @@ namespace soge
         friend class PixelShader;
         friend class Sprite;
         friend class SpriteFont;
-        friend class DepthStencilView;
+        friend class ZBuffer;
 
     private:
         Window* mAppWindow = nullptr;
@@ -46,7 +46,7 @@ namespace soge
         std::unique_ptr<IndexBuffer> mIndexBuffer;
         std::unique_ptr<VertexShader> mTestVShader;
         std::unique_ptr<PixelShader> mTestPShader;
-        std::unique_ptr<DepthStencilView> mDepthStencilView;
+        std::unique_ptr<ZBuffer> mZBuffer;
 
     protected:
         Renderer() = default;
