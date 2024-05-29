@@ -5,7 +5,7 @@
 
 namespace soge
 {
-    HRESULT SwapChain::Init(const std::unique_ptr<Window>& aSystemWindow)
+    SwapChain::SwapChain(Window* aSystemWindow)
     {
         DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
         ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
@@ -39,13 +39,6 @@ namespace soge
 
         hr = device->CreateRenderTargetView(backTexture, nullptr, &mRenderTargetView);
         DXThrowIfFailed(hr, "Failed to create render target view");
-
-        return hr;
-    }
-
-    SwapChain::SwapChain(const std::unique_ptr<Window>& aSystemWindow)
-    {
-        this->Init(aSystemWindow);
     }
 
     SwapChain::~SwapChain()
@@ -64,7 +57,12 @@ namespace soge
         mRenderTargetView->Release();
     }
 
-    std::unique_ptr<SwapChain> SwapChain::Create(const std::unique_ptr<Window>& aSystemWindow)
+    std::shared_ptr<SwapChain> SwapChain::CreateShared(Window* aSystemWindow)
+    {
+        return std::make_shared<SwapChain>(aSystemWindow);
+    }
+
+    std::unique_ptr<SwapChain> SwapChain::CreateUnique(Window* aSystemWindow)
     {
         return std::make_unique<SwapChain>(aSystemWindow);
     }

@@ -5,6 +5,7 @@
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/SpriteFont.hpp"
+#include "SOGE/Graphics/DepthStencilView.hpp"
 
 namespace soge
 {
@@ -17,8 +18,9 @@ namespace soge
         return sInstance;
     }
 
-    void Renderer::Init(const std::unique_ptr<Window>& aSystemWindow)
+    void Renderer::Init(Window* aSystemWindow)
     {
+        mAppWindow = aSystemWindow;
         D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_1 };
 
         D3D_DRIVER_TYPE driverTypes[] = {
@@ -60,15 +62,19 @@ namespace soge
         mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter);
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
 
-        mSwapChain = SwapChain::Create(aSystemWindow);
+        mSwapChain = SwapChain::CreateUnique(mAppWindow);
+        mDepthStencilView = DepthStencilView::CreateUnique({
+                static_cast<float>(mAppWindow->GetWidth()),
+                static_cast<float>(mAppWindow->GetHeight())
+            });
         this->CreateRasterizer();
     }
 
     void Renderer::SetupViewport()
     {
         D3D11_VIEWPORT viewport = {};
-        viewport.Width = static_cast<float>(1280);
-        viewport.Height = static_cast<float>(720);
+        viewport.Width = static_cast<float>(mAppWindow->GetWidth());
+        viewport.Height = static_cast<float>(mAppWindow->GetHeight());
         viewport.TopLeftX = 0;
         viewport.TopLeftY = 0;
         viewport.MinDepth = 0;
@@ -105,7 +111,16 @@ namespace soge
 
         float color[] = { 0.1f, 0.1f, 0.1f, 1.0f };
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
-        mDeviceContext->OMSetRenderTargets(1, mSwapChain->GetAddresOfRenderTargetView(), nullptr);
+
+        mDeviceContext->ClearDepthStencilView(
+            mDepthStencilView->GetDepthStencilView(),
+            D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0
+        );
+
+        mDeviceContext->OMSetRenderTargets(
+            1, mSwapChain->GetAddresOfRenderTargetView(),
+            mDepthStencilView->GetDepthStencilView()
+        );
 
         for (auto layer : aRenderLayers) {
             layer->OnUpdate(aDeltaTime);

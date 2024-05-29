@@ -15,12 +15,9 @@ namespace soge
         wrl::ComPtr<IDXGISwapChain> mSwapChain;
         wrl::ComPtr<ID3D11RenderTargetView> mRenderTargetView;
 
-    protected:
-        HRESULT Init(const std::unique_ptr<Window>& aSystemWindow);
-
     public:
         SwapChain() = default;
-        SwapChain(const std::unique_ptr<Window>& aSystemWindow);
+        SwapChain(Window* aSystemWindow);
         ~SwapChain();
 
         HRESULT Present(bool aVSync);
@@ -31,7 +28,8 @@ namespace soge
         IDXGISwapChain* Get() const { return mSwapChain.Get(); }
 
     public:
-        static std::unique_ptr<SwapChain> Create(const std::unique_ptr<Window>& aSystemWindow);
+        static std::shared_ptr<SwapChain> CreateShared(Window* aSystemWindow);
+        static std::unique_ptr<SwapChain> CreateUnique(Window* aSystemWindow);
 
     };
 }

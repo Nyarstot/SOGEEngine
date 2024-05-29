@@ -20,7 +20,7 @@ namespace soge
 
         // Init singleton classes
 
-        mRenderer->Init(mWindow);
+        mRenderer->Init(mWindow.get());
         mInputManager->Init(mWindow);
         mPhysicsEngine->SetEventCallback(eventCallbackFunc);
     }

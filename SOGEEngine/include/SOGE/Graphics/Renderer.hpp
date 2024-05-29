@@ -27,8 +27,11 @@ namespace soge
         friend class PixelShader;
         friend class Sprite;
         friend class SpriteFont;
+        friend class DepthStencilView;
 
     private:
+        Window* mAppWindow = nullptr;
+
         wrl::ComPtr<ID3D11Device> mDevice;
         wrl::ComPtr<IDXGIDevice> mDXGIDevice;
         wrl::ComPtr<IDXGIAdapter> mDXGIAdapter;
@@ -43,6 +46,7 @@ namespace soge
         std::unique_ptr<IndexBuffer> mIndexBuffer;
         std::unique_ptr<VertexShader> mTestVShader;
         std::unique_ptr<PixelShader> mTestPShader;
+        std::unique_ptr<DepthStencilView> mDepthStencilView;
 
     protected:
         Renderer() = default;
@@ -54,7 +58,7 @@ namespace soge
         Renderer(Renderer&)         = delete;
         void operator = (Renderer&) = delete;
 
-        void Init(const std::unique_ptr<Window>& aSystemWindow);
+        void Init(Window* aSystemWindow);
         void SetupViewport();
         void Release();
         void Render(LayerStack& aRenderLayers, float aDeltaTime);
