@@ -16,7 +16,6 @@ namespace soge
 
     public:
         Entity();
-        //Entity(const Entity& aCopy);
         Entity(entt::entity aEntity, Scene* aScenePtr);
         ~Entity();
 
@@ -28,7 +27,7 @@ namespace soge
         template<typename _Ty, typename... _Args>
         _Ty& AddComponent(_Args&&... aArgs)
         {
-            if (this->HasComponent<_Ty>(mEntityHandle)) {
+            if (this->HasComponent<_Ty>()) {
                 SOGE_WARN_LOG("Entity already has given component");
             }
 
@@ -54,7 +53,7 @@ namespace soge
         template<typename _Ty>
         _Ty& GetComponent()
         {
-            if (!this->HasComponent<_Ty>(mEntityHandle)) {
+            if (!this->HasComponent<_Ty>()) {
                 SOGE_ERROR_LOG("Entity doesn't have given component");
             }
             return mScene->mEntityRegistry->get<_Ty>(mEntityHandle);
@@ -63,7 +62,7 @@ namespace soge
         template<typename _Ty>
         void RemoveComponent()
         {
-            if (!this->HasComponent<_Ty>(mEntityHandle)) {
+            if (!this->HasComponent<_Ty>()) {
                 SOGE_ERROR_LOG("Entity doesn't have given component");
             }
             this->mScene->mEntityRegistry->remove<_Ty>(mEntityHandle);

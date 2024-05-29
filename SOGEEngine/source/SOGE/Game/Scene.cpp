@@ -16,6 +16,7 @@ namespace soge
     Entity Scene::CreateEntity(std::string aEntityTag)
     {
         Entity entity(mEntityRegistry->create(), this);
+        entity.AddComponent<TagComponent>(aEntityTag);
         return entity;
     }
 }
