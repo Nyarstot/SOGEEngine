@@ -1,6 +1,7 @@
 #ifndef SOGE_SHADER_HPP
 #define SOGE_SHADER_HPP
 
+#include "SOGE/Interface/GraphicsInterfaces.hpp"
 #include "SOGE/Engine/EngineSetup.hpp"
 
 #include <d3d11.h>
@@ -22,7 +23,7 @@ namespace soge
         SOGE_PIXEL_SHADER   = 0x01
     };
 
-    class ShaderBase
+    class ShaderBase : public IBindable
     {
     protected:
         LPCWSTR mName;
@@ -39,7 +40,7 @@ namespace soge
         virtual HRESULT Compile() = 0;
         virtual HRESULT Create() = 0;
         virtual HRESULT CompileAndCreate() = 0;
-        virtual void Bind() = 0;
+        virtual void Bind() noexcept = 0;
 
         LPCWSTR GetName() const { return mName; }
         LPCWSTR GetPath() const { return mPath; }
@@ -61,7 +62,7 @@ namespace soge
         HRESULT Compile() override;
         virtual HRESULT Create() override;
         virtual HRESULT CompileAndCreate() override;
-        virtual void Bind() override;
+        void Bind() noexcept override;
 
         ID3DBlob* GetCompiled() const { return mVertexShaderByteCode.Get(); }
         ID3D11VertexShader* GetShader() const { return mVertexShader.Get(); }
@@ -83,7 +84,7 @@ namespace soge
         HRESULT Compile() override;
         virtual HRESULT Create() override;
         virtual HRESULT CompileAndCreate() override;
-        virtual void Bind() override;
+        void Bind() noexcept override;
 
         ID3DBlob* GetCompiled() const { return mPixelShaderByteCode.Get(); }
         ID3D11PixelShader* GetShader() const { return mPixelShader.Get(); }

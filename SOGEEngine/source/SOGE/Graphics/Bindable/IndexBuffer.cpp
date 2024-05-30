@@ -1,5 +1,5 @@
 #include "sogepch.hpp"
-#include "SOGE/Graphics/IndexBuffer.hpp"
+#include "SOGE/Graphics/Bindable/IndexBuffer.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 
 namespace soge
@@ -40,6 +40,12 @@ namespace soge
     IndexBuffer::~IndexBuffer()
     {
 
+    }
+
+    void IndexBuffer::Bind() noexcept
+    {
+        auto context = Renderer::GetInstance()->mDeviceContext.Get();
+        context->IASetIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
     }
 
     std::unique_ptr<IndexBuffer> IndexBuffer::Create(int* indeces)

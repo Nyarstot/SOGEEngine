@@ -1,10 +1,10 @@
 #ifndef SOGE_SPRITE_HPP
 #define SOGE_SPRITE_HPP
 
-#include "SOGE/Graphics/Shader.hpp"
-#include "SOGE/Graphics/VertexBuffer.hpp"
-#include "SOGE/Graphics/IndexBuffer.hpp"
-#include "SOGE/Graphics/ConstantBuffer.hpp"
+#include "SOGE/Graphics/Bindable/Shader.hpp"
+#include "SOGE/Graphics/Bindable/VertexBuffer.hpp"
+#include "SOGE/Graphics/Bindable/IndexBuffer.hpp"
+#include "SOGE/Graphics/Bindable/ConstantBuffer.hpp"
 #include "SOGE/Interface/GraphicsInterfaces.hpp"
 #include "SOGE/Graphics/Vertex.hpp"
 #include "SOGE/Containers/Simple.hpp"

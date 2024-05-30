@@ -63,7 +63,7 @@ namespace soge
         result = device->CreateDepthStencilState(&depthStencilDesc, mDepthStencilState.GetAddressOf());
         DXThrowIfFailed(result, "Failed to create depth stencil state");
 
-        context->OMSetRenderTargets(1u, swapChain->GetAddresOfRenderTargetView(), mDepthStencilView.Get());
+        //context->OMSetRenderTargets(1u, swapChain->GetAddresOfRenderTargetView(), mDepthStencilView.Get());
         context->OMSetDepthStencilState(mDepthStencilState.Get(), 1u);
 
     }

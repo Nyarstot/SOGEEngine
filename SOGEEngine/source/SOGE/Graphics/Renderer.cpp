@@ -1,9 +1,9 @@
 #include "sogepch.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/Graphics/SwapChain.hpp"
-#include "SOGE/Graphics/VertexBuffer.hpp"
-#include "SOGE/Graphics/IndexBuffer.hpp"
-#include "SOGE/Graphics/Shader.hpp"
+#include "SOGE/Graphics/Bindable/VertexBuffer.hpp"
+#include "SOGE/Graphics/Bindable/IndexBuffer.hpp"
+#include "SOGE/Graphics/Bindable/Shader.hpp"
 #include "SOGE/Graphics/SpriteFont.hpp"
 #include "SOGE/Graphics/ZBuffer.hpp"
 
@@ -113,6 +113,7 @@ namespace soge
 
         float color[] = { 0.1f, 0.1f, 0.1f, 1.0f };
         mDeviceContext->ClearRenderTargetView(mSwapChain->GetRenderTargetView(), color);
+        mDeviceContext->OMSetRenderTargets(1u, mSwapChain->GetAddresOfRenderTargetView(), mZBuffer->GetDepthStencilView());
 
         mDeviceContext->ClearDepthStencilView(
             mZBuffer->GetDepthStencilView(),

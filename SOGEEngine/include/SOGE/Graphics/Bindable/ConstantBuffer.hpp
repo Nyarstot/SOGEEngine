@@ -2,6 +2,7 @@
 #define SOGE_CONSTANT_BUFFER
 
 #include "SOGE/Engine/EngineSetup.hpp"
+#include "SOGE/Interface/GraphicsInterfaces.hpp"
 
 #include <memory>
 #include <Windows.h>
@@ -15,7 +16,7 @@ namespace soge
     };
 
     template<typename _Cd>
-    class ConstantBuffer
+    class ConstantBuffer : public IBindable
     {
     private:
         float mAspectRatio  = 0.0f;
@@ -75,9 +76,13 @@ namespace soge
 
             CopyMemory(mappedSbr.pData, &mConstantsData, sizeof(_Cd));
             mContext->Unmap(mConstantBuffer.Get(), 0u);
-            mContext->VSSetConstantBuffers(0u, 1u, mConstantBuffer.GetAddressOf());
 
             return result;
+        }
+
+        void Bind() noexcept override
+        {
+            mContext->VSSetConstantBuffers(0u, 1u, mConstantBuffer.GetAddressOf());
         }
 
         inline ID3D11Buffer* Get() const { return mConstantBuffer.Get(); }

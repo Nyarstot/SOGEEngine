@@ -42,10 +42,6 @@ namespace soge
         D3D_FEATURE_LEVEL mFeatureLevel;
 
         std::unique_ptr<SwapChain> mSwapChain;
-        std::unique_ptr<VertexBuffer> mVertexBuffer;
-        std::unique_ptr<IndexBuffer> mIndexBuffer;
-        std::unique_ptr<VertexShader> mTestVShader;
-        std::unique_ptr<PixelShader> mTestPShader;
         std::unique_ptr<ZBuffer> mZBuffer;
 
     protected:

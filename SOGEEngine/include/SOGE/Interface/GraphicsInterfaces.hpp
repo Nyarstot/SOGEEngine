@@ -21,6 +21,21 @@ namespace soge
         virtual void Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale) = 0;
 
     };
+
+    class IDrawable
+    {
+    public:
+        virtual ~IDrawable() = default;
+
+    };
+
+    class IBindable
+    {
+    public:
+        virtual ~IBindable() = default;
+        virtual void Bind() noexcept = 0;
+
+    };
 }
 
 #endif // !SOGE_GRAPHICS_INTERFACES_HPP

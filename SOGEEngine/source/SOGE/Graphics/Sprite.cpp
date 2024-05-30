@@ -26,7 +26,7 @@ namespace soge
         int indices[] = { 0, 1, 2, 1, 0, 3 };
         mIndices = std::move(indices);
 
-        mVertexBuffer   = VertexBuffer::Create(mVertices);
+        mVertexBuffer   = VertexBuffer::CreateUnique(mVertices, 32, 0);
         mIndexBuffer    = IndexBuffer::Create(mIndices);
 
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
@@ -64,13 +64,16 @@ namespace soge
 
     void Sprite::IAStage(ID3D11DeviceContext* aContext)
     {
-        UINT strides[] = { 32 };
-        UINT offset[] = { 0 };
+        //UINT strides[] = { 32 };
+        //UINT offset[] = { 0 };
 
-        aContext->IASetInputLayout(mVertexShader->GetInputLayout());
+        //aContext->IASetInputLayout(mVertexShader->GetInputLayout());
+        mVertexShader->Bind();
         aContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        aContext->IASetIndexBuffer(mIndexBuffer->Get(), DXGI_FORMAT_R32_UINT, 0);
-        aContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddressOf(), strides, offset);
+        //aContext->IASetIndexBuffer(mIndexBuffer->Get(), DXGI_FORMAT_R32_UINT, 0);
+        mIndexBuffer->Bind();
+        //aContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddressOf(), strides, offset);
+        mVertexBuffer->Bind();
     }
 
     void Sprite::VSStage(ID3D11DeviceContext* aContext)
@@ -103,6 +106,7 @@ namespace soge
         this->IAStage(context);
         this->VSStage(context);
         mConstantBuffer->UpdateBufferData();
+        mConstantBuffer->Bind();
         this->PSStage(context);
 
         context->DrawIndexed(6, 0, 0);
@@ -115,10 +119,12 @@ namespace soge
 
     void Sprite::UpdateConstantBuffer()
     {
+        // dx::XMMatrixRotationZ(mRotation.z) *
+
         CBTransform newTransform = {
             {
                 dx::XMMatrixTranspose(
-                    dx::XMMatrixRotationZ(mRotation.z) *
+                    dx::XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z) *
                     dx::XMMatrixScaling(mScaling.x, mScaling.y, mScaling.z) *
                     dx::XMMatrixTranslation(mTranslation.x, mTranslation.y, mTranslation.z)
                 )
@@ -155,6 +161,8 @@ namespace soge
     {
         mTranslation = aMoveTo;
     }
+
+    // Static constructor callers
 
     std::shared_ptr<Sprite> Sprite::Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {

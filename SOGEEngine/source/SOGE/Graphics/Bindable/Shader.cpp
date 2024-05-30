@@ -1,5 +1,5 @@
 #include "sogepch.hpp"
-#include "SOGE/Graphics/Shader.hpp"
+#include "SOGE/Graphics/Bindable/Shader.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 
 namespace soge
@@ -97,11 +97,16 @@ namespace soge
         return result;
     }
 
-    void VertexShader::Bind()
+    void VertexShader::Bind() noexcept
     {
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
-        context->VSSetShader(mVertexShader.Get(), nullptr, 0u);
+        //context->VSSetShader(mVertexShader.Get(), nullptr, 0u);
+        context->IASetInputLayout(mInputLayout.Get());
     }
+
+    ///////////////////
+    // Pixel shader
+    ///////////////////
 
     PixelShader::PixelShader(SOGE_SHADER_DESC aShaderDesc)
         : ShaderBase(aShaderDesc.name, aShaderDesc.path)
@@ -175,10 +180,11 @@ namespace soge
         return result;
     }
 
-    void PixelShader::Bind()
+    void PixelShader::Bind() noexcept
     {
-        ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
-        context->PSSetShader(mPixelShader.Get(), nullptr, 0u);
+        //ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
+        //context->PSSetShader(mPixelShader.Get(), nullptr, 0u);
+        return;
     }
 
 }
