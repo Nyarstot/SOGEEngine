@@ -2,7 +2,7 @@
 #define SOGE_CAMERA_HPP
 
 #include "SOGE/Math/Transform.hpp"
-#include "SOGE/Game/Components.hpp"
+#include "SOGE/ECS/Components.hpp"
 #include "SOGE/Containers/Simple.hpp"
 
 namespace soge

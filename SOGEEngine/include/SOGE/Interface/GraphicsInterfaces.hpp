@@ -32,12 +32,22 @@ namespace soge
 
     class IDrawable
     {
+        class IndexBuffer;
+
     private:
         std::vector<std::unique_ptr<IBindable>> mBindables;
+        std::unique_ptr<IndexBuffer> mIndexBuffer;
 
     public:
         IDrawable() = default;
+        IDrawable(const IDrawable&) = delete;
         virtual ~IDrawable() = default;
+
+        virtual void Update(float aDeltaTime) = 0;
+
+        void Draw() const noexcept(!SOGE_DEBUG);
+        void AddBindable(const IBindable& aBindable) noexcept(!SOGE_DEBUG);
+        void AddIndexBuffer(const IndexBuffer& aIndexBuffer) noexcept;
 
     };
 }

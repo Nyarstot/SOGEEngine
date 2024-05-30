@@ -1,6 +1,6 @@
 #include "sogepch.hpp"
 #include "SOGE/Game/Scene.hpp"
-#include "SOGE/Game/Entity.hpp"
+#include "SOGE/ECS/Entity.hpp"
 #include "SOGE/Utils/UUID.hpp"
 
 

@@ -1,5 +1,5 @@
 #include "sogepch.hpp"
-#include "SOGE/Game/Entity.hpp"
+#include "SOGE/ECS/Entity.hpp"
 
 
 namespace soge
@@ -9,14 +9,6 @@ namespace soge
         mEntityHandle = {};
         mScene = nullptr;
     }
-
-    //Entity::Entity(const Entity& aCopy)
-    //{
-    //    auto entity = std::move(aCopy.GetEntt());
-    //    mEntityHandle = std::make_unique<entt::entity>(std::move(entity));
-    //    aCopy.mEntityHandle.get_deleter();
-    //    mScene = aCopy.mScene;
-    //}
 
     Entity::Entity(entt::entity aEntity, Scene* aScenePtr)
     {
