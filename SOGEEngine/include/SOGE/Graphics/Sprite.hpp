@@ -13,7 +13,7 @@ namespace soge
 {
     class Sprite : public IShaderEnabled
     {
-        using CBT = ConstantBuffer<CBTransform>;
+        using CBT = VertexConstantBuffer<CBTransform>;
 
     private:
         std::shared_ptr<VertexShader> mVertexShader;

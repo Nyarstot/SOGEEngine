@@ -22,11 +22,13 @@ namespace soge
         float mAspectRatio  = 0.0f;
         _Cd mConstantsData;
 
+    protected:
         wrl::ComPtr<ID3D11Buffer> mConstantBuffer;
         wrl::ComPtr<ID3D11DeviceContext> mContext;
         wrl::ComPtr<ID3D11Device> mDevice;
 
     protected:
+
         inline HRESULT Init(ID3D11Device* aDevice, ID3D11DeviceContext* aContext, const _Cd& aConstData = {}) {
             this->mDevice     = aDevice;
             this->mContext    = aContext;
@@ -50,6 +52,8 @@ namespace soge
 
             return result;
         }
+
+        ID3D11DeviceContext* GetDeviceContext() const { return mContext.Get(); }
 
     public:
         inline ConstantBuffer(ID3D11Device* aDevice, ID3D11DeviceContext* aContext, const _Cd& aConstData = {}) {
@@ -95,6 +99,37 @@ namespace soge
         }
 
     };
+
+    template<typename _Cd>
+    class VertexConstantBuffer final : public ConstantBuffer<_Cd>
+    {
+        using ConstantBuffer<_Cd>::mConstantBuffer;
+        using ConstantBuffer<_Cd>::mContext;
+
+    public:
+        using ConstantBuffer<_Cd>::ConstantBuffer;
+        void Bind() noexcept override
+        {
+            mContext->VSSetConstantBuffers(0u, 1u, mConstantBuffer.GetAddressOf());
+        }
+
+    };
+
+    template<typename _Cd>
+    class PixelConstantBuffer final : public ConstantBuffer<_Cd>
+    {
+        using ConstantBuffer<_Cd>::mConstantBuffer;
+        using ConstantBuffer<_Cd>::mContext;
+
+    public:
+        using ConstantBuffer<_Cd>::ConstantBuffer;
+        void Bind() noexcept override
+        {
+            mContext->PSSetConstantBuffers(0u, 1u, mConstantBuffer.GetAddressOf());
+        }
+
+    };
+
 }
 
 #endif // !SOGE_CONSTANT_BUFFER

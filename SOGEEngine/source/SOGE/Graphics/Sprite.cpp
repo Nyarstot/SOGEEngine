@@ -31,7 +31,8 @@ namespace soge
 
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
-        mConstantBuffer = CBT::Create(device, context, mTransform);
+        //mConstantBuffer = CBT::Create(device, context, mTransform);
+        mConstantBuffer = std::make_unique<CBT>(device, context, mTransform);
 
         SOGE_SHADER_DESC vtxShaderDesc;
         vtxShaderDesc.name = L"TestVerexShader";
