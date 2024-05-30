@@ -49,6 +49,7 @@ namespace soge
         static Renderer* sInstance;
 
         void CreateRasterizer();
+        void PrintGPUInfo(IDXGIAdapter* aDXGIAdapter);
 
     public:
         Renderer(Renderer&)         = delete;

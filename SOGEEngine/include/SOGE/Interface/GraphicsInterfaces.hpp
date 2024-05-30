@@ -22,18 +22,22 @@ namespace soge
 
     };
 
-    class IDrawable
-    {
-    public:
-        virtual ~IDrawable() = default;
-
-    };
-
     class IBindable
     {
     public:
         virtual ~IBindable() = default;
         virtual void Bind() noexcept = 0;
+
+    };
+
+    class IDrawable
+    {
+    private:
+        std::vector<std::unique_ptr<IBindable>> mBindables;
+
+    public:
+        IDrawable() = default;
+        virtual ~IDrawable() = default;
 
     };
 }

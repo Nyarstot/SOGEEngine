@@ -63,6 +63,8 @@ namespace soge
         mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&mDXGIDevice);
         mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter);
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
+        this->PrintGPUInfo(mDXGIAdapter.Get());
+
 
         mSwapChain = SwapChain::CreateUnique(mAppWindow);
         mZBuffer = ZBuffer::CreateUnique({
@@ -96,6 +98,37 @@ namespace soge
             SOGE_ERROR_LOG("Failed to create rasterizer state...");
         }
         mDeviceContext->RSSetState(mRasterizerState.Get());
+    }
+
+    void Renderer::PrintGPUInfo(IDXGIAdapter* aDXGIAdapter)
+    {
+        #ifdef SOGE_DEBUG
+
+        DXGI_ADAPTER_DESC adapterDesc;
+        ZeroMemory(&adapterDesc, sizeof(adapterDesc));
+        aDXGIAdapter->GetDesc(&adapterDesc);
+
+        std::wstring vendorName = L"Unknown";
+        if (adapterDesc.VendorId == 0x10DE) {
+            vendorName = L"NVIDIA";
+        }
+        else if (adapterDesc.VendorId == 0x1002 || adapterDesc.VendorId == 0x1022) {
+            vendorName = L"AMD";
+        }
+        else if (adapterDesc.VendorId == 0x163 || adapterDesc.VendorId == 0x8086 || adapterDesc.VendorId == 0x8087) {
+            vendorName = L"Intel";
+        }
+
+        SOGE_INFO_LOG("============== GPU INFO ==============");
+        SOGE_INFO_LOG(L"\tDevice ID: {0}", adapterDesc.DeviceId);
+        SOGE_INFO_LOG(L"\tGPU device model: {0}", adapterDesc.Description);
+        SOGE_INFO_LOG(L"\tGPU device vendor: {0}", vendorName.c_str());
+        SOGE_INFO_LOG(L"\tDedicated video memory: {0} bytes", adapterDesc.DedicatedVideoMemory);
+        SOGE_INFO_LOG("======================================");
+
+        #endif // DEBUG
+
+        return;
     }
 
     void Renderer::Release()

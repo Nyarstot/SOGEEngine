@@ -40,7 +40,8 @@ workspace "SOGEEngine"
 
         defines
         {
-            "_CRT_SECURE_NO_WARNINGS"
+            "_CRT_SECURE_NO_WARNINGS",
+            "SPDLOG_WCHAR_TO_UTF8_SUPPORT"
         }
 
         links
