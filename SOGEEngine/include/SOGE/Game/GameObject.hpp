@@ -2,6 +2,7 @@
 #define SOGE_GAME_OBJECT_HPP
 
 #include "SOGE/Graphics/Sprite.hpp"
+#include "SOGE/Graphics/CircleSprite.hpp"
 #include "SOGE/Physics/Collider.hpp"
 #include "SOGE/Containers/Simple.hpp"
 
@@ -11,12 +12,15 @@ namespace soge
     {
     protected:
         std::unique_ptr<Sprite> mObjectSprite;
+        std::unique_ptr<CircleSprite> mCircle;
         std::unique_ptr<Collider> mObjectCollider;
         std::string mObjectName;
 
+        bool circ = false;
+
     public:
         GameObject() = default;
-        GameObject(const Point3D& aCenter, const Point3D& aSize);
+        GameObject(const Point3D& aCenter, const Point3D& aSize, bool circle = false);
         ~GameObject() = default;
 
         Sprite* GetSprite() const { return mObjectSprite.get(); }
@@ -26,6 +30,7 @@ namespace soge
 
         virtual void Move(Point3D aMoveTo);
         virtual void Translate(Point3D aTranslate);
+        virtual void Scale(Point3D aScale);
         virtual void Update(float aDeltaTime);
 
     public:

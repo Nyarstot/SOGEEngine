@@ -5,6 +5,7 @@
 #include "SOGE/Graphics/IndexBuffer.hpp"
 #include "SOGE/Graphics/Shader.hpp"
 #include "SOGE/Graphics/SpriteFont.hpp"
+#include "SOGE/Graphics/CircleSprite.hpp"
 
 namespace soge
 {

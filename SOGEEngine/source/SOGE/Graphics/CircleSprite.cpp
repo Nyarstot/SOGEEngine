@@ -1,33 +1,58 @@
 #include "sogepch.hpp"
-#include "SOGE/Graphics/Sprite.hpp"
+#include "SOGE/Graphics/CircleSprite.hpp"
 #include "SOGE/Graphics/Renderer.hpp"
 #include "SOGE/DebugSystem/Exception.hpp"
+#include <memory>
+
+#define PI 3.14159265358979323846  
 
 namespace soge
 {
-    HRESULT Sprite::Init(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    HRESULT CircleSprite::Init(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
         mTranslation = { 0.0f, 0.0f, 0.0f };
         mRotation = { 0.0f, 0.0f, 0.0f };
         mScaling = { 1.0f, 1.0f, 1.0f };
 
-        Vertex points[] = {
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
-        };
-        mVertices = std::move(points);
+        //Vertex points[] = {
+        //    DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
+        //    DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
+        //    DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
+        //    DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
+        //    DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
+        //    DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
+        //    DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
+        //    DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
+        //};
 
-        int indices[] = { 0, 1, 2, 1, 0, 3 };
-        mIndices = std::move(indices);
+        int segments = 100;
+        std::vector<Vertex> points(segments + 1);
+        points[0] = { DirectX::XMFLOAT4(aCenter.x, aCenter.y, 0.0f, 1.0f), DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
 
-        mVertexBuffer = VertexBuffer::Create(mVertices, 8);
-        mIndexBuffer = IndexBuffer::Create(mIndices, 6);
+        const float theta = 2.0f * PI / segments;
+        for (int i = 1; i < segments; ++i) {
+            float angle = i * theta;
+            points[i] = { DirectX::XMFLOAT4(aCenter.x + aSize.x * cosf(angle),
+                aCenter.y + aSize.y * sinf(angle), 0.0f, 1.0f), DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
+        }
+
+        std::vector<int> indices(segments * 3);
+        for (int i = 0; i < segments; ++i) {
+            indices[i * 3] = 0;
+            indices[i * 3 + 1] = i + 1;
+            indices[i * 3 + 2] = (i + 1) % segments + 1;
+        }
+
+        mVertices = points.data();
+        mIndices = indices.data();
+
+        vertexAmount = points.size();
+        indexAmount = indices.size();
+
+        //int indices[] = { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5};
+
+        mVertexBuffer = VertexBuffer::Create(mVertices, vertexAmount);
+        mIndexBuffer = IndexBuffer::Create(mIndices, indexAmount);
 
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
@@ -57,12 +82,12 @@ namespace soge
         return S_OK;
     }
 
-    void Sprite::RSStage(ID3D11DeviceContext* aContext)
+    void CircleSprite::RSStage(ID3D11DeviceContext* aContext)
     {
         return;
     }
 
-    void Sprite::IAStage(ID3D11DeviceContext* aContext)
+    void CircleSprite::IAStage(ID3D11DeviceContext* aContext)
     {
         UINT strides[] = { 32 };
         UINT offset[] = { 0 };
@@ -73,29 +98,29 @@ namespace soge
         aContext->IASetVertexBuffers(0, 1, mVertexBuffer->GetAddressOf(), strides, offset);
     }
 
-    void Sprite::VSStage(ID3D11DeviceContext* aContext)
+    void CircleSprite::VSStage(ID3D11DeviceContext* aContext)
     {
         aContext->VSSetShader(mVertexShader->GetShader(), nullptr, 0);
     }
 
-    void Sprite::PSStage(ID3D11DeviceContext* aContext)
+    void CircleSprite::PSStage(ID3D11DeviceContext* aContext)
     {
         aContext->PSSetShader(mPixelShader->GetShader(), nullptr, 0);
     }
 
-    Sprite::Sprite(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    CircleSprite::CircleSprite(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
         this->Init(aCenter, aSize);
     }
 
-    Sprite::~Sprite()
+    CircleSprite::~CircleSprite()
     {
         mVertexBuffer.release();
         mIndexBuffer.release();
         mConstantBuffer.release();
     }
 
-    void Sprite::Draw()
+    void CircleSprite::Draw()
     {
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
 
@@ -105,15 +130,15 @@ namespace soge
         mConstantBuffer->UpdateBufferData();
         this->PSStage(context);
 
-        context->DrawIndexed(6, 0, 0);
+        context->DrawIndexed(indexAmount, 0, 0);
     }
 
-    void Sprite::Update(float aDeltaTime)
+    void CircleSprite::Update(float aDeltaTime)
     {
         mConstantBuffer->SetConstantData(mTransform);
     }
 
-    void Sprite::UpdateConstantBuffer()
+    void CircleSprite::UpdateConstantBuffer()
     {
         CBTransform newTransform = {
             {
@@ -128,7 +153,7 @@ namespace soge
         mTransform = std::move(newTransform);
     }
 
-    void Sprite::Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale)
+    void CircleSprite::Transform(Point3D aTranslate, Point3D aRotate, Point3D aScale)
     {
         mTranslation += aTranslate;
         mRotation += aRotate;
@@ -136,38 +161,38 @@ namespace soge
         this->UpdateConstantBuffer();
     }
 
-    void Sprite::Translate(Point3D aTranslate)
+    void CircleSprite::Translate(Point3D aTranslate)
     {
         this->Transform(aTranslate, Point3D(), Point3D());
     }
 
-    void Sprite::Rotate(Point3D aRotate)
+    void CircleSprite::Rotate(Point3D aRotate)
     {
         this->Transform(Point3D(), aRotate, Point3D());
     }
 
-    void Sprite::Scale(Point3D aScale)
+    void CircleSprite::Scale(Point3D aScale)
     {
         this->Transform(Point3D(), Point3D(), aScale);
     }
 
-    void Sprite::Move(Point3D aMoveTo)
+    void CircleSprite::Move(Point3D aMoveTo)
     {
         mTranslation = aMoveTo;
     }
 
-    std::shared_ptr<Sprite> Sprite::Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    std::shared_ptr<CircleSprite> CircleSprite::Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
-        return std::make_shared<Sprite>(aCenter, aSize);
+        return std::make_shared<CircleSprite>(aCenter, aSize);
     }
 
-    std::shared_ptr<Sprite> Sprite::CreateShared(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    std::shared_ptr<CircleSprite> CircleSprite::CreateShared(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
-        return std::make_shared<Sprite>(aCenter, aSize);
+        return std::make_shared<CircleSprite>(aCenter, aSize);
     }
 
-    std::unique_ptr<Sprite> Sprite::CreateUnique(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
+    std::unique_ptr<CircleSprite> CircleSprite::CreateUnique(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize)
     {
-        return std::make_unique<Sprite>(aCenter, aSize);
+        return std::make_unique<CircleSprite>(aCenter, aSize);
     }
 }

@@ -12,17 +12,17 @@ namespace soge
         wrl::ComPtr<ID3D11Buffer> mIndexBuffer;
 
     protected:
-        HRESULT Init(int* indeces);
+        HRESULT Init(int* indeces, int indexAmount);
 
     public:
-        IndexBuffer(int* indeces);
+        IndexBuffer(int* indeces, int indexAmount);
         ~IndexBuffer();
 
         ID3D11Buffer* Get() const { return mIndexBuffer.Get(); }
         ID3D11Buffer* const* GetAddresOf() { return mIndexBuffer.GetAddressOf(); }
 
     public:
-        static std::unique_ptr<IndexBuffer> Create(int* indeces);
+        static std::unique_ptr<IndexBuffer> Create(int* indeces, int indexAmount);
 
     };
 }

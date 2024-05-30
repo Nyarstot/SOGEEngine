@@ -4,7 +4,7 @@
 
 namespace soge
 {
-    HRESULT IndexBuffer::Init(int* indeces)
+    HRESULT IndexBuffer::Init(int* indeces, int indexAmount)
     {
         D3D11_BUFFER_DESC indexBufDesc = {};
         ZeroMemory(&indexBufDesc, sizeof(indexBufDesc));
@@ -14,7 +14,7 @@ namespace soge
         indexBufDesc.CPUAccessFlags = 0;
         indexBufDesc.MiscFlags = 0;
         indexBufDesc.StructureByteStride = 0;
-        indexBufDesc.ByteWidth = sizeof(int) * 6;
+        indexBufDesc.ByteWidth = sizeof(int) * indexAmount;
 
         D3D11_SUBRESOURCE_DATA indexData = {};
         ZeroMemory(&indexData, sizeof(indexData));
@@ -29,9 +29,9 @@ namespace soge
         return result;
     }
 
-    IndexBuffer::IndexBuffer(int* indeces)
+    IndexBuffer::IndexBuffer(int* indeces, int indexAmount)
     {
-        HRESULT result = this->Init(indeces);
+        HRESULT result = this->Init(indeces, indexAmount);
         if (FAILED(result)) {
             SOGE_ERROR_LOG("Failed to create index buffer");
         }
@@ -42,8 +42,8 @@ namespace soge
 
     }
 
-    std::unique_ptr<IndexBuffer> IndexBuffer::Create(int* indeces)
+    std::unique_ptr<IndexBuffer> IndexBuffer::Create(int* indeces, int indexAmount)
     {
-        return std::make_unique<IndexBuffer>(indeces);
+        return std::make_unique<IndexBuffer>(indeces, indexAmount);
     }
 }

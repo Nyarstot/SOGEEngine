@@ -1,7 +1,7 @@
 #include "SOGEGame/General/Ball.hpp"
 
 Ball::Ball()
-    : GameObject({ 0.0f, 0.0f, 0.0f }, { 0.01f, 0.01f, 0.0f })
+    : GameObject({ 0.0f, 0.0f, 0.0f }, { 0.05f, 0.05f, 0.0f }, true)
 {
     SOGE_APP_INFO_LOG("app");
     mRandomizer = soge::Random();
@@ -123,6 +123,15 @@ void Ball::OnEvent(soge::Event& aEvent)
                 stickBoundBox.Extents.x - stickBoundBox.Extents.y) *
                 (ballBoundBox.Center.x > 0 ? 1 : -1);
         }
+
+        auto x = this->GetSprite()->GetScaling().x;
+        auto y = this->GetSprite()->GetScaling().y;
+        auto z = this->GetSprite()->GetScaling().z;
+
+        if (!(x <= 0.2f)) {
+            this->Scale({ -0.1f, -0.1f, -0.1f });
+        }
+
         //const auto ratio = (ballBoundBox.Center.y - stickBoundBox.Center.y) / abs(stickBoundBox.Extents.y);
         //mVelocity.y = -std::min(std::floor(ratio * 0.01f), 9.0f) / 100;
     }

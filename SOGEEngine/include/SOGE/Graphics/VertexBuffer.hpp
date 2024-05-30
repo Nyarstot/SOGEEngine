@@ -17,17 +17,17 @@ namespace soge
         UINT mVertexCount = 0;
 
     protected:
-        HRESULT Init(Vertex* aVertices);
+        HRESULT Init(Vertex* aVertices, int vertexAmount);
 
     public:
-        VertexBuffer(Vertex* aVertices);
+        VertexBuffer(Vertex* aVertices, int vertexAmount);
         ~VertexBuffer();
 
         ID3D11Buffer* GetVertices() const { return mVertexBuffer.Get(); }
         ID3D11Buffer* const* GetAddressOf() { return mVertexBuffer.GetAddressOf(); }
 
     public:
-        static std::unique_ptr<VertexBuffer> Create(Vertex* aVertices);
+        static std::unique_ptr<VertexBuffer> Create(Vertex* aVertices, int vertexAmount);
 
     };
 }

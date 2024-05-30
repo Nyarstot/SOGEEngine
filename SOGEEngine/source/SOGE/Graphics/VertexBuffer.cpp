@@ -4,10 +4,10 @@
 
 namespace soge
 {
-    HRESULT VertexBuffer::Init(Vertex* aVertices)
+    HRESULT VertexBuffer::Init(Vertex* aVertices, int vertexAmount)
     {
         this->mVertexTypeSize = sizeof(Vertex);
-        this->mVertexCount = 8;
+        this->mVertexCount = vertexAmount;
 
         D3D11_BUFFER_DESC vertexBufferDesc = {};
         ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
@@ -32,9 +32,9 @@ namespace soge
         return result;
     }
 
-    VertexBuffer::VertexBuffer(Vertex* aVertices)
+    VertexBuffer::VertexBuffer(Vertex* aVertices, int vertexAmount)
     {
-        HRESULT result = Init(aVertices);
+        HRESULT result = Init(aVertices, vertexAmount);
         if (FAILED(result)) {
             SOGE_ERROR_LOG("Failed to create D3D11 vertex buffer");
         }
@@ -45,9 +45,9 @@ namespace soge
         mVertexBuffer->Release();
     }
 
-    std::unique_ptr<VertexBuffer> VertexBuffer::Create(Vertex* aVertices)
+    std::unique_ptr<VertexBuffer> VertexBuffer::Create(Vertex* aVertices, int vertexAmount)
     {
-        return std::make_unique<VertexBuffer>(aVertices);
+        return std::make_unique<VertexBuffer>(aVertices, vertexAmount);
     }
 
 }

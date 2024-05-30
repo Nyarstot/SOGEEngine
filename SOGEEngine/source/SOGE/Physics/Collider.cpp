@@ -33,6 +33,12 @@ namespace soge
         mBoundingBox->Center.z += aTranslate.z;
     }
 
+    void Collider::Scale(Point3D aScale)
+    {
+        dx::FXMVECTOR vec = dx::FXMVECTOR({ 0 });
+        mBoundingBox->Transform(*mBoundingBox.get(), aScale.y, vec, vec);
+    }
+
     void Collider::Move(Point3D aMoveTo)
     {
         mBoundingBox->Center.x = aMoveTo.x;

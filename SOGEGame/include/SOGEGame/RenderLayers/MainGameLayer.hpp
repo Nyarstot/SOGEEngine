@@ -15,6 +15,7 @@ private:
 
     std::unique_ptr<soge::SpriteFont> mPlayerCounter;
     std::unique_ptr<soge::SpriteFont> mEnemyCounter;
+    std::unique_ptr<soge::CircleSprite> mCircle;
 
     soge::SpriteFontDescription mEnemyFontDescriptor;
     soge::SpriteFontDescription mPlayerFontDescriptor;

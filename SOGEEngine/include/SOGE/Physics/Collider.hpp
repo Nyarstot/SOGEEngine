@@ -28,6 +28,7 @@ namespace soge
         DirectX::BoundingBox& GetBoundingBox() { return *mBoundingBox.get(); }
 
         void Translate(Point3D aTranslate);
+        void Scale(Point3D aScale);
         void Move(Point3D aMoveTo);
 
         std::string GetColliderName() const { return mColliderName; }

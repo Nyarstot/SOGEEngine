@@ -33,6 +33,7 @@ MainGameLayer::MainGameLayer()
     mPlayer = Player::CreateUnique();
     mEnemy = Enemy::CreateUnique();
     mBall = Ball::CreateUnique();
+    mCircle = soge::CircleSprite::CreateUnique({ 0.0f, 0.0f }, {0.05f, 0.055f});
 
     mPlayerFontDescriptor.fontFilePath = L"fonts/sample.spritefont";
     mPlayerFontDescriptor.position = { 550.0f, 0.0f };
@@ -74,6 +75,8 @@ void MainGameLayer::OnUpdate(float aDeltaTime)
     mPlayer->Update(aDeltaTime);
     mEnemy->Update(aDeltaTime, mBall.get());
     mBall->Update(aDeltaTime);
+    mCircle->Update(aDeltaTime);
+    mCircle->Draw();
 
     mFontBatcher->Begin(mFontBatcherDescriptor);
     mPlayerCounter->DrawString(mFontBatcher.get(), mGraphicsPlayerScore.c_str());

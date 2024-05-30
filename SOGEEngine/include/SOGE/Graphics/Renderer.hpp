@@ -26,6 +26,7 @@ namespace soge
         friend class VertexShader;
         friend class PixelShader;
         friend class Sprite;
+        friend class CircleSprite;
         friend class SpriteFont;
 
     private:
