@@ -12,11 +12,9 @@ namespace soge
     private:
         wrl::ComPtr<ID3D11Buffer> mIndexBuffer;
 
-    protected:
-        HRESULT Init(int* indeces);
-
     public:
-        IndexBuffer(int* indeces);
+        IndexBuffer() = delete;
+        IndexBuffer(std::vector<UINT> aIndices);
         ~IndexBuffer();
 
         void Bind() noexcept override;
@@ -24,7 +22,8 @@ namespace soge
         ID3D11Buffer* const* GetAddresOf() { return mIndexBuffer.GetAddressOf(); }
 
     public:
-        static std::unique_ptr<IndexBuffer> Create(int* indeces);
+        static std::shared_ptr<IndexBuffer> CreateShared(std::vector<UINT> aIndices);
+        static std::unique_ptr<IndexBuffer> CreateUnique(std::vector<UINT> aIndices);
 
     };
 }

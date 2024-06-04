@@ -14,35 +14,27 @@ namespace soge
     {
     private:
         wrl::ComPtr<ID3D11Buffer> mVertexBuffer;
-        std::unique_ptr<UINT> mStrides  = nullptr;
-        std::unique_ptr<UINT> mOffset   = nullptr;
-
         UINT mVertexTypeSize = 0;
         UINT mVertexCount = 0;
+        UINT mStrides = 0;
+        UINT mOffset = 0;
 
     public:
-        void InitBufferData(Vertex* aVertices);
-
-    public:
-        VertexBuffer(Vertex* aVertices);
-        VertexBuffer(Vertex* aVertices, UINT aStrides, UINT aOffset);
+        VertexBuffer(std::vector<Vertex>& aVertices, UINT aOffset=0);
         ~VertexBuffer();
 
-        void SetStrides(UINT aStrides);
-        UINT* GetStrides() const { return mStrides.get(); }
-        void SetOffset(UINT aOffset);
-        UINT* GetOffset() const { return mOffset.get(); }
+        void SetStrides(UINT aStrides) { mStrides = aStrides; }
+        UINT GetStrides() const { return mStrides; }
+        void SetOffset(UINT aOffset) { mOffset = aOffset; }
+        UINT GetOffset() const { return mOffset; }
 
         void Bind() noexcept override;
         ID3D11Buffer* GetVertices() const { return mVertexBuffer.Get(); }
         ID3D11Buffer* const* GetAddressOf() { return mVertexBuffer.GetAddressOf(); }
 
     public:
-        static std::shared_ptr<VertexBuffer> CreateShared(Vertex* aVertices);
-        static std::unique_ptr<VertexBuffer> CreateUnique(Vertex* aVertices);
-
-        static std::shared_ptr<VertexBuffer> CreateShared(Vertex* aVertices, UINT aStrides, UINT aOffset);
-        static std::unique_ptr<VertexBuffer> CreateUnique(Vertex* aVertices, UINT aStrides, UINT aOffset);
+        static std::shared_ptr<VertexBuffer> CreateShared(std::vector<Vertex>& aVertices, UINT aOffset=0);
+        static std::unique_ptr<VertexBuffer> CreateUnique(std::vector<Vertex>& aVertices, UINT aOffset=0);
 
     };
 }

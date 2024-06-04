@@ -23,8 +23,8 @@ namespace soge
         std::unique_ptr<IndexBuffer> mIndexBuffer;
         std::unique_ptr<CBT> mConstantBuffer;
 
-        Vertex* mVertices;
-        int* mIndices;
+        std::vector<Vertex> mVertices;
+        std::vector<UINT> mIndices;
 
         Point3D mTranslation;
         Point3D mRotation;

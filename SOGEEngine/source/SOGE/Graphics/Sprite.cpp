@@ -11,23 +11,15 @@ namespace soge
         mRotation       = { 0.0f, 0.0f, 0.0f };
         mScaling        = { 1.0f, 1.0f, 1.0f };
 
-        Vertex points[] = {
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
-        };
-        mVertices = std::move(points);
+        mVertices.reserve(4);
+        mVertices.push_back({ DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f), DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) });
+        mVertices.push_back({ DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f), DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) });
+        mVertices.push_back({ DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f), DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) });
+        mVertices.push_back({ DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f), DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) });
+        mIndices = {0, 1, 2, 1, 0, 3};
 
-        int indices[] = { 0, 1, 2, 1, 0, 3 };
-        mIndices = std::move(indices);
-
-        mVertexBuffer   = VertexBuffer::CreateUnique(mVertices, 32, 0);
-        mIndexBuffer    = IndexBuffer::Create(mIndices);
+        mVertexBuffer = VertexBuffer::CreateUnique(mVertices);
+        mIndexBuffer = IndexBuffer::CreateUnique(mIndices);
 
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
