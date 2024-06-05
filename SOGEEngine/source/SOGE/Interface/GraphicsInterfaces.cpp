@@ -14,16 +14,19 @@ namespace soge
         Renderer::GetInstance()->DrawIndexed(mIndexBuffer->GetIndicesCount());
     }
 
-    void IDrawable::AddBindable(BindableUniqePtr aBindablePtr) noexcept(!SOGE_DEBUG)
+    void IDrawable::AddBindable(IBindable* aBindable) noexcept(!SOGE_DEBUG)
     {
-        assert("You must use AddIndexBuffer to bind index buffer" && typeid(*aBindablePtr) != typeid(IndexBuffer));
-        mBindables.push_back(std::move(aBindablePtr));
+        assert("You must use AddIndexBuffer to bind index buffer" && typeid(*aBindable) != typeid(IndexBuffer));
+        mBindables.push_back(std::move(aBindable));
     }
 
-    void IDrawable::AddIndexBuffer(std::unique_ptr<IndexBuffer>& aIndexBuffer) noexcept
+    void IDrawable::AddIndexBuffer(IndexBuffer* aIndexBuffer) noexcept
     {
+        if (mIndexBuffer == nullptr) {
+            SOGE_INFO_LOG("Eban");
+        }
         assert("Attempting to add index buffer a second time" && mIndexBuffer == nullptr);
-        mIndexBuffer = aIndexBuffer.get();
+        mIndexBuffer = std::make_unique<IndexBuffer>(*aIndexBuffer);
         mBindables.push_back(std::move(aIndexBuffer));
     }
 }

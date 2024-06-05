@@ -16,12 +16,12 @@ namespace soge
         using CBT = VertexConstantBuffer<CBTransform>;
 
     private:
-        std::shared_ptr<VertexShader> mVertexShader;
-        std::shared_ptr<PixelShader> mPixelShader;
-        std::unique_ptr<Transform> mTransform;
-        std::unique_ptr<IndexBuffer> mIndexBuffer;
-        std::unique_ptr<VertexBuffer> mVertexBuffer;
-        std::unique_ptr<CBT> mConstantBuffer;
+        std::shared_ptr<VertexShader> mVertexShader = nullptr;
+        std::shared_ptr<PixelShader> mPixelShader   = nullptr;
+        std::unique_ptr<Transform> mTransform       = nullptr;
+        std::unique_ptr<IndexBuffer> mIndexBuffer   = nullptr;
+        std::unique_ptr<VertexBuffer> mVertexBuffer = nullptr;
+        std::unique_ptr<CBT> mConstantBuffer        = nullptr;
 
         std::vector<Vertex> mVertices;
         std::vector<UINT> mIndices;

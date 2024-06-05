@@ -59,8 +59,9 @@ namespace soge
         result = mPixelShader->CompileAndCreate();
         DXThrowIfFailed(result, "Failed to compile sprite pixel shader");
 
-        //this->AddBindable(std::make_unique<VertexBuffer>());
-        //this->AddIndexBuffer(mIndexBuffer);
+        this->AddIndexBuffer(mIndexBuffer.get());
+        this->AddBindable(mVertexBuffer.get());
+        this->AddBindable(mVertexShader.get());
     }
 
     Primitive3DBox::~Primitive3DBox()
