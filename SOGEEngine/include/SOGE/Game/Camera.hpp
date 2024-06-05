@@ -1,7 +1,7 @@
 #ifndef SOGE_CAMERA_HPP
 #define SOGE_CAMERA_HPP
 
-#include "SOGE/Math/Transform.hpp"
+#include "SOGE/Game/Transform.hpp"
 #include "SOGE/ECS/Components.hpp"
 #include "SOGE/Containers/Simple.hpp"
 

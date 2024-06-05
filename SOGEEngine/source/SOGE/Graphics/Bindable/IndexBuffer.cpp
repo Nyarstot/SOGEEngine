@@ -7,6 +7,8 @@ namespace soge
 {
     IndexBuffer::IndexBuffer(std::vector<UINT> aIndices)
     {
+        mIndicesCount = static_cast<UINT>(aIndices.size());
+
         D3D11_BUFFER_DESC indexBufDesc = {};
         ZeroMemory(&indexBufDesc, sizeof(indexBufDesc));
 
@@ -15,7 +17,7 @@ namespace soge
         indexBufDesc.CPUAccessFlags         = 0;
         indexBufDesc.MiscFlags              = 0;
         indexBufDesc.StructureByteStride    = 0;
-        indexBufDesc.ByteWidth              = sizeof(UINT) * aIndices.size();
+        indexBufDesc.ByteWidth              = sizeof(UINT) * mIndicesCount;
 
         D3D11_SUBRESOURCE_DATA indexData = {};
         ZeroMemory(&indexData, sizeof(indexData));
@@ -27,6 +29,12 @@ namespace soge
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
         HRESULT result = device->CreateBuffer(&indexBufDesc, &indexData, &mIndexBuffer);
         DXThrowIfFailed(result, "Failed to create index buffer");
+    }
+
+    IndexBuffer::IndexBuffer(const IndexBuffer& aIndexBuffer)
+    {
+        mIndexBuffer = aIndexBuffer.mIndexBuffer;
+        mIndicesCount = aIndexBuffer.mIndicesCount;
     }
 
     IndexBuffer::~IndexBuffer()

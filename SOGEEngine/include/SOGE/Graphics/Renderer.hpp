@@ -8,6 +8,7 @@
 #include <d3d.h>
 #include <d3d11.h>
 #include <d3d11_1.h>
+#include <dxgi1_4.h>
 #include <d3dcompiler.h>
 #include <directxmath.h>
 
@@ -29,12 +30,15 @@ namespace soge
         friend class SpriteFont;
         friend class ZBuffer;
 
+        friend class IDrawable;
+
     private:
         Window* mAppWindow = nullptr;
 
         wrl::ComPtr<ID3D11Device> mDevice;
         wrl::ComPtr<IDXGIDevice> mDXGIDevice;
         wrl::ComPtr<IDXGIAdapter> mDXGIAdapter;
+        wrl::ComPtr<IDXGIAdapter3> mDXGIAdapter3;
         wrl::ComPtr<IDXGIFactory> mDXGIFactory;
         wrl::ComPtr<ID3D11DeviceContext> mDeviceContext;
         wrl::ComPtr<ID3D11RasterizerState> mRasterizerState;
@@ -59,6 +63,7 @@ namespace soge
         void SetupViewport();
         void Release();
         void Render(LayerStack& aRenderLayers, float aDeltaTime);
+        void DrawIndexed(UINT aIndicesCount) noexcept(!SOGE_DEBUG);
 
         ID3D11RasterizerState* GetRasterizerState() const { return mRasterizerState.Get(); }
         ID3D11Device* GetDevice() const { return mDevice.Get(); }

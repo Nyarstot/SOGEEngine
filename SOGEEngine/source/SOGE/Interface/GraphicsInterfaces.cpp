@@ -1,6 +1,7 @@
 #include "sogepch.hpp"
 #include "SOGE/Interface/GraphicsInterfaces.hpp"
 #include "SOGE/Graphics/Bindable/IndexBuffer.hpp"
+#include "SOGE/Graphics/Renderer.hpp"
 
 
 namespace soge
@@ -10,15 +11,19 @@ namespace soge
         for (auto& bindable : mBindables) {
             bindable->Bind();
         }
-        // Drawindexd
+        Renderer::GetInstance()->DrawIndexed(mIndexBuffer->GetIndicesCount());
     }
 
-    void IDrawable::AddBindable(const IBindable& aBindable) noexcept(!SOGE_DEBUG)
+    void IDrawable::AddBindable(BindableUniqePtr aBindablePtr) noexcept(!SOGE_DEBUG)
     {
-
+        assert("You must use AddIndexBuffer to bind index buffer" && typeid(*aBindablePtr) != typeid(IndexBuffer));
+        mBindables.push_back(std::move(aBindablePtr));
     }
 
-    void IDrawable::AddIndexBuffer(const IndexBuffer& aIndexBuffer) noexcept
+    void IDrawable::AddIndexBuffer(std::unique_ptr<IndexBuffer>& aIndexBuffer) noexcept
     {
+        assert("Attempting to add index buffer a second time" && mIndexBuffer == nullptr);
+        mIndexBuffer = aIndexBuffer.get();
+        mBindables.push_back(std::move(aIndexBuffer));
     }
 }

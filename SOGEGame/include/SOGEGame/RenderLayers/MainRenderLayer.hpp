@@ -7,6 +7,7 @@ class MainRenderLayer : public soge::Layer
 {
 private:
     std::unique_ptr<soge::Sprite> sprite = soge::Sprite::CreateUnique({ 0.0f, 0.0f }, { 0.1f, 0.1f });
+    std::unique_ptr<soge::Primitive3DBox> box = soge::Primitive3DBox::CreateUnique({ 0.0f, 0.0f, 0.0f }, { 0.5f, 0.05f, 0.5f });
 
 public:
     MainRenderLayer();

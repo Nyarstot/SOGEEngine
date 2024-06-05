@@ -1,32 +1,24 @@
 #include "sogepch.hpp"
-#include "SOGE/Math/Transform.hpp"
+#include "SOGE/Game/Transform.hpp"
 
 
 namespace soge
 {
     Transform::Transform()
     {
-        mWorldScale = Point3D(1.0f);
-        mWorldRotation = Point3D(0.0f);
-        mWorldTranslation = Point3D(0.0f);
-
-        mLocalScale = Point3D(1.0f);
-        mLocalRotation = Point3D(0.0f);
-        mLocalTranslation = Point3D(0.0f);
-
-        mParent = std::make_unique<Transform>(nullptr);
+        mRotation       = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+        mScale          = Point3D(1.0f, 1.0f, 1.0f);
+        mTranslation    = Point3D(0.0f, 0.0f, 0.0f);
+        mWorldPosition  = Point3D(0.0f, 0.0f, 0.0f);
         this->UpdateWorldMatrix();
     }
 
     Transform::Transform(Transform* aParentTransform)
     {
-        mWorldScale = Point3D(1.0f);
-        mWorldRotation = Point3D(0.0f);
-        mWorldTranslation = Point3D(0.0f);
-
-        mLocalScale = Point3D(1.0f);
-        mLocalRotation = Point3D(0.0f);
-        mLocalTranslation = Point3D(0.0f);
+        mRotation       = aParentTransform->mRotation;
+        mScale          = aParentTransform->mScale;
+        mTranslation    = aParentTransform->mTranslation;
+        mWorldPosition  = aParentTransform->mWorldPosition;
 
         mParent = std::make_unique<Transform>(aParentTransform);
         this->UpdateWorldMatrix();
@@ -39,11 +31,11 @@ namespace soge
 
     void Transform::UpdateWorldMatrix()
     {
-        mWorldMatrix =
-            Matrix4x4::CreateScale(mWorldScale) *
-            Matrix4x4::CreateFromYawPitchRoll(mWorldRotation) *
-            Matrix4x4::CreateTranslation(mWorldTranslation) *
-            (mParent == nullptr ? Matrix4x4::Identity : mParent->mWorldMatrix);
+        mWorldTransformMatrix =
+            Matrix4x4::CreateFromQuaternion(mRotation) *
+            Matrix4x4::CreateScale(mScale) *
+            Matrix4x4::CreateTranslation(mTranslation) *
+            (mParent == nullptr ? Matrix4x4::Identity : mParent->mWorldTransformMatrix);
     }
 
     void Transform::SetParent(Transform* aParent)
@@ -56,14 +48,15 @@ namespace soge
         mParent.reset(aParent);
     }
 
-    Transform::Matrix4x4 Transform::WorldToLocal() const
+    Transform::Matrix4x4& const Transform::GetWorldMatrix()
     {
-        return Matrix4x4();
+        this->UpdateWorldMatrix();
+        return mWorldTransformMatrix;
     }
 
-    Transform::Matrix4x4 Transform::LocalToWorld() const
+    Transform::Matrix4x4& const Transform::GetLocalMatrix()
     {
-        return Matrix4x4();
+        return mLocalTransformMatrix;
     }
 
     // Static constructor callers

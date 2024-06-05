@@ -26,7 +26,7 @@ namespace soge
 
     void Camera::UpdateViewMatrix()
     {
-        const Matrix4x4 rotation = Matrix4x4::CreateFromYawPitchRoll(mCameraTransform->GetWorldRotation());
+        
     }
 
     void Camera::SetPerspective(float aVFOV, float aAspectRatio, float aNearClip, float aFarClip)

@@ -63,6 +63,8 @@ namespace soge
         mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&mDXGIDevice);
         mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter);
         mDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
+        mDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&mDXGIAdapter3);
+        mDXGIAdapter3->GetParent(__uuidof(IDXGIFactory), (void**)&mDXGIFactory);
         this->PrintGPUInfo(mDXGIAdapter.Get());
 
 
@@ -119,10 +121,19 @@ namespace soge
             vendorName = L"Intel";
         }
 
+        DXGI_QUERY_VIDEO_MEMORY_INFO queryVideoMemoryInfo;
+        ZeroMemory(&queryVideoMemoryInfo, sizeof(queryVideoMemoryInfo));
+        HRESULT result = mDXGIAdapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &queryVideoMemoryInfo);
+
+        SOGE_INFO_LOG("");
         SOGE_INFO_LOG("============== GPU INFO ==============");
         SOGE_INFO_LOG(L"\tDevice ID: {0}", adapterDesc.DeviceId);
         SOGE_INFO_LOG(L"\tGPU device model: {0}", adapterDesc.Description);
         SOGE_INFO_LOG(L"\tGPU device vendor: {0}", vendorName.c_str());
+        SOGE_INFO_LOG(L"\tGPU budget: {0} bytes", queryVideoMemoryInfo.Budget);
+        SOGE_INFO_LOG(L"\tGPU memory available for reservation: {0} bytes", queryVideoMemoryInfo.AvailableForReservation);
+        SOGE_INFO_LOG(L"\tGPU memory currently reserved: {0} bytes", queryVideoMemoryInfo.CurrentReservation);
+        SOGE_INFO_LOG(L"\tGPU memory currently used: {0} bytes", queryVideoMemoryInfo.CurrentUsage);
         SOGE_INFO_LOG(L"\tDedicated video memory: {0} bytes", adapterDesc.DedicatedVideoMemory);
         SOGE_INFO_LOG("======================================");
 
@@ -157,6 +168,11 @@ namespace soge
             layer->OnUpdate(aDeltaTime);
         }
         mSwapChain->Present(1);
+    }
+
+    void Renderer::DrawIndexed(UINT aIndicesCount) noexcept(!SOGE_DEBUG)
+    {
+        mDeviceContext->DrawIndexed(aIndicesCount, 0u, 0u);
     }
 
 }

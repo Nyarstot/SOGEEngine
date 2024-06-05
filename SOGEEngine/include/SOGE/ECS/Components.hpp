@@ -1,7 +1,7 @@
 #ifndef SOGE_GAME_COMPONENTS_HPP
 #define SOGE_GAME_COMPONENTS_HPP
 
-#include "SOGE/Math/Transform.hpp"
+#include "SOGE/Game/Transform.hpp"
 
 #include <string>
 #include <uuid_v4/uuid_v4.hpp>

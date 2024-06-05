@@ -7,12 +7,15 @@
 #include <memory>
 #include <Windows.h>
 #include <d3d11.h>
+#include <SimpleMath.h>
 
 namespace soge
 {
     struct CBTransform
     {
         dx::XMMATRIX transform;
+        //dxsmath::Matrix transform;
+
     };
 
     template<typename _Cd>

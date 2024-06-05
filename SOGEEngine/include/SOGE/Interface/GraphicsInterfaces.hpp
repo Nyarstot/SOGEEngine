@@ -30,13 +30,15 @@ namespace soge
 
     };
 
+    class IndexBuffer;
     class IDrawable
     {
-        class IndexBuffer;
+        using BindableUniqePtr = std::unique_ptr<IBindable>;
+        using BindableSharedPtr = std::shared_ptr<IBindable>;
 
     private:
-        std::vector<std::unique_ptr<IBindable>> mBindables;
-        std::unique_ptr<IndexBuffer> mIndexBuffer;
+        std::vector<BindableUniqePtr> mBindables;
+        IndexBuffer* mIndexBuffer;
 
     public:
         IDrawable() = default;
@@ -46,8 +48,9 @@ namespace soge
         virtual void Update(float aDeltaTime) = 0;
 
         void Draw() const noexcept(!SOGE_DEBUG);
-        void AddBindable(const IBindable& aBindable) noexcept(!SOGE_DEBUG);
-        void AddIndexBuffer(const IndexBuffer& aIndexBuffer) noexcept;
+        void AddBindable(BindableUniqePtr aBindablePtr) noexcept(!SOGE_DEBUG);
+        //void AddBindable(const BindableUniqePtr& aBindablePtr) noexcept(!SOGE_DEBUG);
+        void AddIndexBuffer(std::unique_ptr<IndexBuffer>& aIndexBuffer) noexcept;
 
     };
 }

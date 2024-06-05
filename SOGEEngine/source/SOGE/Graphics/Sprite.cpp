@@ -112,7 +112,6 @@ namespace soge
 
     void Sprite::UpdateConstantBuffer()
     {
-        // dx::XMMatrixRotationZ(mRotation.z) *
 
         CBTransform newTransform = {
             {
