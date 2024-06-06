@@ -30,7 +30,7 @@ namespace soge
         points[0] = { DirectX::XMFLOAT4(aCenter.x, aCenter.y, 0.0f, 1.0f), DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
 
         const float theta = 2.0f * PI / segments;
-        for (int i = 1; i < segments; ++i) {
+        for (int i = 1; i < segments + 1; ++i) {
             float angle = i * theta;
             points[i] = { DirectX::XMFLOAT4(aCenter.x + aSize.x * cosf(angle),
                 aCenter.y + aSize.y * sinf(angle), 0.0f, 1.0f), DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
