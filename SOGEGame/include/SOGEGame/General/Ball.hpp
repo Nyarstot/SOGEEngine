@@ -29,6 +29,7 @@ private:
     void Reset();
 
     float Clamp(float aX, float aUpper, float aBottom);
+    void ChangeColor(float r, float g, float b);
 
 public:
     Ball();

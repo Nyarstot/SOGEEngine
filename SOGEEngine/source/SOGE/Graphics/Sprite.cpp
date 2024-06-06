@@ -11,23 +11,22 @@ namespace soge
         mRotation = { 0.0f, 0.0f, 0.0f };
         mScaling = { 1.0f, 1.0f, 1.0f };
 
-        Vertex points[] = {
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f),
-            DirectX::XMFLOAT4(aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f),
-            DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f)
+        mVertices = std::vector<Vertex>(4);
+        mVertices[0].position = { aCenter.x + aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f };
+        mVertices[0].color = { r, g, b, 1.0f };
+        mVertices[1].position = { aCenter.x - aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f };
+        mVertices[1].color = { r, g, b, 1.0f };
+        mVertices[2].position = { aCenter.x + aSize.x, aCenter.y - aSize.y, 0.5f, 1.0f };
+        mVertices[2].color = { r, g, b, 1.0f };
+        mVertices[3].position = { aCenter.x - aSize.x, aCenter.y + aSize.y, 0.5f, 1.0f };
+        mVertices[3].color = { r, g, b, 1.0f };
+
+        mIndices = {
+            0, 1, 2, 1, 0, 3
         };
-        mVertices = std::move(points);
 
-        int indices[] = { 0, 1, 2, 1, 0, 3 };
-        mIndices = std::move(indices);
-
-        mVertexBuffer = VertexBuffer::Create(mVertices, 8);
-        mIndexBuffer = IndexBuffer::Create(mIndices, 6);
+        mVertexBuffer = VertexBuffer::Create(mVertices.data(), 8);
+        mIndexBuffer = IndexBuffer::Create(mIndices.data(), 6);
 
         ID3D11Device* device = Renderer::GetInstance()->mDevice.Get();
         ID3D11DeviceContext* context = Renderer::GetInstance()->mDeviceContext.Get();
@@ -122,6 +121,9 @@ namespace soge
                     dx::XMMatrixScaling(mScaling.x, mScaling.y, mScaling.z) *
                     dx::XMMatrixTranslation(mTranslation.x, mTranslation.y, mTranslation.z)
                 )
+            },
+            {
+                r, g, b, 1.0f
             }
         };
 
@@ -149,6 +151,16 @@ namespace soge
     void Sprite::Scale(Point3D aScale)
     {
         this->Transform(Point3D(), Point3D(), aScale);
+    }
+
+    void Sprite::ChangeColor(float r, float g, float b)
+    {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+
+        //SOGE_INFO_LOG("R{0} G{1} B{2}, A{3}", r, g, b, 1.0f);
+        this->UpdateConstantBuffer();
     }
 
     void Sprite::Move(Point3D aMoveTo)

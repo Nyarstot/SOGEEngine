@@ -91,6 +91,12 @@ float Ball::Clamp(float aX, float aUpper, float aBottom)
     return std::min(aUpper, std::max(aX, aBottom));
 }
 
+void Ball::ChangeColor(float r, float g, float b)
+{
+    mObjectSprite->ChangeColor(r, g, b);
+    SOGE_APP_INFO_LOG("{0}.{1}.{2}", r, g, b);
+}
+
 void Ball::OnEvent(soge::Event& aEvent)
 {
     if (aEvent.GetEventType() == soge::EventTypes::GameplayEvents::eObjectCollided) {
@@ -131,6 +137,8 @@ void Ball::OnEvent(soge::Event& aEvent)
         if (!(x <= 0.2f)) {
             this->Scale({ -0.1f, -0.1f, -0.1f });
         }
+
+        this->ChangeColor(mRandomizer.RandDoubleNorm(), mRandomizer.RandDoubleNorm(), mRandomizer.RandDoubleNorm());
 
         //const auto ratio = (ballBoundBox.Center.y - stickBoundBox.Center.y) / abs(stickBoundBox.Extents.y);
         //mVelocity.y = -std::min(std::floor(ratio * 0.01f), 9.0f) / 100;

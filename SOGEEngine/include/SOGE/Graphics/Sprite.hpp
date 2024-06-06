@@ -23,8 +23,12 @@ namespace soge
         std::unique_ptr<IndexBuffer> mIndexBuffer;
         std::unique_ptr<CBT> mConstantBuffer;
 
-        Vertex* mVertices;
-        int* mIndices;
+        std::vector<Vertex> mVertices;
+        std::vector<int> mIndices;
+
+        float r = 1.0f; 
+        float g = 1.0f;
+        float b = 1.0f;
 
         Point3D mTranslation;
         Point3D mRotation;
@@ -37,7 +41,7 @@ namespace soge
                     dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
                     dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f)
                 )
-            }
+            }, { r, g, b, 1.0f }
         };
 
         void UpdateConstantBuffer();
@@ -59,6 +63,7 @@ namespace soge
         void Translate(Point3D aTranslate);
         void Rotate(Point3D aRotate);
         void Scale(Point3D aScale);
+        void ChangeColor(float r, float g, float b);
 
         void Move(Point3D aMoveTo);
 
@@ -68,6 +73,7 @@ namespace soge
         inline const Point3D& GetRotation() { return mRotation; }
         inline const Point3D GetScaling() const { return mScaling; }
         inline const Point3D& GetScaling() { return mScaling; }
+
 
     public:
         static std::shared_ptr<Sprite> Create(const dxsmath::Vector2& aCenter, const dxsmath::Vector2& aSize);

@@ -29,6 +29,10 @@ namespace soge
         int vertexAmount;
         int indexAmount;
 
+        float r = 1.0f;
+        float g = 1.0f;
+        float b = 1.0f;
+
         Point3D mTranslation;
         Point3D mRotation;
         Point3D mScaling;
@@ -40,7 +44,7 @@ namespace soge
                     dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
                     dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f)
                 )
-            }
+            }, { r, g, b, 1.0f }
         };
 
         void UpdateConstantBuffer();

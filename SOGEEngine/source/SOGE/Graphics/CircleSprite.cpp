@@ -147,7 +147,7 @@ namespace soge
                     dx::XMMatrixScaling(mScaling.x, mScaling.y, mScaling.z) *
                     dx::XMMatrixTranslation(mTranslation.x, mTranslation.y, mTranslation.z)
                 )
-            }
+            }, { r, g, b, 1.0f }
         };
 
         mTransform = std::move(newTransform);

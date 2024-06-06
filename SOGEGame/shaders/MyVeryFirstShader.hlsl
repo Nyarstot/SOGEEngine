@@ -13,6 +13,7 @@ struct PS_IN
 cbuffer ConstBuffer : register(b0)
 {
     matrix transform;
+    float4 color;
 };
 
 PS_IN VSMain( VS_IN input )
@@ -21,7 +22,7 @@ PS_IN VSMain( VS_IN input )
 
     output.pos = mul(input.pos, transform);
     //output.pos = input.pos;
-    output.col = input.col;
+    output.col = color;
 
     return output;
 }

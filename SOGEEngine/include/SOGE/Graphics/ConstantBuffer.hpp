@@ -12,6 +12,7 @@ namespace soge
     struct CBTransform
     {
         dx::XMMATRIX transform;
+        dx::XMFLOAT4 color;
     };
 
     template<typename _Cd>
