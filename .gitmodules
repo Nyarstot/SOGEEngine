@@ -4,3 +4,9 @@
 [submodule "SOGEEngine/3rdparty/DirectXTK/DirectXTK"]
 	path = SOGEEngine/3rdparty/DirectXTK/DirectXTK
 	url = https://github.com/microsoft/DirectXTK.git
+[submodule "SOGEEngine/3rdparty/Color/Color"]
+	path = SOGEEngine/3rdparty/Color/Color
+	url = https://github.com/dmilos/color.git
+[submodule "SOGEEngine/3rdparty/assimp/assimp"]
+	path = SOGEEngine/3rdparty/assimp/assimp
+	url = https://github.com/assimp/assimp.git
